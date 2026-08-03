@@ -76,53 +76,65 @@ const readThemeVar = (name, fallback) => {
 };
 
 export const selectStyles = {
-    control: (base, state) => ({
-      ...base,
-      backgroundColor: readThemeVar("--app-input-bg", "#0f172a"),
-      borderColor: state.isFocused ? "#38bdf8" : readThemeVar("--app-input-border", "#334155"),
-      boxShadow: state.isFocused ? "0 0 0 1px #38bdf8" : "none",
-      borderRadius: "1rem",
-      minHeight: 48,
-      paddingLeft: 4,
-      color: readThemeVar("--app-text", "#f8fafc"),
-      ":hover": {
-        borderColor: state.isFocused ? "#38bdf8" : readThemeVar("--app-ghost-hover-border", "#475569"),
-      },
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: readThemeVar("--app-dropdown-bg", "#0f172a"),
-      border: `1px solid ${readThemeVar("--app-border", "#334155")}`,
-      borderRadius: "1rem",
-      overflow: "hidden",
-      zIndex: 30,
-    }),
-    menuList: (base) => ({
-      ...base,
-      padding: 6,
-      backgroundColor: readThemeVar("--app-dropdown-bg", "#0f172a"),
-    }),
-    option: (base, state) => ({
-      ...base,
-      backgroundColor: state.isFocused
+  control: (base, state) => ({
+    ...base,
+    backgroundColor: readThemeVar("--app-input-bg", "#0f172a"),
+    borderColor: state.isFocused ? "#38bdf8" : readThemeVar("--app-input-border", "#334155"),
+    boxShadow: state.isFocused ? "0 0 0 1px #38bdf8" : "none",
+    borderRadius: "0.75rem",
+    minHeight: 48,
+    paddingLeft: 4,
+    color: readThemeVar("--app-text", "#f8fafc"),
+    ":hover": {
+      borderColor: state.isFocused ? "#38bdf8" : readThemeVar("--app-ghost-hover-border", "#475569"),
+    },
+  }),
+  menu: (base) => ({
+    ...base,
+    backgroundColor: readThemeVar("--app-dropdown-bg", "#0f172a"),
+    border: `1px solid ${readThemeVar("--app-border", "#334155")}`,
+    borderRadius: "0.75rem",
+    overflow: "hidden",
+    zIndex: 30,
+  }),
+  menuList: (base) => ({
+    ...base,
+    padding: 6,
+    backgroundColor: readThemeVar("--app-dropdown-bg", "#0f172a"),
+  }),
+  option: (base, state) => ({
+    ...base,
+    backgroundColor: state.isSelected
+      ? "#0ea5e9"
+      : state.isFocused
         ? readThemeVar("--app-select-option-hover", "#1e293b")
         : readThemeVar("--app-dropdown-bg", "#0f172a"),
-      color: readThemeVar("--app-text", "#e2e8f0"),
-      borderRadius: 10,
-      cursor: "pointer",
-    }),
-    singleValue: (base) => ({ ...base, color: readThemeVar("--app-text", "#f8fafc") }),
-    input: (base) => ({ ...base, color: readThemeVar("--app-text", "#f8fafc") }),
-    placeholder: (base) => ({ ...base, color: readThemeVar("--app-placeholder", "#64748b") }),
-    indicatorSeparator: (base) => ({
-      ...base,
-      backgroundColor: readThemeVar("--app-border", "#334155"),
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: readThemeVar("--app-muted-text", "#94a3b8"),
-    }),
-  };
+    color: state.isSelected
+      ? "#ffffff"
+      : readThemeVar("--app-text", "#e2e8f0"),
+    borderRadius: 10,
+    cursor: "pointer",
+    ":active": {
+      backgroundColor: state.isSelected
+        ? "#0284c7"
+        : readThemeVar("--app-select-option-hover", "#1e293b"),
+    },
+  }),
+  singleValue: (base) => ({ ...base, color: readThemeVar("--app-text", "#f8fafc") }),
+  input: (base) => ({ ...base, color: readThemeVar("--app-text", "#f8fafc") }),
+  placeholder: (base) => ({ ...base, color: readThemeVar("--app-placeholder", "#64748b") }),
+  indicatorSeparator: (base) => ({
+    ...base,
+    backgroundColor: readThemeVar("--app-border", "#334155"),
+  }),
+  dropdownIndicator: (base) => ({
+    ...base,
+    color: readThemeVar("--app-muted-text", "#94a3b8"),
+    ":hover": {
+      color: readThemeVar("--app-text", "#f8fafc"),
+    },
+  }),
+};
 
 export const appInputCls =
   "app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition min-h-[48px] focus:border-sky-400";
@@ -132,4 +144,10 @@ export const appModalOverlayCls =
 export const appModalCls =
   "app-modal w-full max-w-3xl rounded-[28px] border p-6 overflow-y-auto max-h-[90vh]";
 export const appBtnGhostCls =
-  "app-btn-ghost rounded-xl border px-3 py-2 text-sm transition";
+  "btn-secondary inline-flex items-center justify-center rounded-xl border px-3 py-2 text-sm transition";
+export const appBtnPrimaryCls =
+  "btn-primary inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60";
+export const appBtnSecondaryCls =
+  "btn-secondary inline-flex items-center justify-center rounded-xl border px-5 py-3 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-60";
+export const appBtnIconCls =
+  "btn-secondary inline-flex h-10 w-10 items-center justify-center rounded-xl border transition";

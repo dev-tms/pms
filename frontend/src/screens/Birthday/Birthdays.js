@@ -82,7 +82,7 @@ function BirthdayFormModal({ open, mode, values, onChange, onClose, onSubmit }) 
       >
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.32em] text-sky-300/80">Employee Birthday</p>
+            <p className="text-sm uppercase tracking-[0.32em] text-sky-300/80">Employee Birthday</p>
             <h2 className="mt-2 app-heading text-2xl font-bold">
               {mode === 'edit' ? 'Edit employee birthday' : 'Add employee birthday'}
             </h2>
@@ -90,7 +90,7 @@ function BirthdayFormModal({ open, mode, values, onChange, onClose, onSubmit }) 
           <button
             type="button"
             onClick={onClose}
-            className="app-btn-ghost rounded-xl border px-3 py-2 text-sm transition"
+            className="btn-secondary shrink-0 inline-flex items-center justify-center rounded-xl border px-3 py-2 text-sm transition"
           >
             Close
           </button>
@@ -128,14 +128,14 @@ function BirthdayFormModal({ open, mode, values, onChange, onClose, onSubmit }) 
           <button
             type="button"
             onClick={onClose}
-            className="app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
+            className="btn-secondary inline-flex items-center justify-center rounded-2xl border px-5 py-3 text-sm transition"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={onSubmit}
-            className="rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400"
+            className="btn-primary inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60"
           >
             {mode === 'edit' ? 'Save changes' : 'Add employee'}
           </button>
@@ -154,9 +154,9 @@ const Birthdays = ({ profile }) => {
 
   useEffect(() => {
     async function fetchProfile() {
-      if(profile) {
+      if (profile) {
         const employeeList = await listUsers(profile);
-        if(employeeList) {
+        if (employeeList) {
           setEmployees(mapEmployees(employeeList));
         } else {
           setEmployees(mapEmployees([profile]));
@@ -179,7 +179,7 @@ const Birthdays = ({ profile }) => {
           </div>
           <div>
             <p className="app-heading font-medium">{value}</p>
-            <p className="text-xs text-slate-400">{row.designation}</p>
+            <p className="text-sm text-slate-400">{row.designation}</p>
           </div>
         </div>
       ),
@@ -189,7 +189,7 @@ const Birthdays = ({ profile }) => {
       header: 'Birthday',
       accessor: 'birthDate',
       render: (value) => (
-        <span className="rounded-full bg-pink-500/10 px-3 py-1 text-xs font-medium text-pink-200">
+        <span className="rounded-full bg-pink-500/10 px-3 py-1 text-sm font-medium text-pink-200">
           {value}
         </span>
       ),
@@ -267,14 +267,14 @@ const Birthdays = ({ profile }) => {
         <div className="relative z-10">
           <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.35em] text-pink-300/80">Celebrations</p>
+              <p className="text-sm uppercase tracking-[0.35em] text-pink-300/80">Celebrations</p>
               <h1 className="mt-3 app-heading text-3xl font-bold md:text-4xl">Employees Birthdays</h1>
-              
+
             </div>
             {/* <button
               type="button"
               onClick={openAddModal}
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-pink-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-pink-400"
+              className="btn-primary inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold transition"
             >
               <Plus size={16} />
               Add Employee Birthday
@@ -295,7 +295,7 @@ const Birthdays = ({ profile }) => {
             <div className="app-card rounded-[24px] border p-5">
               <div className="inline-flex rounded-2xl bg-rose-500/12 p-2 text-rose-200"><Cake size={18} /></div>
               <p className="mt-4 app-heading text-3xl font-bold">
-                {employees.length ? getNextBirthday(employees) : '-' }
+                {employees.length ? getNextBirthday(employees) : '-'}
               </p>
               <p className="app-muted mt-2 text-sm">Next row birthday snapshot</p>
             </div>
@@ -313,7 +313,7 @@ const Birthdays = ({ profile }) => {
                   className="app-input w-full rounded-2xl border px-11 py-3 text-sm outline-none transition focus:border-pink-400"
                 />
               </div>
-              
+
             </div>
 
             <div className="mt-5">

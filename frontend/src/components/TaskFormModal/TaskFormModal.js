@@ -111,7 +111,7 @@ export default function TaskFormModal({
         {/* ── header ── */}
         <div className="flex items-start justify-between gap-4 mb-6">
           <div>
-            <p className="text-xs uppercase tracking-[0.32em] text-sky-400/80 mb-1">
+            <p className="text-sm uppercase tracking-[0.32em] text-sky-400/80 mb-1">
               Task form
             </p>
             <h2 className="app-heading text-2xl font-bold">
@@ -121,7 +121,7 @@ export default function TaskFormModal({
           <button
             type="button"
             onClick={onClose}
-            className="app-btn-ghost rounded-xl border px-3 py-2 text-sm transition shrink-0"
+            className="btn-secondary shrink-0 inline-flex items-center justify-center rounded-xl border px-3 py-2 text-sm transition"
           >
             Close
           </button>
@@ -182,7 +182,7 @@ export default function TaskFormModal({
                 ))}
               </Select>
             </label>)}
-          {(values.id.startsWith('_new') || values.id === '')  && (
+          {(values.id.startsWith('_new') || values.id === '') && (
             <label className="block">
               <span className={labelCls}>Assigned to</span>
               <div className="relative" ref={dropdownRef}>
@@ -193,8 +193,8 @@ export default function TaskFormModal({
                     setOpenDropdown(!openDropdown);
                   }}
                   className={` h-[48px] app-input relative w-full rounded-2xl border text-left flex items-center justify-between gap-2 px-4 py-3 text-sm transition ${openDropdown
-                      ? "border-sky-400 shadow-[0_0_12px_rgba(14,165,233,0.2)]"
-                      : ""
+                    ? "border-sky-400 shadow-[0_0_12px_rgba(14,165,233,0.2)]"
+                    : ""
                     } focus:outline-none`}
                 >
                   <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -205,7 +205,7 @@ export default function TaskFormModal({
                           .map((employee) => (
                             <span
                               key={employee.id}
-                              className="inline-flex items-center gap-1.5 bg-sky-500/20 border border-sky-500/40 text-sky-300 px-2.5 py-1 rounded-lg text-xs font-medium whitespace-nowrap"
+                              className="inline-flex items-center gap-1.5 bg-sky-500/20 border border-sky-500/40 text-sky-300 px-2.5 py-1 rounded-lg text-sm font-medium whitespace-nowrap"
                             >
                               {`${employee.firstName ?? ""} ${employee.lastName ?? ""}`.trim().split(" ")[0]}
                               <button
@@ -235,7 +235,7 @@ export default function TaskFormModal({
                     {/* Header with select all */}
                     {employees.length > 1 && (
                       <div className="app-divider px-4 py-3 border-b flex items-center justify-between gap-2">
-                        <span className="app-muted text-xs uppercase tracking-wider font-semibold">Employees ({values.assignedToId?.length || 0})</span>
+                        <span className="app-muted text-sm uppercase tracking-wider font-semibold">Employees ({values.assignedToId?.length || 0})</span>
                         {values.assignedToId?.length > 0 && (
                           <button
                             type="button"
@@ -243,7 +243,7 @@ export default function TaskFormModal({
                               e.stopPropagation();
                               onChange("assignedToId", []);
                             }}
-                            className="app-muted text-xs transition hover:underline"
+                            className="app-muted text-sm transition hover:underline"
                           >
                             Clear all
                           </button>
@@ -264,8 +264,8 @@ export default function TaskFormModal({
                             <label
                               key={employee.id}
                               className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition duration-150 ${isSelected
-                                  ? "bg-sky-500/10 border-l-2 border-sky-500"
-                                  : "border-l-2 border-transparent"
+                                ? "bg-sky-500/10 border-l-2 border-sky-500"
+                                : "border-l-2 border-transparent"
                                 } ${index !== employees.length - 1 ? "border-b" : ""}`}
                               style={
                                 index !== employees.length - 1
@@ -314,7 +314,7 @@ export default function TaskFormModal({
               className="rounded:md"
               options={formattedQaOptions}
             >
-              
+
             </Select>
           </label>
 
@@ -394,14 +394,14 @@ export default function TaskFormModal({
           <button
             type="button"
             onClick={onClose}
-            className="app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
+            className="btn-secondary inline-flex items-center justify-center rounded-2xl border px-5 py-3 text-sm transition"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={onSubmit}
-            className="rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400"
+            className="btn-primary inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60"
           >
             {mode === "edit" ? "Save changes" : "Add task"}
           </button>

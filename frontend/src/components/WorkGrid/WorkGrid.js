@@ -8,6 +8,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import MyTable from "../MyTable/MyTable";
 import Select from "react-select";
 import { ThoughtMateProgressLoaderAnimated } from "../TMLoader/ThoughtMateProgressLoaderAnimated";
+import { PriorityBadge, StatusBadge } from "../StatusBadge/StatusBadge";
+import { selectStyles } from "../../utils";
 
 // ─── style tokens (mirrors AddTimesheet) ──────────────────────────────────────
 
@@ -15,41 +17,9 @@ const inputCls =
   "app-input w-full rounded-xl border px-4 py-3 text-sm outline-none transition min-h-[48px] focus:border-sky-400";
 const selectNativeCls = `${inputCls} appearance-none pr-10`;
 const labelCls = "app-label mb-2 block text-sm";
-const errorCls = "mt-2 block text-xs text-rose-400";
+const errorCls = "mt-2 block text-sm text-rose-400";
 
-const reactSelectStyles = {
-  control: (base, state) => ({
-    ...base,
-    backgroundColor: "#0f172a",
-    borderColor: state.isFocused ? "#38bdf8" : "#334155",
-    boxShadow: state.isFocused ? "0 0 0 1px #38bdf8" : "none",
-    borderRadius: "0.75rem",
-    minHeight: 48,
-    paddingLeft: 4,
-    ":hover": { borderColor: state.isFocused ? "#38bdf8" : "#475569" },
-  }),
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#0f172a",
-    border: "1px solid #334155",
-    borderRadius: "0.75rem",
-    overflow: "hidden",
-    zIndex: 30,
-  }),
-  menuList: (base) => ({ ...base, padding: 6, backgroundColor: "#0f172a" }),
-  option: (base, state) => ({
-    ...base,
-    backgroundColor: state.isFocused ? "#1e293b" : "#0f172a",
-    color: "#e2e8f0",
-    borderRadius: 10,
-    cursor: "pointer",
-  }),
-  singleValue: (base) => ({ ...base, color: "#f8fafc" }),
-  input: (base) => ({ ...base, color: "#f8fafc" }),
-  placeholder: (base) => ({ ...base, color: "#64748b" }),
-  indicatorSeparator: (base) => ({ ...base, backgroundColor: "#334155" }),
-  dropdownIndicator: (base) => ({ ...base, color: "#94a3b8" }),
-};
+const reactSelectStyles = selectStyles; // theme-aware shared styles
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -78,37 +48,6 @@ const formatDateDisplay = (value) => {
   if (isNaN(d.getTime())) return "—";
   return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 };
-
-// ─── Badges ───────────────────────────────────────────────────────────────────
-
-function PriorityBadge({ value }) {
-  const styles = {
-    SuperUrgent: "bg-red-500/10 text-red-400 border border-red-500/20",
-    SuperDuperUrgent: "bg-red-500/15 text-red-500 border border-red-500/20",
-    Urgent: "bg-orange-500/10 text-orange-400 border border-orange-500/20",
-    Normal: "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20",
-  };
-  const key = value?.replace(/\s+/g, "") ?? "";
-  return (
-    <span className={`px-2 py-1 rounded-md text-xs font-medium ${styles[key] ?? "bg-slate-700/40 text-slate-400"}`}>
-      {value || "Normal"}
-    </span>
-  );
-}
-
-function StatusBadge({ value }) {
-  const styles = {
-    Done: "bg-green-500/10 text-green-400 border border-green-500/20",
-    New: "bg-sky-500/10 text-sky-400 border border-sky-500/20",
-    InProgress: "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20",
-    "On Hold": "bg-purple-500/10 text-purple-400 border border-purple-500/20",
-  };
-  return (
-    <span className={`px-2 py-1 rounded-md text-xs font-medium ${styles[value] ?? "bg-slate-700/40 text-slate-400"}`}>
-      {value || "—"}
-    </span>
-  );
-}
 
 // ─── WorkModal (modal shell + inline form) ────────────────────────────────────
 
@@ -227,7 +166,7 @@ function WorkModal({ open, onClose, rowData, profile, onSaved }) {
         {/* modal header — mirrors AddTimesheet */}
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
-            <p className="mb-1 text-xs uppercase tracking-[0.32em] text-sky-400/80">
+            <p className="mb-1 text-sm uppercase tracking-[0.32em] text-sky-400/80">
               Work form
             </p>
             <h2 className="app-heading text-2xl font-bold">
@@ -237,7 +176,7 @@ function WorkModal({ open, onClose, rowData, profile, onSaved }) {
           <button
             type="button"
             onClick={onClose}
-            className="shrink-0 app-btn-ghost rounded-xl border px-3 py-2 text-sm transition"
+            className="btn-secondary shrink-0 inline-flex items-center justify-center rounded-xl border px-3 py-2 text-sm transition"
           >
             Close
           </button>
@@ -371,14 +310,14 @@ function WorkModal({ open, onClose, rowData, profile, onSaved }) {
             <button
               type="button"
               onClick={onClose}
-              className="app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
+              className="btn-secondary inline-flex items-center justify-center rounded-2xl border px-5 py-3 text-sm transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400 disabled:cursor-not-allowed disabled:opacity-60"
+              className="btn-primary inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isEdit ? "Save changes" : "Add work"}
             </button>
@@ -477,13 +416,13 @@ const WorkGrid = (props) => {
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={() => { setRowData(row); setOpen(true); }}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-sky-400/25 bg-sky-500/10 text-sky-300 transition hover:-translate-y-px hover:border-sky-300/45 hover:bg-sky-500/15 hover:text-sky-100"
+            className="btn-secondary inline-flex h-9 w-9 items-center justify-center rounded-xl border transition"
           >
             <ModeEditOutlineIcon style={{ fontSize: 18 }} />
           </button>
           <Link
             to={{ pathname: "/tasks", state: { filterWork: row.workName } }}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-purple-400/25 bg-purple-500/10 text-purple-300 transition hover:-translate-y-px hover:border-purple-300/45 hover:bg-purple-500/15 hover:text-purple-100"
+            className="btn-secondary inline-flex h-9 w-9 items-center justify-center rounded-xl border transition"
           >
             <VisibilityIcon style={{ fontSize: 18 }} />
           </Link>
@@ -567,7 +506,7 @@ const WorkGrid = (props) => {
           <h1 className="text-3xl md:text-4xl lg:text-5xl">Works</h1>
           <button
             onClick={() => { setRowData({}); setOpen(true); }}
-            className="border-transparent bg-gradient-to-r from-amber-500 to-orange-600 text-amber-50 inline-flex min-h-[46px] items-center justify-center rounded-md border px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] shadow-[0_10px_24px_rgba(2,6,23,0.18)] transition hover:-translate-y-px"
+            className="btn-primary inline-flex min-h-[46px] items-center justify-center rounded-md px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] transition"
           >
             + Add Work
           </button>

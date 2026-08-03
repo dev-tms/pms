@@ -67,7 +67,7 @@ const Header = ({
             <button
               type='button'
               onClick={onMenuToggle}
-              className='app-icon-button inline-flex h-11 w-11 items-center justify-center rounded-lg border transition-colors'
+              className='btn-secondary inline-flex h-11 w-11 items-center justify-center rounded-lg border transition'
               style={{ borderColor: 'var(--app-border)', color: 'var(--app-text)' }}
               aria-label={isMobileSidebarOpen ? 'Close sidebar' : 'Open sidebar'}
               aria-expanded={isMobileSidebarOpen}
@@ -103,7 +103,6 @@ const Header = ({
             <div className='text-center w-full'>
               <Link to='/' className='flex items-center justify-center'>
                 <img src={theme === 'light' ? logo : logolight} alt='ThoughtMate logo' width={250} />
-                {/* <h1 className='text-3xl md:text-4xl user-select-none' style={{ color: "#6E7172" }}>Thought<span className='' style={{ color: "#C07F00" }}>Mate</span></h1> */}
               </Link></div>
           </div>
 
@@ -111,12 +110,10 @@ const Header = ({
             <button
               type='button'
               onClick={onThemeToggle}
-              className='app-icon-button inline-flex h-11 items-center gap-2 rounded-lg border px-3 text-sm transition-colors bg-transparent'
-              style={{ borderColor: 'var(--app-border)', color: 'var(--app-text)' }}
+              className='btn-secondary inline-flex h-11 items-center gap-2 rounded-lg border px-3 text-sm transition'
               aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-              {/* <span className='hidden sm:inline'>{theme === 'dark' ? 'Light' : 'Dark'}</span> */}
             </button>
 
             <div className="">
@@ -179,18 +176,16 @@ const Header = ({
         </header >
       </> : <header className='header px-2 py-5 border-b max-h-[79.88px] border-l' style={{ backgroundColor: 'var(--app-header-bg)', borderColor: 'var(--app-border)' }}><div className='flex items-center justify-between gap-3'>
         <div className='text-center w-full'>
-          <Link to='/'   >
-            <h1 className='text-3xl md:text-4xl user-select-none' style={{ color: "#6E7172" }}>Thought<span className='' style={{ color: "#C07F00" }}>Mate</span></h1>
+          <Link to='/' className='flex items-center justify-center'>
+            <img src={theme === 'light' ? logo : logolight} alt='ThoughtMate logo' width={250} />
           </Link></div>
         <button
           type='button'
           onClick={onThemeToggle}
-          className='app-icon-button inline-flex h-11 items-center gap-2 rounded-lg border px-3 text-sm transition-colors'
-          style={{ borderColor: 'var(--app-border)', color: 'var(--app-text)' }}
+          className='btn-secondary inline-flex h-11 items-center gap-2 rounded-lg border px-3 text-sm transition'
           aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
         >
           {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-          <span className='hidden sm:inline'>{theme === 'dark' ? 'Light' : 'Dark'}</span>
         </button>
       </div>
       </header>

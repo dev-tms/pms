@@ -34,7 +34,7 @@ function ClientFormModal({ open, mode, values, onChange, onClose, onSubmit }) {
         {/* Header */}
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
-            <p className="mb-1 text-xs uppercase tracking-[0.32em] text-sky-400/80">
+            <p className="mb-1 text-sm uppercase tracking-[0.32em] text-sky-400/80">
               Client form
             </p>
             <h2 className="app-heading text-2xl font-bold">
@@ -44,7 +44,7 @@ function ClientFormModal({ open, mode, values, onChange, onClose, onSubmit }) {
           <button
             type="button"
             onClick={onClose}
-            className="shrink-0 app-btn-ghost rounded-xl border px-3 py-2 text-sm transition"
+            className="btn-secondary shrink-0 inline-flex items-center justify-center rounded-xl border px-3 py-2 text-sm transition"
           >
             Close
           </button>
@@ -69,14 +69,14 @@ function ClientFormModal({ open, mode, values, onChange, onClose, onSubmit }) {
           <button
             type="button"
             onClick={onClose}
-            className="app-btn-ghost rounded-md border px-5 py-3 text-sm transition"
+            className="btn-secondary inline-flex items-center justify-center rounded-md border px-5 py-3 text-sm transition"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={onSubmit}
-            className="rounded-md bg-sky-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400"
+            className="btn-primary inline-flex items-center justify-center rounded-md px-5 py-3 text-sm font-semibold transition"
           >
             {mode === "edit" ? "Save changes" : "Add client"}
           </button>
@@ -118,7 +118,7 @@ const ClientGrid = (props) => {
       headerClassName: "min-w-[280px] whitespace-normal",
       cellClassName: "min-w-[280px] whitespace-normal",
       render: (value) => (
-        <span className="text-sm text-slate-200">{value || "—"}</span>
+        <span className="text-base text-slate-200">{value || "—"}</span>
       ),
     },
     {
@@ -211,7 +211,7 @@ const ClientGrid = (props) => {
           <button
             type="button"
             onClick={openAddModal}
-            className="inline-flex min-h-[46px] items-center justify-center rounded-md border border-transparent bg-gradient-to-r from-amber-500 to-orange-600 px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] text-amber-50 no-underline shadow-[0_10px_24px_rgba(2,6,23,0.18)] transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-55 w-full sm:w-fit "
+            className="btn-primary inline-flex min-h-[46px] w-full sm:w-fit items-center justify-center rounded-md px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] no-underline transition disabled:cursor-not-allowed disabled:opacity-55 "
           >
             + Add client
           </button>

@@ -168,11 +168,11 @@ function TimeCell({ hours, minutes, status, type }) {
     (type === "spent" && status === 1) || (type === "approved" && status === 2);
   return (
     <span
-      className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-mono font-medium tabular-nums ${isHighlighted
-          ? type === "approved"
-            ? "bg-green-500/10 text-green-400 border border-green-500/20"
-            : "bg-sky-500/10 text-sky-400 border border-sky-500/20"
-          : "text-slate-400"
+      className={`inline-flex items-center rounded-md px-2 py-1 text-sm font-mono font-medium tabular-nums ${isHighlighted
+        ? type === "approved"
+          ? "bg-green-500/10 text-green-400 border border-green-500/20"
+          : "bg-sky-500/10 text-sky-400 border border-sky-500/20"
+        : "text-slate-400"
         }`}
     >
       {hours}:{minutes}
@@ -191,7 +191,7 @@ function ClientTable({ sheets, isAdmin }) {
       <div className="overflow-x-auto overflow-y-auto max-h-[420px]">
         <table className="min-w-full text-sm text-left">
           <thead
-            className="sticky top-0 z-10 text-xs uppercase tracking-wide app-divider border-b"
+            className="sticky top-0 z-10 text-sm uppercase tracking-wide app-divider border-b"
             style={{ backgroundColor: "var(--app-table-header-bg)", color: "var(--app-muted-text)" }}
           >
             <tr>
@@ -388,7 +388,7 @@ const ViewReport = (props) => {
           {/* week heading + finalize button */}
           <div className="flex items-center justify-between gap-4 mb-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.32em] text-sky-400/80 mb-1">Week</p>
+              <p className="text-sm uppercase tracking-[0.32em] text-sky-400/80 mb-1">Week</p>
               <h2 className="app-heading text-2xl font-bold">{dateKey}</h2>
             </div>
             {isAdmin && Object.keys(dayWiseSheetsByDateThenClient[dateKey]).length > 0 && (
@@ -414,7 +414,7 @@ const ViewReport = (props) => {
                   <div className="flex items-center justify-between gap-4 px-5 py-4 app-divider border-b">
                     <div className="flex items-center gap-3">
                       {/* avatar initial */}
-                      <div className="h-8 w-8 rounded-full bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 text-xs font-bold shrink-0">
+                      <div className="h-8 w-8 rounded-full bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 text-sm font-bold shrink-0">
                         {client.charAt(0).toUpperCase()}
                       </div>
                       <h3 className="app-heading text-base font-semibold">{client}</h3>
@@ -423,7 +423,7 @@ const ViewReport = (props) => {
                     {/* export button */}
                     <button
                       onClick={() => exportToExcel(dateKey, client)}
-                      className="app-btn-ghost inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold transition"
+                      className="btn-secondary inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold transition"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -444,14 +444,14 @@ const ViewReport = (props) => {
                   <div className="app-card flex items-center justify-end gap-6 px-5 py-3 app-divider border-t">
                     <div className="flex items-center gap-2 text-sm text-slate-400">
                       <span>Total time spent</span>
-                      <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-mono font-medium tabular-nums bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                      <span className="inline-flex items-center rounded-md px-2 py-1 text-sm font-mono font-medium tabular-nums bg-sky-500/10 text-sky-400 border border-sky-500/20">
                         {clientData.timeSpentHours}:{clientData.timeSpentMinutes}
                       </span>
                     </div>
                     {isAdmin && (
                       <div className="flex items-center gap-2 text-sm text-slate-400">
                         <span>Total approved</span>
-                        <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-mono font-medium tabular-nums bg-green-500/10 text-green-400 border border-green-500/20">
+                        <span className="inline-flex items-center rounded-md px-2 py-1 text-sm font-mono font-medium tabular-nums bg-green-500/10 text-green-400 border border-green-500/20">
                           {clientData.approvedHours}:{clientData.approvedMinutes}
                         </span>
                       </div>

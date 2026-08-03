@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import toastMessages from "../../utils/ToastMassages";
 import MyTable, { ActionButtons } from "../MyTable/MyTable";
 import { ThoughtMateProgressLoaderAnimated } from "../TMLoader/ThoughtMateProgressLoaderAnimated";
+import { StatusBadge } from "../StatusBadge/StatusBadge";
 
 const mapResponse = (projects) => {
   projects?.data?.sort((a, b) => a.projectName.localeCompare(b.projectName));
@@ -35,7 +36,7 @@ function ProjectFormModal({ open, mode, values, onChange, onClose, onSubmit, cli
       >
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
-            <p className="mb-1 text-xs uppercase tracking-[0.32em] text-sky-400/80">
+            <p className="mb-1 text-sm uppercase tracking-[0.32em] text-sky-400/80">
               Project form
             </p>
             <h2 className="app-heading text-2xl font-bold">
@@ -45,7 +46,7 @@ function ProjectFormModal({ open, mode, values, onChange, onClose, onSubmit, cli
           <button
             type="button"
             onClick={onClose}
-            className="shrink-0 app-btn-ghost rounded-xl border px-3 py-2 text-sm transition"
+            className="btn-secondary shrink-0 inline-flex items-center justify-center rounded-xl border px-3 py-2 text-sm transition"
           >
             Close
           </button>
@@ -118,14 +119,14 @@ function ProjectFormModal({ open, mode, values, onChange, onClose, onSubmit, cli
           <button
             type="button"
             onClick={onClose}
-            className="app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
+            className="btn-secondary inline-flex items-center justify-center rounded-2xl border px-5 py-3 text-sm transition"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={onSubmit}
-            className="rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400"
+            className="btn-primary inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60"
           >
             {mode === "edit" ? "Save changes" : "Add project"}
           </button>
@@ -134,20 +135,6 @@ function ProjectFormModal({ open, mode, values, onChange, onClose, onSubmit, cli
     </div>
   );
 }
-
-const StatusBadge = ({ value }) => {
-  const isActive = value === "Active";
-  return (
-    <span
-      className={`rounded-md border px-2 py-1 text-xs font-medium ${isActive
-        ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-400"
-        : "border-slate-600/40 bg-slate-700/40 text-slate-300"
-        }`}
-    >
-      {value || "—"}
-    </span>
-  );
-};
 
 const EMPTY_FORM = {
   id: "",
@@ -198,7 +185,7 @@ const ProjectGrid = (props) => {
       header: "Status",
       accessor: "status",
       cellClassName: "whitespace-nowrap",
-      render: (value) => <StatusBadge value={value} />,
+      render: (value) => <StatusBadge value={value} type="entity" />,
     },
     {
       header: "Comments",
@@ -352,7 +339,7 @@ const ProjectGrid = (props) => {
           <button
             type="button"
             onClick={openAddModal}
-            className="inline-flex min-h-[46px] items-center justify-center rounded-md border border-transparent bg-gradient-to-r from-amber-500 to-orange-600 px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] text-amber-50 shadow-[0_10px_24px_rgba(2,6,23,0.18)] transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-55 w-full sm:w-fit"
+            className="btn-primary inline-flex min-h-[46px] w-full sm:w-fit items-center justify-center rounded-md px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] transition disabled:cursor-not-allowed disabled:opacity-55"
           >
             + Add project
           </button>

@@ -62,7 +62,7 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
       >
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.32em] text-sky-300/80">Leave Form</p>
+            <p className="text-sm uppercase tracking-[0.32em] text-sky-300/80">Leave Form</p>
             <h2 className="mt-2 app-heading text-2xl font-bold">
               {mode === 'edit' ? 'Edit leave record' : 'Add leave record'}
             </h2>
@@ -70,7 +70,7 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
           <button
             type="button"
             onClick={onClose}
-            className="app-btn-ghost rounded-xl border px-3 py-2 text-sm transition"
+            className="btn-secondary shrink-0 inline-flex items-center justify-center rounded-xl border px-3 py-2 text-sm transition"
           >
             Close
           </button>
@@ -101,15 +101,15 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
                 value={values.approvedLeaveBy}
                 onChange={(event) => onChange('approvedLeaveBy', event.target.value)}
                 className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
-            >
-              <option value="">Select approver</option>
-              {approverOptions.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.name}
-                </option>
-              ))}
-            </select>
-          </label>)}
+              >
+                <option value="">Select approver</option>
+                {approverOptions.map((option) => (
+                  <option key={option.id} value={option.id}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </label>)}
 
           <label className="block">
             <span className="app-label mb-2 block text-sm">Leave From</span>
@@ -143,32 +143,32 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
           </label>
 
           {(profile?.role === "ADMIN" || profile?.role === "TL") && (
-            <label className="block"> 
+            <label className="block">
               <span className="app-label mb-2 block text-sm">Status</span>
               <select
                 value={values.status}
                 onChange={(event) => onChange('status', event.target.value)}
                 className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
-            >
-              <option value="Applied">Applied</option>
-              <option value="Approved">Approved</option>
-              <option value="Rejected">Rejected</option>
-            </select>
-          </label>)}
+              >
+                <option value="Applied">Applied</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+            </label>)}
         </div>
 
         <div className="mt-6 flex justify-end gap-3 app-divider border-t pt-5">
           <button
             type="button"
             onClick={onClose}
-            className="app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
+            className="btn-secondary inline-flex items-center justify-center rounded-2xl border px-5 py-3 text-sm transition"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={onSubmit}
-            className="rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400"
+            className="btn-primary inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60"
           >
             {mode === 'edit' ? 'Save changes' : 'Add leave'}
           </button>
@@ -205,7 +205,7 @@ const Leaves = ({ profile }) => {
       header: 'Leave From',
       accessor: 'leaveFrom',
       render: (value) => (
-        <span className="rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-200">
+        <span className="rounded-full bg-amber-500/10 px-3 py-1 text-sm font-medium text-amber-200">
           {formatLeaveDate(value)}
         </span>
       ),
@@ -214,7 +214,7 @@ const Leaves = ({ profile }) => {
       header: 'Leave To',
       accessor: 'leaveTo',
       render: (value) => (
-        <span className="rounded-full bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-200">
+        <span className="rounded-full bg-cyan-500/10 px-3 py-1 text-sm font-medium text-cyan-200">
           {formatLeaveDate(value)}
         </span>
       ),
@@ -225,7 +225,7 @@ const Leaves = ({ profile }) => {
       header: 'Status',
       accessor: 'status',
       render: (value) => (
-        <span className="rounded-full bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-200">
+        <span className="rounded-full bg-cyan-500/10 px-3 py-1 text-sm font-medium text-cyan-200">
           {value}
         </span>
       ),
@@ -247,11 +247,11 @@ const Leaves = ({ profile }) => {
     async function fetchProfile() {
       if (profile) {
         const leaves = await listLeaves(profile);
-        if(leaves) {
+        if (leaves) {
           setLeaveRecords(mapEmployees(leaves));
         }
         const emp = await listUsers(profile);
-        if(emp?.data) {
+        if (emp?.data) {
           setEmployees(emp.data);
         }
       }
@@ -270,8 +270,9 @@ const Leaves = ({ profile }) => {
             <div className="flex justify-center">
               <ActionButtons row={row} onEdit={() => openEditModal(row)} /* onDelete={() => handleDelete(row.id)} */ />
             </div>
-        ),
-      }] : columns});
+          ),
+        }] : columns
+    });
   }, [profile, refreshFlag]);
 
   const employeeOptions = useMemo(() => {
@@ -314,13 +315,13 @@ const Leaves = ({ profile }) => {
     });
   }, [groupedByMonth]);
 
-  
+
 
   const openAddModal = () => {
     setModalMode('add');
     setFormValues(EMPTY_LEAVE);
     setModalOpen(true);
-    if(profile?.role !== "ADMIN" && profile?.role !== "TL") {
+    if (profile?.role !== "ADMIN" && profile?.role !== "TL") {
       setFormValues((prev) => ({ ...prev, appliedBy: profile?.id || '' }));
     }
   };
@@ -373,13 +374,13 @@ const Leaves = ({ profile }) => {
         <div className="relative z-10">
           <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.35em] text-sky-300/80">Time Off</p>
+              <p className="text-sm uppercase tracking-[0.35em] text-sky-300/80">Time Off</p>
               <h1 className="mt-3 app-heading text-3xl font-bold md:text-4xl">Leave Management</h1>
             </div>
             <button
               type="button"
               onClick={openAddModal}
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400"
+              className="btn-primary inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold transition"
             >
               <Plus size={16} />
               Add Leave
@@ -424,7 +425,7 @@ const Leaves = ({ profile }) => {
                 <div key={month} className="rounded-[30px] border border-slate-800/80 app-panel p-4 shadow-[0_20px_45px_rgba(2,6,23,0.22)] md:p-5">
                   <div className="mb-4 flex items-center justify-between gap-3 app-divider border-b pb-4">
                     <div>
-                      <p className="text-xs uppercase tracking-[0.28em] text-sky-300/80">Monthly Leave Table</p>
+                      <p className="text-sm uppercase tracking-[0.28em] text-sky-300/80">Monthly Leave Table</p>
                       <h2 className="mt-2 app-heading text-2xl font-semibold">{month}</h2>
                     </div>
                     <span className="rounded-2xl bg-sky-500/12 px-4 py-2 text-sm font-medium text-sky-200">

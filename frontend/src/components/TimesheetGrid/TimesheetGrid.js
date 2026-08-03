@@ -5,21 +5,20 @@ import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { AddUpdateTimesheet } from "../../screens/AddUpdateTimesheet/AddUpdateTimesheet";
 import { toast } from 'react-toastify';
 import toastMessages from "../../utils/ToastMassages";
-import taskStatus from "../../utils/TaskStatus";
 import ConfirmDialog from "../ConfirmDialog";
 import { dateMax, dateMin, timeToMills } from "../../utils"
 import MyTable from "../MyTable/MyTable";
 import { ThoughtMateProgressLoaderAnimated } from "../TMLoader/ThoughtMateProgressLoaderAnimated";
+import { StatusBadge } from "../StatusBadge/StatusBadge";
 import 'react-toastify/dist/ReactToastify.css';
 
-const filterLabelClassName = "mb-0 text-xs font-semibold uppercase tracking-[0.5px] text-slate-400";
+const filterLabelClassName = "app-label mb-0 text-sm font-semibold uppercase tracking-[0.5px]";
 const filterInputClassName = "app-input w-full min-w-[240px] rounded-md border px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-400/15 h-[50px]";
-const actionButtonBaseClassName = "inline-flex min-h-[46px] items-center justify-center rounded-md border px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] no-underline shadow-[0_10px_24px_rgba(2,6,23,0.18)] transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-55";
-const ghostActionButtonClassName = `${actionButtonBaseClassName} border-sky-400/30 bg-sky-500/10 text-sky-300 hover:border-sky-300/50 hover:bg-sky-500/15 hover:text-sky-100`;
-const primaryActionButtonClassName = `${actionButtonBaseClassName} border-transparent bg-gradient-to-r from-sky-500 to-blue-600 `;
-const secondaryActionButtonClassName = `${actionButtonBaseClassName} border-transparent bg-gradient-to-r from-sky-700 to-cyan-700 text-sky-50`;
-const warningActionButtonClassName = `${actionButtonBaseClassName}  border-transparent bg-gradient-to-r from-amber-500 to-orange-600 text-amber-50 `;
-const iconButtonClassName = "inline-flex h-10 w-10 items-center justify-center rounded-xl border border-sky-400/25 bg-sky-500/10 text-sky-300 transition hover:-translate-y-px hover:border-sky-300/45 hover:bg-sky-500/15 hover:text-sky-100";
+const ghostActionButtonClassName = "btn-secondary inline-flex min-h-[46px] items-center justify-center rounded-md border px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] no-underline transition disabled:cursor-not-allowed disabled:opacity-55";
+const primaryActionButtonClassName = "btn-primary inline-flex min-h-[46px] items-center justify-center rounded-md px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] no-underline transition disabled:cursor-not-allowed disabled:opacity-55";
+const secondaryActionButtonClassName = primaryActionButtonClassName;
+const warningActionButtonClassName = primaryActionButtonClassName;
+const iconButtonClassName = "btn-secondary inline-flex h-10 w-10 items-center justify-center rounded-xl border transition";
 const totalsCardClassName = "app-card mt-5 ml-auto w-full max-w-full sm:max-w-fit rounded-md border shadow-[0_14px_34px_rgba(2,6,23,0.08)]";
 
 
@@ -253,24 +252,6 @@ const TimesheetGrid = (props) => {
     setOpen(false);
   };
 
-  function StatusBadge({ value }) {
-    const label = taskStatus.find((s) => s.id + "" === value + "")?.value ?? value;
-
-    const styles = {
-      "11": "bg-green-500/10 text-green-400 border border-green-500/20",
-      "1": "bg-sky-500/10 text-sky-400 border border-sky-500/20",
-      "2": "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20",
-      "3": "bg-blue-500/10 text-blue-400 border border-blue-500/20",
-      "4": "bg-purple-500/10 text-purple-400 border border-purple-500/20",
-    };
-
-    return (
-      <span className={`px-2 py-1 rounded-md text-xs font-medium ${styles[value + ""] ?? "bg-slate-700/40 text-slate-400"}`}>
-        {label || "—"}
-      </span>
-    );
-  }
-
   const renderHourBadge = (value, variant) => {
     const toneClassName = variant === "approved"
       ? "border border-rose-500/20 bg-rose-500/15 text-rose-300"
@@ -279,7 +260,7 @@ const TimesheetGrid = (props) => {
         : "border border-slate-600/40 bg-slate-700/40 text-slate-300";
 
     return (
-      <div className={`w-full rounded-md px-3 py-2 text-center text-xs font-bold tracking-[0.04em] ${toneClassName}`}>
+      <div className={`w-full rounded-md px-3 py-2 text-center text-sm font-bold tracking-[0.04em] ${toneClassName}`}>
         {value}
       </div>
     );
@@ -528,7 +509,7 @@ const TimesheetGrid = (props) => {
   };
 
   useEffect(() => {
-    if(executionDate === undefined || executionDate === "") {
+    if (executionDate === undefined || executionDate === "") {
       setExecutionDate(new Date());
     }
     if (!isFirstLoadRef.current) {

@@ -30,9 +30,9 @@ const Profile = ({ profile }) => {
 
   useEffect(() => {
     async function fetchProfile() {
-      if(profile) {
+      if (profile) {
         const profileData = await getProfile(profile);
-        if(profileData) {
+        if (profileData) {
           setUserProfile(profileData);
         } else {
           setUserProfile(profile);
@@ -174,7 +174,7 @@ const Profile = ({ profile }) => {
                 </button>
                 <Link
                   to="/change-password"
-                  className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-sky-400 to-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_16px_35px_rgba(14,165,233,0.28)] transition hover:-translate-y-0.5 hover:brightness-110"
+                  className="btn-primary inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition"
                 >
                   Change Password
                 </Link>
@@ -190,12 +190,12 @@ const Profile = ({ profile }) => {
                 { label: 'Joined', icon: <CalendarDays size={16} className="text-sky-300" />, value: formatDate(userProfile?.joiningDate) },
               ].map(({ label, icon, value }) => (
                 <div key={label} className="app-card rounded-2xl border p-4 text-sm shadow-[0_10px_30px_rgba(2,6,23,0.08)]">
-                  <p className="app-muted text-xs uppercase tracking-[0.26em]">{label}</p>
+                  <p className="app-muted text-sm uppercase tracking-[0.26em]">{label}</p>
                   <div className="mt-3 flex items-center gap-3">{icon}{value || '—'}</div>
                 </div>
               ))}
               <div className="app-card rounded-2xl border p-4 text-sm shadow-[0_10px_30px_rgba(2,6,23,0.08)] sm:col-span-2">
-                <p className="text-xs uppercase tracking-[0.26em] text-slate-500">Birthday</p>
+                <p className="text-sm uppercase tracking-[0.26em] text-slate-500">Birthday</p>
                 <div className="mt-3 flex items-center gap-3">
                   <CalendarDays size={16} className="text-sky-300" />
                   {formatBirthDate(userProfile?.birthDate)}
@@ -245,13 +245,13 @@ const Profile = ({ profile }) => {
             {/* modal header */}
             <div className="mb-6 flex items-start justify-between gap-4">
               <div>
-                <p className="mb-1 text-xs uppercase tracking-[0.32em] text-sky-400/80">Edit Profile</p>
+                <p className="mb-1 text-sm uppercase tracking-[0.32em] text-sky-400/80">Edit Profile</p>
                 <h2 className="app-heading text-2xl font-bold">Update your details</h2>
               </div>
               <button
                 type="button"
                 onClick={cancelEditing}
-                className="shrink-0 app-btn-ghost rounded-xl border px-3 py-2 text-sm transition"
+                className="btn-secondary shrink-0 inline-flex items-center justify-center rounded-xl border px-3 py-2 text-sm transition"
               >
                 Close
               </button>
@@ -320,7 +320,7 @@ const Profile = ({ profile }) => {
                   placeholder="Project Planning, Agile Delivery, Client Communication"
                   className="app-input w-full rounded-xl border px-4 py-3 text-sm outline-none transition min-h-[48px] focus:border-sky-400"
                 />
-                <p className="mt-2 text-xs text-slate-500">Separate each skill with a comma.</p>
+                <p className="mt-2 text-sm text-slate-500">Separate each skill with a comma.</p>
               </label>
             </div>
 
@@ -329,14 +329,14 @@ const Profile = ({ profile }) => {
               <button
                 type="button"
                 onClick={cancelEditing}
-                className="app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
+                className="btn-secondary inline-flex items-center justify-center rounded-2xl border px-5 py-3 text-sm transition"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={saveProfile}
-                className="rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400"
+                className="btn-primary inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60"
               >
                 Save Profile
               </button>

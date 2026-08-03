@@ -46,8 +46,8 @@ const AddTask = (props) => {
   const [qaList, setQAList] = useState(props.qas);
   const [userList, setUserList] = useState(props.employees);
   const [submittingForm, setSubmittingForm] = useState(false);
-  const labelCls = "app-label mb-2 block text-sm";
-  const errorCls = "mt-2 block text-xs text-rose-400";
+  const labelCls = "app-label mb-2 block text-base";
+  const errorCls = "mt-2 block text-base text-rose-400";
 
   const sortByField = (arr, field) => [...arr].sort((a, b) => a[field].localeCompare(b[field]));
 
@@ -68,7 +68,7 @@ const AddTask = (props) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if(name === "assignedToId") {
+    if (name === "assignedToId") {
       const values = Array.from(e.target.selectedOptions, option => option.value);
       setFormData({ ...formData, [name]: values });
     } else {
@@ -80,7 +80,7 @@ const AddTask = (props) => {
 
   const handleWorkChange = (value) => {
     setFormData({ ...formData, "workId": value });
-    setFormErrors({ ...formErrors, "workId": validationErrorMessage({target: {name: "workId", value}}) });
+    setFormErrors({ ...formErrors, "workId": validationErrorMessage({ target: { name: "workId", value } }) });
     setSubmittingForm(false);
   };
 
@@ -133,7 +133,7 @@ const AddTask = (props) => {
       return;
     }
 
-    if ( validateForm(formErrors) ) {
+    if (validateForm(formErrors)) {
       let response = await addTask(formData, props.profile);
       console.log(response);
       toast.success(toastMessages.addWorkSuccess);
@@ -152,7 +152,7 @@ const AddTask = (props) => {
 
   const handleBack = async (event) => {
     event.preventDefault();
-    if(props.setOpen) {
+    if (props.setOpen) {
       props.setOpen(false);
     } else {
       history.goBack();
@@ -172,7 +172,7 @@ const AddTask = (props) => {
 
     const selectedNames = userList
       .filter((u) => formData.assignedToId.includes(u.id))
-      .map((u) => (u.firstName ? u.firstName : '')+' '+(u.lastName ? u.lastName : ''))
+      .map((u) => (u.firstName ? u.firstName : '') + ' ' + (u.lastName ? u.lastName : ''))
       .join(", ");
 
     return (
@@ -186,7 +186,7 @@ const AddTask = (props) => {
             <Form.Check
               key={option.id}
               type="checkbox"
-              label={(option.firstName ? option.firstName : '')+' '+(option.lastName ? option.lastName : '')}
+              label={(option.firstName ? option.firstName : '') + ' ' + (option.lastName ? option.lastName : '')}
               checked={formData.assignedToId.includes(option.id)}
               onChange={() => toggleUser(option.id)}
             />
@@ -226,7 +226,7 @@ const AddTask = (props) => {
                         className="rounded:md"
                       />
                       {formErrors.workId && <span className={errorCls}>{formErrors.workId}</span>}
-                  </label>
+                    </label>
                     <Form.Group controlId="formBasicReferralName" className="pb-lg-3 pb-sm-0 row">
                       {/* <div className='col-lg-6 col-sm-12 pb-sm-2'>
                         <RequiredLabel>Work</RequiredLabel>
@@ -276,13 +276,13 @@ const AddTask = (props) => {
                           <option value="">Select Employee</option>
                           {userList.map((option) => {
                             return (
-                              <option key={(option.firstName ? option.firstName : '')+' '+(option.lastName ? option.lastName : '')} value={option.id}>
-                                {(option.firstName ? option.firstName : '')+' '+(option.lastName ? option.lastName : '')}
+                              <option key={(option.firstName ? option.firstName : '') + ' ' + (option.lastName ? option.lastName : '')} value={option.id}>
+                                {(option.firstName ? option.firstName : '') + ' ' + (option.lastName ? option.lastName : '')}
                               </option>
                             );
                           })}
-                        </Form.Control> : <MultiSelectWithCheckbox/>}
-                        
+                        </Form.Control> : <MultiSelectWithCheckbox />}
+
                         {formErrors.assignedToId && (
                           <Form.Text className="text-danger">
                             {formErrors.assignedToId}
@@ -301,8 +301,8 @@ const AddTask = (props) => {
                           <option value="">Select QA</option>
                           {qaList.map((option) => {
                             return (
-                              <option key={(option.firstName ? option.firstName : '')+' '+(option.lastName ? option.lastName : '')} value={option.id}>
-                                {(option.firstName ? option.firstName : '')+' '+(option.lastName ? option.lastName : '')}
+                              <option key={(option.firstName ? option.firstName : '') + ' ' + (option.lastName ? option.lastName : '')} value={option.id}>
+                                {(option.firstName ? option.firstName : '') + ' ' + (option.lastName ? option.lastName : '')}
                               </option>
                             );
                           })}
@@ -313,7 +313,7 @@ const AddTask = (props) => {
                           </Form.Text>
                         )}
                       </div>
-                      
+
                     </Form.Group>
                     <Form.Group className="pb-lg-3 pb-sm-0 row">
                       <div className="col-lg-6 col-sm-12 pb-sm-2">
@@ -378,7 +378,7 @@ const AddTask = (props) => {
                     </div>
 
                     <div className="col-auto">
-                      <Button variant={"primary "+(submittingForm ? 'disabled' : '')} type="submit">
+                      <Button variant={"primary " + (submittingForm ? 'disabled' : '')} type="submit">
                         Save
                       </Button>
                     </div>

@@ -8,6 +8,7 @@ import Confetti from 'react-confetti';
 import Counter from '../Counter/Counter';
 import taskStatus from '../../utils/TaskStatus';
 import { ThoughtMateProgressLoaderAnimated } from '../TMLoader/ThoughtMateProgressLoaderAnimated';
+import { StatusBadge } from '../StatusBadge/StatusBadge';
 
 // ── key used to track if welcome has already been shown this session ──────────
 const WELCOME_SHOWN_KEY = 'tms_welcome_shown';
@@ -138,24 +139,7 @@ const Dashboard = ({ profile, theme }) => {
         {
             header: "Status",
             accessor: "status",
-            render: (value) => {
-                const styles = {
-                    "QA": "bg-blue-500/10 text-blue-400 border border-blue-500/20",
-                    "In Progress + QA": "bg-blue-500/10 text-blue-400 border border-blue-500/20",
-                    "Assigned": "bg-green-500/5 text-green-400 border border-green-500/20",
-                    "Sent To Client": "bg-green-500/20 text-green-400 border border-green-500/20",
-                    "In Progress": "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20",
-                    "On Hold": "bg-red-500/10 text-red-400 border border-red-500/20",
-                    "Waiting For Client Feedback": "bg-purple-500/10 text-purple-400 border border-purple-500/20",
-                    "Comments In Trello": "bg-purple-500/10 text-purple-400 border border-purple-500/20",
-                    "Feedback From QA": "bg-gray-500/10 text-gray-400 border border-gray-500/20",
-                };
-                return (
-                    <span className={`px-2 py-1 rounded-md text-xs font-normal ${styles[value] ?? ""}`}>
-                        {value}
-                    </span>
-                );
-            },
+            render: (value) => <StatusBadge value={value} />,
         },
     ];
 
@@ -185,7 +169,7 @@ const Dashboard = ({ profile, theme }) => {
                         {/* close X */}
                         <button
                             onClick={dismissWelcome}
-                            className="app-btn-ghost absolute right-4 top-4 rounded-xl border p-1.5 transition"
+                            className="btn-secondary absolute right-4 top-4 inline-flex items-center justify-center rounded-xl border p-1.5 transition"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                         </button>
@@ -196,7 +180,7 @@ const Dashboard = ({ profile, theme }) => {
                             </div>
                         </div>
 
-                        <p className="mb-1 text-xs uppercase tracking-[0.32em] text-sky-400/80">Welcome back</p>
+                        <p className="mb-1 text-sm uppercase tracking-[0.32em] text-sky-400/80">Welcome back</p>
                         <h2 className="app-heading text-2xl font-bold">
                             Welcome to TMS 🎉
                         </h2>
@@ -206,7 +190,7 @@ const Dashboard = ({ profile, theme }) => {
 
                         <button
                             onClick={dismissWelcome}
-                            className="mt-6 inline-flex items-center justify-center rounded-2xl bg-sky-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400 hover:-translate-y-0.5"
+                            className="btn-primary mt-6 inline-flex items-center justify-center rounded-2xl px-6 py-3 text-sm font-semibold transition"
                         >
                             Let's Go
                         </button>
@@ -222,13 +206,17 @@ const Dashboard = ({ profile, theme }) => {
                     </h1>
                 </div>
                 <div className='mt-5 md:mt-0'>
-                    <Link to='/tasks' className={`
-                        inline-flex min-h-[46px] items-center justify-center rounded-md border px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] no-underline shadow-[0_10px_24px_rgba(2,6,23,0.18)] transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-55 border-sky-400/30 bg-sky-500/10 text-sky-300 hover:border-sky-300/50 hover:bg-sky-500/15  mr-3 ${theme === 'light' ? 'border-sky-400/30 bg-sky-500/10 text-sky-300 hover:border-sky-300/50 hover:bg-sky-500/15' : 'border-sky-400/30 bg-sky-500/10 text-sky-300 hover:border-sky-300/50 hover:bg-sky-500/15'}
-                        `}>
+                    <Link
+                        to='/tasks'
+                        className="btn-primary inline-flex min-h-[46px] items-center justify-center rounded-md px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] no-underline transition mr-3"
+                    >
                         + Add Task
                     </Link>
                     {profile?.role !== 'EMPLOYEE' && (
-                        <Link to='/projects' className="inline-flex min-h-[46px] items-center justify-center rounded-md border px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] no-underline shadow-[0_10px_24px_rgba(2,6,23,0.18)] transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-55 border-transparent bg-gradient-to-r from-sky-500 to-blue-600">
+                        <Link
+                            to='/projects'
+                            className="btn-primary inline-flex min-h-[46px] items-center justify-center rounded-md px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] no-underline transition"
+                        >
                             + New Project
                         </Link>
                     )}

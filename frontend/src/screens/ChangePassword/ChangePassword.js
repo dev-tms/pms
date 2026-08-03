@@ -136,7 +136,7 @@ const ChangePassword = (props) => {
     }
 
     let response = await changePassword(props?.profile?.email, values.currentPassword, values.newPassword);
-    if(response?.errors){
+    if (response?.errors) {
       setMessageType('error');
       setMessage(response.errors[0]);
       return;
@@ -152,7 +152,7 @@ const ChangePassword = (props) => {
       <div className="mx-auto max-w-3xl rounded-[32px] border border-slate-800/80 app-panel p-5 md:p-7">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.35em] text-sky-300/80">Security</p>
+            <p className="text-sm uppercase tracking-[0.35em] text-sky-300/80">Security</p>
             <h1 className="mt-3 app-heading text-3xl font-bold md:text-4xl">Change Password</h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">
               Keep your account secure by using a strong password with a mix of letters, numbers, and symbols.
@@ -160,7 +160,7 @@ const ChangePassword = (props) => {
           </div>
           <Link
             to="/profile"
-            className="app-btn-ghost w-[200px] inline-flex items-center justify-center rounded-2xl border px-4 py-3 text-sm font-medium transition"
+            className="btn-secondary w-[200px] inline-flex items-center justify-center rounded-2xl border px-4 py-3 text-sm font-medium transition"
           >
             Back to Profile
           </Link>
@@ -208,13 +208,13 @@ const ChangePassword = (props) => {
             <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:justify-end">
               <Link
                 to="/profile"
-                className="inline-flex items-center justify-center app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
+                className="btn-secondary inline-flex items-center justify-center rounded-2xl border px-5 py-3 text-sm transition"
               >
                 Cancel
               </Link>
               <button
                 type="submit"
-                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400"
+                className="btn-primary inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold transition"
               >
                 <ShieldCheck size={16} />
                 Update Password

@@ -12,6 +12,7 @@ import MyTable, { ActionButtons } from "../MyTable/MyTable";
 import TaskFormModal, { formatDateForInput } from "../TaskFormModal/TaskFormModal";
 import { ThoughtMateProgressLoaderAnimated } from "../TMLoader/ThoughtMateProgressLoaderAnimated";
 import { dateMax, dateMin } from "../../utils";
+import { PriorityBadge, StatusBadge } from "../StatusBadge/StatusBadge";
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -91,48 +92,6 @@ const EMPTY_FORM = {
   comments: "",
 };
 
-// ─── Priority badge ───────────────────────────────────────────────────────────
-
-function PriorityBadge({ value }) {
-  const styles = {
-    SuperUrgent: "bg-red-500/10 text-red-400 border border-red-500/20",
-    SuperDuperUrgent: "bg-red-500/15 text-red-500 border border-red-500/20",
-    Normal: "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20",
-  };
-
-  // Normalize: "Super Urgent" → "SuperUrgent"
-  const key = value?.replace(/\s+/g, "") ?? "";
-
-  return (
-    <span
-      className={`px-2 py-1 rounded-md text-xs font-medium ${styles[key] ?? "bg-slate-700/40 text-slate-400"
-        }`}
-    >
-      {value || "Normal"}
-    </span>
-  );
-}
-
-// ─── Status badge ─────────────────────────────────────────────────────────────
-
-function StatusBadge({ value }) {
-  const label = taskStatus.find((s) => s.id + "" === value + "")?.value ?? value;
-
-  const styles = {
-    "11": "bg-green-500/10 text-green-400 border border-green-500/20",   // Done
-    "1": "bg-sky-500/10 text-sky-400 border border-sky-500/20",         // New
-    "2": "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20",// In Progress
-    "3": "bg-blue-500/10 text-blue-400 border border-blue-500/20",      // QA
-    "4": "bg-purple-500/10 text-purple-400 border border-purple-500/20",// On Hold
-  };
-
-  return (
-    <span className={`px-2 py-1 rounded-md text-xs font-medium ${styles[value + ""] ?? "bg-slate-700/40 text-slate-400"}`}>
-      {label || "—"}
-    </span>
-  );
-}
-
 // ─── Avatar cell ──────────────────────────────────────────────────────────────
 
 function AvatarCell({ name, bgClass = "bg-blue-600", textClass = "text-white" }) {
@@ -140,7 +99,7 @@ function AvatarCell({ name, bgClass = "bg-blue-600", textClass = "text-white" })
   return (
     <div className="flex items-center gap-2">
       {name !== '-' && (
-        <div className={`h-7 w-7 rounded-full ${bgClass} flex items-center justify-center ${textClass} text-xs font-bold shrink-0`}>
+        <div className={`h-7 w-7 rounded-full ${bgClass} flex items-center justify-center ${textClass} text-sm font-bold shrink-0`}>
           {name.charAt(0).toUpperCase()}
         </div>
       )}
@@ -162,12 +121,12 @@ function WorkDetailModal({ open, work, task, employees, qas, onClose, setUpdateG
       >
         <div className="flex items-center justify-between mb-5">
           <div>
-            <p className="text-xs uppercase tracking-[0.32em] text-sky-400/80 mb-1">Work detail</p>
+            <p className="text-sm uppercase tracking-[0.32em] text-sky-400/80 mb-1">Work detail</p>
             <h2 className="app-heading text-2xl font-bold">{work?.workName ?? "—"}</h2>
           </div>
           <button
             onClick={onClose}
-            className="app-btn-ghost rounded-xl border px-3 py-2 text-sm transition"
+            className="btn-secondary shrink-0 inline-flex items-center justify-center rounded-xl border px-3 py-2 text-sm transition"
           >
             Close
           </button>
@@ -217,7 +176,7 @@ const TaskGrid = (props) => {
   const [workNameFilter, setWorkNameFilter] = useState("");
   const [filterStartDate, setFilterStartDate] = useState("");
   const [filterEndDate, setFilterEndDate] = useState(new Date());
-  
+
   // debouncer ref for search
   const searchDebounceRef = useRef(null);
 
@@ -334,7 +293,7 @@ const TaskGrid = (props) => {
       render: (value, row) => (
         <button
           onClick={() => { setSelectedWorkRow(row); setWorkDetailOpen(true); }}
-          className="text-left text-sky-400 underline underline-offset-4 hover:text-sky-300 transition text-sm"
+          className="text-left text-sky-400 underline underline-offset-4 hover:text-sky-300 transition text-base"
         >
           {value || "—"}
         </button>
@@ -345,7 +304,7 @@ const TaskGrid = (props) => {
       accessor: "taskName",
       headerClassName: "min-w-[200px] whitespace-normal",
       cellClassName: "min-w-[200px] whitespace-normal",
-      render: (value) => <span className="text-sm text-slate-300">{value || "—"}</span>,
+      render: (value) => <span className="text-base text-slate-300">{value || "—"}</span>,
     },
     {
       header: "Priority",
@@ -356,14 +315,14 @@ const TaskGrid = (props) => {
       header: "Assigned date",
       accessor: "assignedDate",
       render: (value) => (
-        <span className="text-sm text-slate-400 whitespace-nowrap">{formatDateDisplay(value)}</span>
+        <span className="text-base text-slate-400 whitespace-nowrap">{formatDateDisplay(value)}</span>
       ),
     },
     {
       header: "Updated",
       accessor: "updatedAt",
       render: (value) => (
-        <span className="text-sm text-slate-500 whitespace-nowrap">{formatDateDisplay(value)}</span>
+        <span className="text-base text-slate-500 whitespace-nowrap">{formatDateDisplay(value)}</span>
       ),
     },
     {
@@ -415,19 +374,19 @@ const TaskGrid = (props) => {
 
 
   const handleSearch = async () => {
-    
+
     // Clear previous debounce timer
     if (searchDebounceRef.current) {
       clearTimeout(searchDebounceRef.current);
     }
-    
+
     // Set new debounce timer (500ms)
     searchDebounceRef.current = setTimeout(async () => {
-      if((search && search.trim() !== '') || filterStartDate) {
+      if ((search && search.trim() !== '') || filterStartDate) {
         setLoading(true);
         try {
           await searchTasks(props.profile, search, filterStartDate).then(res => {
-            if(res.status === 200) {
+            if (res.status === 200) {
               const mapped = mapResponse(res.data.allTasks, res.data.allWorks);
               setRows(mapped.unDoneTasks);
               setDoneTasks(mapped.doneTasks);
@@ -445,10 +404,10 @@ const TaskGrid = (props) => {
         }
       } else {
         // if(!isFirstLoad) {
-          const mapped = mapResponse(allData?.allTasks, allData?.allWorks);
-          setRows(mapped.unDoneTasks);
-          setDoneTasks(mapped.doneTasks);
-          setIsFirstLoad(false);
+        const mapped = mapResponse(allData?.allTasks, allData?.allWorks);
+        setRows(mapped.unDoneTasks);
+        setDoneTasks(mapped.doneTasks);
+        setIsFirstLoad(false);
         // }
       }
     }, 500);
@@ -477,7 +436,7 @@ const TaskGrid = (props) => {
           {/* add button */}
           <button
             onClick={openAddModal}
-            className="inline-flex min-h-[46px] items-center justify-center rounded-md border px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] no-underline shadow-[0_10px_24px_rgba(2,6,23,0.18)] transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-55 border-sky-400/30 bg-sky-500/10 text-sky-300 hover:border-sky-300/50 hover:bg-sky-500/15 hover:text-sky-100 mr-3"
+            className="btn-primary inline-flex min-h-[46px] items-center justify-center rounded-md px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] no-underline transition disabled:cursor-not-allowed disabled:opacity-55 mr-3"
           >
             + Add task
           </button>
@@ -490,7 +449,7 @@ const TaskGrid = (props) => {
             placeholder="Search task / work..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="app-input sm:col-span-2 px-4 py-2 border rounded-xl outline-none text-sm"
+            className="app-input sm:col-span-2 px-4 py-2 border rounded-xl outline-none text-base"
           />
           {/* work name filter */}
           {/* <input
@@ -507,7 +466,7 @@ const TaskGrid = (props) => {
             max={dateMax()}
             min={dateMin(14)}
             onChange={(e) => setFilterStartDate(e.target.value ? new Date(e.target.value) : "")}
-            className="app-input px-3 py-2 border rounded-xl outline-none text-sm"
+            className="app-input px-3 py-2 border rounded-xl outline-none text-base"
           />
         </div>
       </div>

@@ -12,12 +12,12 @@ import { selectStyles } from "../../utils/index";
 const AddTimesheet = (props) => {
   const isEditMode = Boolean(props.timesheet?._id);
   const inputCls =
-    "app-input w-full rounded-xl border px-4 py-3 text-sm outline-none transition min-h-[48px] focus:border-sky-400";
+    "app-input w-full rounded-xl border px-4 py-3 text-base outline-none transition min-h-[48px] focus:border-sky-400";
   const selectCls =
     `${inputCls} appearance-none pr-10`;
-  const labelCls = "app-label mb-2 block text-sm";
-  const errorCls = "mt-2 block text-xs text-rose-400";
-  
+  const labelCls = "app-label mb-2 block text-base";
+  const errorCls = "mt-2 block text-base text-rose-400";
+
 
   const dateFormat = (dateString) => {
     let date = new Date(dateString);
@@ -250,7 +250,7 @@ const AddTimesheet = (props) => {
       <div className="app-modal w-full max-w-5xl rounded-[28px] border p-6 overflow-y-auto max-h-[90vh]">
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
-            <p className="mb-1 text-xs uppercase tracking-[0.32em] text-sky-400/80">
+            <p className="mb-1 text-sm uppercase tracking-[0.32em] text-sky-400/80">
               Timesheet form
             </p>
             <h2 className="app-heading text-2xl font-bold">
@@ -260,7 +260,7 @@ const AddTimesheet = (props) => {
           <button
             type="button"
             onClick={handleBack}
-            className="shrink-0 app-btn-ghost rounded-xl border px-3 py-2 text-sm transition"
+            className="btn-secondary shrink-0 inline-flex items-center justify-center rounded-xl border px-3 py-2 text-base transition"
           >
             Close
           </button>
@@ -416,14 +416,14 @@ const AddTimesheet = (props) => {
             <button
               type="button"
               onClick={handleBack}
-              className="app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
+              className="btn-secondary inline-flex items-center justify-center rounded-2xl border px-5 py-3 text-base transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submittingForm}
-              className="rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400 disabled:cursor-not-allowed disabled:opacity-60"
+              className="btn-primary inline-flex items-center justify-center rounded-2xl px-5 py-3 text-base font-semibold transition disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isEditMode ? "Save changes" : "Add timesheet"}
             </button>

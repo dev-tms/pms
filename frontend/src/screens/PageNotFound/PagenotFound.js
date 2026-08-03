@@ -151,14 +151,14 @@ const PageNotFound = () => {
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
           <button
             onClick={() => history.goBack()}
-            className="app-btn-ghost inline-flex items-center justify-center gap-2 rounded-2xl border px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
+            className="btn-secondary inline-flex items-center justify-center gap-2 rounded-2xl border px-5 py-3 text-sm font-semibold transition"
           >
             <ArrowLeft size={16} />
             Go Back
           </button>
           <button
             onClick={() => history.push("/")}
-            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 to-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_12px_30px_rgba(14,165,233,0.3)] transition hover:-translate-y-0.5 hover:brightness-110"
+            className="btn-primary inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold transition"
           >
             <Home size={16} />
             Dashboard

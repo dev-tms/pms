@@ -6,14 +6,15 @@ import toastMessages from "../../utils/ToastMassages.js";
 import MyTable from "../MyTable/MyTable";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { ThoughtMateProgressLoaderAnimated } from "../TMLoader/ThoughtMateProgressLoaderAnimated.js";
+import { StatusBadge } from "../StatusBadge/StatusBadge";
 
 // ─── style tokens (shared across all grids) ───────────────────────────────────
 
 const inputCls =
-  "app-input w-full rounded-xl border px-4 py-3 text-sm outline-none transition min-h-[48px] focus:border-sky-400";
+  "app-input w-full rounded-xl border px-4 py-3 text-base outline-none transition min-h-[48px] focus:border-sky-400";
 const selectCls = `${inputCls} appearance-none pr-10`;
-const labelCls = "app-label mb-2 block text-sm";
-const errorCls = "mt-2 block text-xs text-rose-400";
+const labelCls = "app-label mb-2 block text-base";
+const errorCls = "mt-2 block text-base text-rose-400";
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -28,7 +29,7 @@ const mapResponse = (contacts) => {
     lastName: contact.lastName,
     role: contact.role,
     status: contact.status,
-    TLName: contact.TL? contact.TL.firstName + " " + contact.TL?.lastName : "",
+    TLName: contact.TL ? contact.TL.firstName + " " + contact.TL?.lastName : "",
     TLId: contact.TL?.id,
     password: "",
     password_old: contact.password,
@@ -38,29 +39,7 @@ const mapResponse = (contacts) => {
 // ─── Badges ───────────────────────────────────────────────────────────────────
 
 function RoleBadge({ value }) {
-  const styles = {
-    ADMIN: "bg-purple-500/10 text-purple-400 border border-purple-500/20",
-    TL: "bg-sky-500/10 text-sky-400 border border-sky-500/20",
-    QA: "bg-amber-500/10 text-amber-400 border border-amber-500/20",
-    EMPLOYEE: "bg-slate-700/40 text-slate-400 border border-slate-600/20",
-  };
-  return (
-    <span className={`px-2 py-1 rounded-md text-xs font-medium ${styles[value] ?? "bg-slate-700/40 text-slate-400"}`}>
-      {value || "—"}
-    </span>
-  );
-}
-
-function StatusBadge({ value }) {
-  const styles = {
-    Active: "bg-green-500/10 text-green-400 border border-green-500/20",
-    Inactive: "bg-red-500/10 text-red-400 border border-red-500/20",
-  };
-  return (
-    <span className={`px-2 py-1 rounded-md text-xs font-medium ${styles[value] ?? "bg-slate-700/40 text-slate-400"}`}>
-      {value || "—"}
-    </span>
-  );
+  return <StatusBadge value={value} type="role" />;
 }
 
 // ─── empty form ───────────────────────────────────────────────────────────────
@@ -125,7 +104,7 @@ function ContactFormModal({ open, mode, values, TLs, onChange, onClose, onSubmit
         {/* header */}
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
-            <p className="mb-1 text-xs uppercase tracking-[0.32em] text-sky-400/80">
+            <p className="mb-1 text-base uppercase tracking-[0.32em] text-sky-400/80">
               Contact form
             </p>
             <h2 className="app-heading text-2xl font-bold">
@@ -135,7 +114,7 @@ function ContactFormModal({ open, mode, values, TLs, onChange, onClose, onSubmit
           <button
             type="button"
             onClick={onClose}
-            className="shrink-0 app-btn-ghost rounded-xl border px-3 py-2 text-sm transition"
+            className="btn-secondary shrink-0 inline-flex items-center justify-center rounded-xl border px-3 py-2 text-sm transition"
           >
             Close
           </button>
@@ -246,7 +225,7 @@ function ContactFormModal({ open, mode, values, TLs, onChange, onClose, onSubmit
           <button
             type="button"
             onClick={onClose}
-            className="app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
+            className="btn-secondary inline-flex items-center justify-center rounded-2xl border px-5 py-3 text-sm transition"
           >
             Cancel
           </button>
@@ -254,7 +233,7 @@ function ContactFormModal({ open, mode, values, TLs, onChange, onClose, onSubmit
             type="button"
             onClick={handleSubmit}
             disabled={submitting}
-            className="rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400 disabled:cursor-not-allowed disabled:opacity-60"
+            className="btn-primary inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60"
           >
             {mode === "edit" ? "Save changes" : "Add contact"}
           </button>
@@ -300,21 +279,21 @@ const DataGridTable = (props) => {
       accessor: "firstName",
       headerClassName: "min-w-[140px] whitespace-nowrap",
       cellClassName: "min-w-[140px] whitespace-nowrap",
-      render: (value) => <span className="text-sm text-slate-200 font-medium">{value || "—"}</span>,
+      render: (value) => <span className="text-base text-slate-200 font-medium">{value || "—"}</span>,
     },
     {
       header: "Last Name",
       accessor: "lastName",
       headerClassName: "min-w-[140px] whitespace-nowrap",
       cellClassName: "min-w-[140px] whitespace-nowrap",
-      render: (value) => <span className="text-sm text-slate-300">{value || "—"}</span>,
+      render: (value) => <span className="text-base text-slate-300">{value || "—"}</span>,
     },
     {
       header: "Email",
       accessor: "email",
       headerClassName: "min-w-[220px] whitespace-nowrap",
       cellClassName: "min-w-[220px] whitespace-nowrap",
-      render: (value) => <span className="text-sm text-slate-400">{value || "—"}</span>,
+      render: (value) => <span className="text-base text-slate-400">{value || "—"}</span>,
     },
     {
       header: "Role",
@@ -324,14 +303,14 @@ const DataGridTable = (props) => {
     {
       header: "Status",
       accessor: "status",
-      render: (value) => <StatusBadge value={value} />,
+      render: (value) => <StatusBadge value={value} type="entity" />,
     },
     {
       header: "Team Leader",
       accessor: "TLName",
       headerClassName: "min-w-[150px] whitespace-nowrap",
       cellClassName: "min-w-[150px] whitespace-nowrap",
-      render: (value) => <span className="text-sm text-slate-400">{value?.trim() || "—"}</span>,
+      render: (value) => <span className="text-base text-slate-400">{value?.trim() || "—"}</span>,
     },
     {
       header: "Action",
@@ -342,7 +321,7 @@ const DataGridTable = (props) => {
         <div className="flex items-center justify-center">
           <button
             onClick={() => openEditModal(row)}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-sky-400/25 bg-sky-500/10 text-sky-300 transition hover:-translate-y-px hover:border-sky-300/45 hover:bg-sky-500/15 hover:text-sky-100"
+            className="btn-secondary inline-flex h-9 w-9 items-center justify-center rounded-xl border transition"
           >
             <ModeEditOutlineIcon style={{ fontSize: 18 }} />
           </button>
@@ -372,7 +351,7 @@ const DataGridTable = (props) => {
   // ── save (same logic as original handleSave) ─────────────────────────────
 
   const handleSave = async (modifiedRow) => {
-    console.log("Updating User",modifiedRow)
+    console.log("Updating User", modifiedRow)
     setLoading(true);
     const requiredFields = {
       firstName: "Please Enter First Name",
@@ -452,7 +431,7 @@ const DataGridTable = (props) => {
           <button
             type="button"
             onClick={openAddModal}
-            className="inline-flex min-h-[46px] w-full sm:w-fit items-center justify-center rounded-md border border-transparent bg-gradient-to-r from-amber-500 to-orange-600 px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] text-amber-50 shadow-[0_10px_24px_rgba(2,6,23,0.18)] transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-55"
+            className="btn-primary inline-flex min-h-[46px] w-full sm:w-fit items-center justify-center rounded-md px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] transition disabled:cursor-not-allowed disabled:opacity-55"
           >
             + Add contact
           </button>

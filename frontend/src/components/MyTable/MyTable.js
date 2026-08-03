@@ -8,7 +8,7 @@ export function ActionButtons({ row, onEdit, onDelete, editLabel = "Edit", delet
             {onEdit && (
                 <button
                     onClick={() => onEdit(row)}
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-sky-400/25 bg-sky-500/10 text-sky-300 transition hover:-translate-y-px hover:border-sky-300/45 hover:bg-sky-500/15 hover:text-sky-100"
+                    className="btn-secondary inline-flex h-10 w-10 items-center justify-center rounded-xl border transition"
                 >
                     <ModeEditOutlineIcon className="action_icon" />
                 </button>
@@ -16,7 +16,7 @@ export function ActionButtons({ row, onEdit, onDelete, editLabel = "Edit", delet
             {onDelete && (
                 <button
                     onClick={() => onDelete(row)}
-                    className="inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium bg-red-600 hover:bg-red-700 text-white transition"
+                    className="inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-sm font-medium bg-red-600 hover:bg-red-700 text-white transition"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -79,7 +79,7 @@ export default function MyTable({
 
                     {/* ── sticky thead ──────────────────────────────────────── */}
                     <thead
-                        className={`sticky top-0 z-2 text-xs uppercase tracking-wide border-b ${headClassName}`}
+                        className={`sticky top-0 z-2 text-sm uppercase tracking-wide border-b ${headClassName}`}
                         style={{
                             borderColor: "var(--app-border)",
                             backgroundColor: "var(--app-table-header-bg)",
@@ -91,7 +91,7 @@ export default function MyTable({
                                 <th
                                     key={col.accessor}
                                     scope="col"
-                                    className={`px-4 py-4 font-semibold text-md ${col.headerClassName ?? "whitespace-nowrap"}`}
+                                    className={`px-4 py-4 font-semibold text-base ${col.headerClassName ?? "whitespace-nowrap"}`}
                                 >
                                     {col.header}
                                 </th>
@@ -104,7 +104,7 @@ export default function MyTable({
                             <tr>
                                 <td
                                     colSpan={resolvedColumns.length}
-                                    className={`px-4 py-8 text-center ${emptyStateClassName}`}
+                                    className={`px-4 py-8 text-center text-base ${emptyStateClassName}`}
                                     style={{ color: "var(--app-muted-text)" }}
                                 >
                                     {emptyText}
@@ -114,7 +114,7 @@ export default function MyTable({
                             data.map((row, rowIndex) => (
                                 <tr
                                     key={row[keyField] ?? rowIndex}
-                                    className={`transition ${rowClassName}`}
+                                    className={`transition text-base ${rowClassName}`}
                                     style={{ borderTop: "1px solid var(--app-table-divider)" }}
                                     onMouseEnter={(e) => {
                                         e.currentTarget.style.backgroundColor = "var(--app-table-row-hover)";
@@ -130,7 +130,7 @@ export default function MyTable({
                                         return (
                                             <td
                                                 key={col.accessor}
-                                                className={`px-4 py-3 align-middle ${col.cellClassName ?? "whitespace-nowrap"}`}
+                                                className={`px-4 py-3 align-middle text-base ${col.cellClassName ?? "whitespace-nowrap"}`}
                                             >
                                                 {col.render
                                                     ? col.render(value || "-", row, rowIndex)
@@ -140,7 +140,7 @@ export default function MyTable({
                                                                 href={linkValue}
                                                                 target={col.openInNewTab === false ? undefined : "_blank"}
                                                                 rel={col.openInNewTab === false ? undefined : "noreferrer"}
-                                                                className="font-medium text-blue-400 underline underline-offset-4 transition hover:text-blue-300"
+                                                                className="font-medium text-blue-400 underline text-base underline-offset-4 transition hover:text-blue-300"
                                                             >
                                                                 {labelValue ?? linkValue}
                                                             </a>
