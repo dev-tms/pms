@@ -11,6 +11,12 @@ import { addTask, deleteTask, findTasks, findTasksForPage, searchTasksAndWorks }
 import { finalizeHours, findFinalizedTimesheets } from '../controller/finalizedTimesheet.controller.js';
 import { pcitekGetLoggedInUserDetail, pcitekGetUsers, pcitekLogin } from '../controller/pcitek.controller.js';
 import { addLeave, findLeaves } from '../controller/leave.controller.js';
+import {
+    addUsefullLink,
+    deleteUsefullLink,
+    findAllUsefullLinks,
+    findUsefullLink
+} from '../controller/usefullLinks.controller.js';
 
 export function routesConfig (app) {
 
@@ -233,6 +239,25 @@ export function routesConfig (app) {
         findAllClients
     ]);
 
+    app.post('/usefullLink/add', [
+        validJWTNeeded,
+        addUsefullLink
+    ]);
+
+    app.get('/usefullLink/list', [
+        validJWTNeeded,
+        findAllUsefullLinks
+    ]);
+
+    app.get('/usefullLink/search/:id', [
+        validJWTNeeded,
+        findUsefullLink
+    ]);
+
+    app.delete('/usefullLink/delete/:id', [
+        validJWTNeeded,
+        deleteUsefullLink
+    ]);
 
     /* PCItek APIs Start */
 

@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import log from '../logger/index.js';
 
 
-const prisma = new PrismaClient({ errorFormat: 'pretty', log: ['query', 'error', 'warn'], })
+const prisma = new PrismaClient({ errorFormat: 'pretty', log: [ 'error', 'warn'], })
 
 export const findById = async (id) => {
     const task = await prisma.task.findUnique({
@@ -45,8 +45,9 @@ export const deleteById = async (id) => {
  */
 export const updateTask = async (task) => {
     log.Info(task);
-    let id = task.id && task.id !== '' && !task.id.startsWith('_new') ? task.id : undefined;
+    const id = task.id && task.id !== '' && !task.id.startsWith('_new') ? task.id : undefined;
     let resp;
+
     if (task.workId == '') {
         delete task.workId;
     }
@@ -54,37 +55,48 @@ export const updateTask = async (task) => {
         delete task.qaId;
     }
 
-    /* if(task.assignedToId == '') {
-        delete task.assignedToId;
-    } */
-    task?.assignedToId.forEach(async userId => {
-        let data = {
-            taskName: task.taskName,
-            workType: task.workType,
-            qaFeedbackLink: task.qaFeedbackLink,
-            noOfQaFeedback: task.noOfQaFeedback,
-            noOfQaIteration: task.noOfQaIteration,
-            noOfClientFeedback: task.noOfClientFeedback,
-            noOfClientIteration: task.noOfClientIteration,
-            status: task.status,
-            comments: task.comments,
-            updatedAt: new Date(),
-            updatedBy: task.modifier,
-        }
+    const assignedUserIds = Array.isArray(task.assignedToId)
+        ? task.assignedToId.filter(Boolean)
+        : task.assignedToId ? [task.assignedToId] : [];
 
-        if (task.assignedDate && task.assignedDate.length > 0) {
-            data.assignedDate = new Date(task.assignedDate);
-        }
+    const baseData = {
+        taskName: task.taskName?.trim(),
+        workType: task.workType,
+        qaFeedbackLink: task.qaFeedbackLink,
+        noOfQaFeedback: task.noOfQaFeedback,
+        noOfQaIteration: task.noOfQaIteration,
+        noOfClientFeedback: task.noOfClientFeedback,
+        noOfClientIteration: task.noOfClientIteration,
+        status: task.status,
+        comments: task.comments,
+        updatedAt: new Date(),
+        updatedBy: task.modifier,
+    };
 
-        if (task.workId && task.workId !== '') {
-            data.work = {
-                connect: {
-                    id: task.workId,
-                },
-            }
-        }
+    if (task.assignedDate && task.assignedDate.length > 0) {
+        baseData.assignedDate = new Date(task.assignedDate);
+    }
 
-        if (task.assignedToId && task.assignedToId.length > 0) {
+    if (task.workId && task.workId !== '') {
+        baseData.work = {
+            connect: {
+                id: task.workId,
+            },
+        }
+    }
+
+    if (task.qaId && task.qaId !== '') {
+        baseData.qa = {
+            connect: {
+                id: task.qaId,
+            },
+        }
+    }
+
+    for (const userId of assignedUserIds) {
+        const data = { ...baseData };
+
+        if (userId) {
             data.assignedTo = {
                 connect: {
                     id: userId,
@@ -92,16 +104,41 @@ export const updateTask = async (task) => {
             }
         }
 
-        if (task.qaId && task.qaId !== '') {
-            data.qa = {
-                connect: {
-                    id: task.qaId,
-                },
-            }
+        const duplicateWhere = {
+            taskName: task.taskName?.trim(),
+            assignedToId: userId,
+        };
+
+        if (task.workId && task.workId !== '') {
+            duplicateWhere.workId = task.workId;
         }
 
-
         if (id) {
+            duplicateWhere.NOT = { id };
+        }
+
+        const existingTask = !id ? await prisma.task.findFirst({
+            where: duplicateWhere
+        }).catch(err => {
+            log.Error(err);
+            return null;
+        }) : null;
+
+        if (!id && existingTask) {
+            resp = await prisma.task.update({
+                where: {
+                    id: existingTask.id
+                },
+                data: {
+                    ...data,
+                    status: 'assigned',
+                    updatedAt: new Date(),
+                    updatedBy: task.modifier
+                }
+            }).catch(err => {
+                log.Error(err);
+            });
+        } else if (id) {
             resp = await prisma.task.update({
                 where: {
                     id: task.id
@@ -112,14 +149,15 @@ export const updateTask = async (task) => {
             });
         } else {
             data.createdAt = new Date();
-            data.createdBy = task.modifier
+            data.createdBy = task.modifier;
             resp = await prisma.task.create({
                 data: data
             }).catch(err => {
                 log.Error(err);
             });
         }
-    });
+    }
+
     return resp;
 }
 
