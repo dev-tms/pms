@@ -19,16 +19,16 @@ function ClientFormModal({ open, mode, values, onChange, onClose, onSubmit }) {
   if (!open) return null;
 
   const inputCls =
-    "w-full rounded-md border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400 placeholder:text-slate-500";
-  const labelCls = "mb-2 block text-sm text-slate-300";
+    "app-input w-full rounded-md border px-4 py-3 text-sm outline-none transition focus:border-sky-400";
+  const labelCls = "app-label mb-2 block text-sm";
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-4 backdrop-blur-sm"
+      className="app-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg rounded-[28px] border border-slate-700 bg-slate-950 p-6 shadow-[0_30px_80px_rgba(2,6,23,0.6)]"
+        className="app-modal w-full max-w-lg rounded-[28px] border p-6"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -37,14 +37,14 @@ function ClientFormModal({ open, mode, values, onChange, onClose, onSubmit }) {
             <p className="mb-1 text-xs uppercase tracking-[0.32em] text-sky-400/80">
               Client form
             </p>
-            <h2 className="text-2xl font-bold text-white">
+            <h2 className="app-heading text-2xl font-bold">
               {mode === "edit" ? "Edit client" : "Add client"}
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="shrink-0 rounded-xl border border-slate-700 px-3 py-2 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+            className="shrink-0 app-btn-ghost rounded-xl border px-3 py-2 text-sm transition"
           >
             Close
           </button>
@@ -65,11 +65,11 @@ function ClientFormModal({ open, mode, values, onChange, onClose, onSubmit }) {
         </div>
 
         {/* Footer */}
-        <div className="mt-6 flex justify-end gap-3 border-t border-slate-800 pt-5">
+        <div className="mt-6 flex justify-end gap-3 app-divider border-t pt-5">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md border border-slate-700 px-5 py-3 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+            className="app-btn-ghost rounded-md border px-5 py-3 text-sm transition"
           >
             Cancel
           </button>
@@ -204,7 +204,7 @@ const ClientGrid = (props) => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search clients..."
-            className="w-full sm:w-64 rounded-md border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400 placeholder:text-slate-500"
+            className="app-input w-full sm:w-64 rounded-md border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
           />
 
           {/* Add button */}

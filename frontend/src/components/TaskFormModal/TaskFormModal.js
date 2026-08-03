@@ -96,17 +96,16 @@ export default function TaskFormModal({
     onChange("assignedToId", newIds);
   };
 
-  const inputCls =
-    "w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400 placeholder:text-slate-500";
-  const labelCls = "mb-2 block text-sm text-slate-300";
+  const inputCls = "app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400";
+  const labelCls = "app-label mb-2 block text-sm";
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-4 backdrop-blur-sm"
+      className="app-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-3xl rounded-[28px] border border-slate-700 bg-slate-950 p-6 shadow-[0_30px_80px_rgba(2,6,23,0.6)] overflow-y-auto max-h-[90vh]"
+        className="app-modal w-full max-w-3xl rounded-[28px] border p-6 overflow-y-auto max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── header ── */}
@@ -115,14 +114,14 @@ export default function TaskFormModal({
             <p className="text-xs uppercase tracking-[0.32em] text-sky-400/80 mb-1">
               Task form
             </p>
-            <h2 className="text-2xl font-bold text-white">
+            <h2 className="app-heading text-2xl font-bold">
               {mode === "edit" ? "Edit task" : "Add task"}
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl border border-slate-700 px-3 py-2 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white shrink-0"
+            className="app-btn-ghost rounded-xl border px-3 py-2 text-sm transition shrink-0"
           >
             Close
           </button>
@@ -193,9 +192,9 @@ export default function TaskFormModal({
                     e.stopPropagation();
                     setOpenDropdown(!openDropdown);
                   }}
-                  className={` h-[48px] relative w-full rounded-2xl border text-left flex items-center justify-between gap-2 px-4 py-3 text-sm transition ${openDropdown
-                      ? "border-sky-400 bg-slate-900 shadow-[0_0_12px_rgba(14,165,233,0.2)]"
-                      : "border-slate-700 bg-slate-900 hover:border-slate-600"
+                  className={` h-[48px] app-input relative w-full rounded-2xl border text-left flex items-center justify-between gap-2 px-4 py-3 text-sm transition ${openDropdown
+                      ? "border-sky-400 shadow-[0_0_12px_rgba(14,165,233,0.2)]"
+                      : ""
                     } focus:outline-none`}
                 >
                   <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -223,7 +222,7 @@ export default function TaskFormModal({
                           ))}
                       </div>
                     ) : (
-                      <span className="text-slate-500">Select assignees...</span>
+                      <span style={{ color: "var(--app-placeholder)" }}>Select assignees...</span>
                     )}
                   </div>
                   <span className={`absolute right-2 flex-shrink-0 transition-transform duration-200 ${openDropdown ? "rotate-180" : ""}`}>
@@ -232,11 +231,11 @@ export default function TaskFormModal({
                 </button>
 
                 {openDropdown && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-slate-900 border border-slate-700 rounded-2xl shadow-xl z-20 overflow-hidden animate-in fade-in slide-in-from-top-1" onClick={(e) => e.stopPropagation()}>
+                  <div className="app-card absolute top-full left-0 right-0 mt-2 border rounded-2xl shadow-xl z-20 overflow-hidden animate-in fade-in slide-in-from-top-1" onClick={(e) => e.stopPropagation()}>
                     {/* Header with select all */}
                     {employees.length > 1 && (
-                      <div className="px-4 py-3 border-b border-slate-800 flex items-center justify-between gap-2">
-                        <span className="text-xs uppercase tracking-wider text-slate-400 font-semibold">Employees ({values.assignedToId?.length || 0})</span>
+                      <div className="app-divider px-4 py-3 border-b flex items-center justify-between gap-2">
+                        <span className="app-muted text-xs uppercase tracking-wider font-semibold">Employees ({values.assignedToId?.length || 0})</span>
                         {values.assignedToId?.length > 0 && (
                           <button
                             type="button"
@@ -244,7 +243,7 @@ export default function TaskFormModal({
                               e.stopPropagation();
                               onChange("assignedToId", []);
                             }}
-                            className="text-xs text-slate-400 hover:text-slate-300 transition hover:underline"
+                            className="app-muted text-xs transition hover:underline"
                           >
                             Clear all
                           </button>
@@ -255,7 +254,7 @@ export default function TaskFormModal({
                     {/* Options List */}
                     <div className="max-h-64 overflow-y-auto">
                       {employees.length === 0 ? (
-                        <div className="px-4 py-6 text-center text-sm text-slate-500">
+                        <div className="app-muted px-4 py-6 text-center text-sm">
                           No employees available
                         </div>
                       ) : (
@@ -266,8 +265,19 @@ export default function TaskFormModal({
                               key={employee.id}
                               className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition duration-150 ${isSelected
                                   ? "bg-sky-500/10 border-l-2 border-sky-500"
-                                  : "hover:bg-slate-800/60 border-l-2 border-transparent"
-                                } ${index !== employees.length - 1 ? "border-b border-slate-800/40" : ""}`}
+                                  : "border-l-2 border-transparent"
+                                } ${index !== employees.length - 1 ? "border-b" : ""}`}
+                              style={
+                                index !== employees.length - 1
+                                  ? { borderBottomColor: "var(--app-border)" }
+                                  : undefined
+                              }
+                              onMouseEnter={(e) => {
+                                if (!isSelected) e.currentTarget.style.backgroundColor = "var(--app-nav-hover-bg)";
+                              }}
+                              onMouseLeave={(e) => {
+                                if (!isSelected) e.currentTarget.style.backgroundColor = "transparent";
+                              }}
                             >
                               <input
                                 type="checkbox"
@@ -277,7 +287,7 @@ export default function TaskFormModal({
                                 onClick={(e) => e.stopPropagation()}
                               />
                               <div className="flex-1 min-w-0">
-                                <span className={`text-sm font-medium ${isSelected ? "text-sky-300" : "text-slate-300"}`}>
+                                <span className={`text-sm font-medium ${isSelected ? "text-sky-300" : "app-muted"}`}>
                                   {`${employee.firstName ?? ""} ${employee.lastName ?? ""}`.trim()}
                                 </span>
                               </div>
@@ -350,7 +360,7 @@ export default function TaskFormModal({
               type="date"
               value={formatDateForInput(values.assignedDate)}
               onChange={(e) => onChange("assignedDate", e.target.value)}
-              className={inputCls + " [color-scheme:dark]"}
+              className={inputCls}
             />
           </label>
 
@@ -380,11 +390,11 @@ export default function TaskFormModal({
         </div>
 
         {/* ── footer ── */}
-        <div className="mt-6 flex justify-end gap-3 border-t border-slate-800 pt-5">
+        <div className="app-divider mt-6 flex justify-end gap-3 border-t pt-5">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-2xl border border-slate-700 px-5 py-3 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+            className="app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
           >
             Cancel
           </button>

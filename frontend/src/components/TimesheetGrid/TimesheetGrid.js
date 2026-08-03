@@ -13,14 +13,14 @@ import { ThoughtMateProgressLoaderAnimated } from "../TMLoader/ThoughtMateProgre
 import 'react-toastify/dist/ReactToastify.css';
 
 const filterLabelClassName = "mb-0 text-xs font-semibold uppercase tracking-[0.5px] text-slate-400";
-const filterInputClassName = "w-full min-w-[240px] rounded-md border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] outline-none transition focus:border-sky-400 focus:bg-slate-900 focus:ring-4 focus:ring-sky-400/15 h-[50px]";
+const filterInputClassName = "app-input w-full min-w-[240px] rounded-md border px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-400/15 h-[50px]";
 const actionButtonBaseClassName = "inline-flex min-h-[46px] items-center justify-center rounded-md border px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] no-underline shadow-[0_10px_24px_rgba(2,6,23,0.18)] transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-55";
 const ghostActionButtonClassName = `${actionButtonBaseClassName} border-sky-400/30 bg-sky-500/10 text-sky-300 hover:border-sky-300/50 hover:bg-sky-500/15 hover:text-sky-100`;
 const primaryActionButtonClassName = `${actionButtonBaseClassName} border-transparent bg-gradient-to-r from-sky-500 to-blue-600 `;
 const secondaryActionButtonClassName = `${actionButtonBaseClassName} border-transparent bg-gradient-to-r from-sky-700 to-cyan-700 text-sky-50`;
 const warningActionButtonClassName = `${actionButtonBaseClassName}  border-transparent bg-gradient-to-r from-amber-500 to-orange-600 text-amber-50 `;
 const iconButtonClassName = "inline-flex h-10 w-10 items-center justify-center rounded-xl border border-sky-400/25 bg-sky-500/10 text-sky-300 transition hover:-translate-y-px hover:border-sky-300/45 hover:bg-sky-500/15 hover:text-sky-100";
-const totalsCardClassName = "mt-5 ml-auto w-full max-w-full sm:max-w-fit rounded-md border border-slate-800 bg-gradient-to-b from-slate-900/95 to-slate-950/95 shadow-[0_14px_34px_rgba(2,6,23,0.18)]";
+const totalsCardClassName = "app-card mt-5 ml-auto w-full max-w-full sm:max-w-fit rounded-md border shadow-[0_14px_34px_rgba(2,6,23,0.08)]";
 
 
 const calculateHours = (mills) => {
@@ -713,7 +713,7 @@ const TimesheetGrid = (props) => {
       </>
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-4 backdrop-blur-sm"
+          className="app-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
           onClick={closeModal}
         >
           <div

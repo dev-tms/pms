@@ -149,30 +149,30 @@ const ChangePassword = (props) => {
 
   return (
     <section className=" py-4 md:py-6 lg:py-8">
-      <div className="mx-auto max-w-3xl rounded-[32px] border border-slate-800/80 bg-[radial-gradient(circle_at_top_right,_rgba(56,189,248,0.18),_transparent_26%),linear-gradient(180deg,_rgba(15,23,42,0.98),_rgba(2,6,23,0.98))] p-5 md:p-7">
+      <div className="mx-auto max-w-3xl rounded-[32px] border border-slate-800/80 app-panel p-5 md:p-7">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.35em] text-sky-300/80">Security</p>
-            <h1 className="mt-3 text-3xl font-bold text-white md:text-4xl">Change Password</h1>
+            <h1 className="mt-3 app-heading text-3xl font-bold md:text-4xl">Change Password</h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">
               Keep your account secure by using a strong password with a mix of letters, numbers, and symbols.
             </p>
           </div>
           <Link
             to="/profile"
-            className=" w-[200px] inline-flex items-center justify-center rounded-2xl border border-slate-700 px-4 py-3 text-sm font-medium text-slate-200 transition hover:border-slate-500 hover:text-white"
+            className="app-btn-ghost w-[200px] inline-flex items-center justify-center rounded-2xl border px-4 py-3 text-sm font-medium transition"
           >
             Back to Profile
           </Link>
         </div>
 
-        <div className="mt-6 rounded-[28px] border border-slate-700/70 bg-slate-950/45 p-5 md:p-6">
+        <div className="app-card mt-6 rounded-[28px] border p-5 md:p-6">
           <div className="flex items-center gap-3">
             <div className="rounded-2xl bg-sky-500/12 p-2 text-sky-200">
               <KeyRound size={18} />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-white">Password Details</h2>
+              <h2 className="app-heading text-xl font-semibold">Password Details</h2>
               <p className="mt-1 text-sm text-slate-400">Update your login password safely.</p>
             </div>
           </div>
@@ -184,12 +184,12 @@ const ChangePassword = (props) => {
               ['Confirm New Password', 'confirmPassword'],
             ].map(([label, field]) => (
               <label key={field} className="block">
-                <span className="mb-2 block text-sm text-slate-300">{label}</span>
+                <span className="app-label mb-2 block text-sm">{label}</span>
                 <input
                   type="password"
                   value={values[field]}
                   onChange={(event) => updateValue(field, event.target.value)}
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400"
+                  className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
                 />
               </label>
             ))}
@@ -208,7 +208,7 @@ const ChangePassword = (props) => {
             <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:justify-end">
               <Link
                 to="/profile"
-                className="inline-flex items-center justify-center rounded-2xl border border-slate-700 px-5 py-3 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+                className="inline-flex items-center justify-center app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
               >
                 Cancel
               </Link>

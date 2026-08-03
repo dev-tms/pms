@@ -24,7 +24,7 @@ const Counter = ({ value = 0, duration = 1000 }) => {
     return () => clearInterval(timer);
   }, [value, duration]);
 
-  return <h3 className="text-2xl md:text-3xl font-medium text-white">{count}</h3>;
+  return <h3 className="app-heading text-2xl md:text-3xl font-medium">{count}</h3>;
 };
 
 export default Counter;

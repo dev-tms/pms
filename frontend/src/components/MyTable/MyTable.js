@@ -64,18 +64,28 @@ export default function MyTable({
 
     return (
         // ── outer wrapper: clips overflow, sets max height for scroll ──────
-        <div className={`w-full rounded-xl border border-slate-800 shadow-sm overflow-hidden ${containerClassName}`}>
+        <div
+            className={`w-full rounded-xl border shadow-sm overflow-hidden ${containerClassName}`}
+            style={{ borderColor: "var(--app-border)", backgroundColor: "var(--app-card-bg)" }}
+        >
             {/* ── scroll container: the ONLY element that scrolls ─────────── */}
             <div className="overflow-x-auto overflow-y-auto max-h-[550px]">
-                <table className={`min-w-full text-sm text-left ${tableClassName}`}>
+                <table className={`min-w-full text-sm text-left ${tableClassName}`} style={{ color: "var(--app-text)" }}>
                     {caption ? (
-                        <caption className="px-4 py-6 text-left text-lg font-bold">
+                        <caption className="px-4 py-6 text-left text-lg font-bold" style={{ color: "var(--app-heading)" }}>
                             {caption}
                         </caption>
                     ) : null}
 
                     {/* ── sticky thead ──────────────────────────────────────── */}
-                    <thead className={`sticky top-0 z-2 text-xs uppercase tracking-wide border-b border-slate-800 bg-slate-800 ${headClassName}`}>
+                    <thead
+                        className={`sticky top-0 z-2 text-xs uppercase tracking-wide border-b ${headClassName}`}
+                        style={{
+                            borderColor: "var(--app-border)",
+                            backgroundColor: "var(--app-table-header-bg)",
+                            color: "var(--app-muted-text)",
+                        }}
+                    >
                         <tr>
                             {resolvedColumns.map((col) => (
                                 <th
@@ -89,12 +99,13 @@ export default function MyTable({
                         </tr>
                     </thead>
 
-                    <tbody className={`divide-y divide-slate-800 ${bodyClassName}`}>
+                    <tbody className={bodyClassName} style={{ borderColor: "var(--app-table-divider)" }}>
                         {data.length === 0 ? (
                             <tr>
                                 <td
                                     colSpan={resolvedColumns.length}
                                     className={`px-4 py-8 text-center ${emptyStateClassName}`}
+                                    style={{ color: "var(--app-muted-text)" }}
                                 >
                                     {emptyText}
                                 </td>
@@ -103,7 +114,14 @@ export default function MyTable({
                             data.map((row, rowIndex) => (
                                 <tr
                                     key={row[keyField] ?? rowIndex}
-                                    className={`transition hover:bg-slate-900 ${rowClassName}`}
+                                    className={`transition ${rowClassName}`}
+                                    style={{ borderTop: "1px solid var(--app-table-divider)" }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.backgroundColor = "var(--app-table-row-hover)";
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.backgroundColor = "transparent";
+                                    }}
                                 >
                                     {resolvedColumns.map((col) => {
                                         const value = row[col.accessor];

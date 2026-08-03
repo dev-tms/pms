@@ -80,8 +80,7 @@ const PageNotFound = () => {
 
       {/* card */}
       <div
-        className="relative z-10 w-full max-w-lg rounded-[32px] border border-slate-800/80 p-8 text-center shadow-[0_40px_100px_rgba(2,6,23,0.7)] md:p-12"
-        style={{ background: "linear-gradient(180deg, rgba(15,23,42,0.95), rgba(2,6,23,0.98))" }}
+        className="relative z-10 w-full max-w-lg rounded-[32px] border border-slate-800/80 p-8 text-center shadow-[0_40px_100px_rgba(2,6,23,0.7)] md:p-12 app-panel"
       >
         {/* top badge */}
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1 text-[11px] uppercase tracking-[0.3em] text-sky-300">
@@ -124,7 +123,7 @@ const PageNotFound = () => {
         <div className="mx-auto mb-6 h-px w-16 bg-gradient-to-r from-transparent via-sky-400/50 to-transparent" />
 
         {/* heading */}
-        <h2 className="text-2xl font-bold text-white md:text-3xl">Page Not Found</h2>
+        <h2 className="app-heading text-2xl font-bold md:text-3xl">Page Not Found</h2>
         <p className="mt-3 text-sm leading-6 text-slate-400">
           The page you're looking for doesn't exist or has been moved. Let's get you back on track.
         </p>
@@ -152,7 +151,7 @@ const PageNotFound = () => {
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
           <button
             onClick={() => history.goBack()}
-            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-700 bg-slate-900/80 px-5 py-3 text-sm font-semibold text-slate-300 transition hover:-translate-y-0.5 hover:border-slate-500 hover:text-white"
+            className="app-btn-ghost inline-flex items-center justify-center gap-2 rounded-2xl border px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
           >
             <ArrowLeft size={16} />
             Go Back

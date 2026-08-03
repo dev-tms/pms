@@ -187,10 +187,13 @@ function ClientTable({ sheets, isAdmin }) {
     return <p className="text-slate-500 text-sm px-4 py-6">No entries.</p>;
 
   return (
-    <div className="w-full rounded-xl border border-slate-800 overflow-hidden">
+    <div className="app-card w-full rounded-xl border overflow-hidden">
       <div className="overflow-x-auto overflow-y-auto max-h-[420px]">
         <table className="min-w-full text-sm text-left">
-          <thead className="sticky top-0 z-10 text-xs uppercase tracking-wide border-b border-slate-800 bg-slate-800">
+          <thead
+            className="sticky top-0 z-10 text-xs uppercase tracking-wide app-divider border-b"
+            style={{ backgroundColor: "var(--app-table-header-bg)", color: "var(--app-muted-text)" }}
+          >
             <tr>
               <th className="px-4 py-3 font-semibold whitespace-nowrap min-w-[260px]">Work</th>
               <th className="px-4 py-3 font-semibold whitespace-nowrap min-w-[200px]">Task</th>
@@ -202,7 +205,7 @@ function ClientTable({ sheets, isAdmin }) {
           </thead>
           <tbody className="divide-y divide-slate-800">
             {sheets.map((row, i) => (
-              <tr key={row.id ?? i} className="transition hover:bg-slate-900 align-top">
+              <tr key={row.id ?? i} className="transition align-top">
                 <td className="px-4 py-3 text-sm text-slate-200 whitespace-normal">{row.workName || "—"}</td>
                 <td className="px-4 py-3 text-sm text-slate-400 whitespace-normal">{row.taskName || "—"}</td>
                 <td className="px-4 py-3 text-sm text-sky-400 whitespace-pre-line break-all">
@@ -363,7 +366,7 @@ const ViewReport = (props) => {
           <select
             value={weekFilter}
             onChange={(e) => setWeekFilter(e.target.value)}
-            className="rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 text-sm text-white outline-none transition focus:border-sky-400"
+            className="app-input rounded-xl border px-4 py-2 text-sm outline-none transition focus:border-sky-400"
           >
             {getLastFiveWeeks().map((week, i) => (
               <option key={i} value={week.value}>{week.label}</option>
@@ -386,7 +389,7 @@ const ViewReport = (props) => {
           <div className="flex items-center justify-between gap-4 mb-4">
             <div>
               <p className="text-xs uppercase tracking-[0.32em] text-sky-400/80 mb-1">Week</p>
-              <h2 className="text-2xl font-bold text-white">{dateKey}</h2>
+              <h2 className="app-heading text-2xl font-bold">{dateKey}</h2>
             </div>
             {isAdmin && Object.keys(dayWiseSheetsByDateThenClient[dateKey]).length > 0 && (
               <ConfirmDialog
@@ -405,22 +408,22 @@ const ViewReport = (props) => {
             {Object.keys(dayWiseSheetsByDateThenClient[dateKey]).map((client) => {
               const clientData = dayWiseSheetsByDateThenClient[dateKey][client];
               return (
-                <div key={client} className="rounded-[20px] border border-slate-800 bg-slate-950/60 overflow-hidden">
+                <div key={client} className="app-card rounded-[20px] border overflow-hidden">
 
                   {/* client header */}
-                  <div className="flex items-center justify-between gap-4 px-5 py-4 border-b border-slate-800">
+                  <div className="flex items-center justify-between gap-4 px-5 py-4 app-divider border-b">
                     <div className="flex items-center gap-3">
                       {/* avatar initial */}
                       <div className="h-8 w-8 rounded-full bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 text-xs font-bold shrink-0">
                         {client.charAt(0).toUpperCase()}
                       </div>
-                      <h3 className="text-base font-semibold text-white">{client}</h3>
+                      <h3 className="app-heading text-base font-semibold">{client}</h3>
                     </div>
 
                     {/* export button */}
                     <button
                       onClick={() => exportToExcel(dateKey, client)}
-                      className="inline-flex items-center gap-2 rounded-xl border border-slate-700 px-3 py-2 text-xs font-semibold text-slate-300 transition hover:border-slate-500 hover:text-white"
+                      className="app-btn-ghost inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold transition"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -438,7 +441,7 @@ const ViewReport = (props) => {
                   </div>
 
                   {/* totals footer */}
-                  <div className="flex items-center justify-end gap-6 px-5 py-3 border-t border-slate-800 bg-slate-900/40">
+                  <div className="app-card flex items-center justify-end gap-6 px-5 py-3 app-divider border-t">
                     <div className="flex items-center gap-2 text-sm text-slate-400">
                       <span>Total time spent</span>
                       <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-mono font-medium tabular-nums bg-sky-500/10 text-sky-400 border border-sky-500/20">

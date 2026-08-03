@@ -21,23 +21,7 @@ import Profile from '../screens/Profile/Profile';
 import Birthdays from '../screens/Birthday/Birthdays';
 import Leaves from '../screens/Leaves.js/Leaves';
 
-/* function AuthenticatedRoute ({component: Component, locations , authenticated , ...rest}) {
-  return (
-    <Route
-      {...rest}
-      render={
-        ({props}) => authenticated ? <Component {...props} /> : (
-            <Redirect
-                to={{
-                    pathname: "/login",
-                    state: {from: locations}
-                }}
-            />
-        )
-      }
-    />
-  )
-} */
+
 
 class Navigation extends Component {
   constructor(props) {
@@ -54,7 +38,15 @@ class Navigation extends Component {
         {this.props.checked && (
           <div className='px-4'>
             <Switch>
-              <Route exact path='/' component={this.props.authenticated ? Dashboard : Login} />
+              <Route
+                exact
+                path='/'
+                render={(routeProps) =>
+                  this.props.authenticated
+                    ? <Dashboard {...routeProps} theme={this.props.theme} />
+                    : <Login {...routeProps} />
+                }
+              />
               <Route exact path="/login" component={Login} />
               <Route exact path='/users' component={!this.props.authenticated ? Login : this.props?.profile?.role === 'ADMIN' ? UserList : Home} />
               <Route exact path='/change-password' component={this.props.authenticated ? ChangePasswordForm : Login} />

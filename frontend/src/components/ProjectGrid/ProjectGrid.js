@@ -21,16 +21,16 @@ function ProjectFormModal({ open, mode, values, onChange, onClose, onSubmit, cli
   if (!open) return null;
 
   const inputCls =
-    "w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400 placeholder:text-slate-500";
-  const labelCls = "mb-2 block text-sm text-slate-300";
+    "app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400";
+  const labelCls = "app-label mb-2 block text-sm";
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-4 backdrop-blur-sm"
+      className="app-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-3xl rounded-[28px] border border-slate-700 bg-slate-950 p-6 shadow-[0_30px_80px_rgba(2,6,23,0.6)] overflow-y-auto max-h-[90vh]"
+        className="app-modal w-full max-w-3xl rounded-[28px] border p-6 overflow-y-auto max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-6 flex items-start justify-between gap-4">
@@ -38,14 +38,14 @@ function ProjectFormModal({ open, mode, values, onChange, onClose, onSubmit, cli
             <p className="mb-1 text-xs uppercase tracking-[0.32em] text-sky-400/80">
               Project form
             </p>
-            <h2 className="text-2xl font-bold ">
+            <h2 className="app-heading text-2xl font-bold">
               {mode === "edit" ? "Edit project" : "Add project"}
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="shrink-0 rounded-xl border border-slate-700 px-3 py-2 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+            className="shrink-0 app-btn-ghost rounded-xl border px-3 py-2 text-sm transition"
           >
             Close
           </button>
@@ -114,11 +114,11 @@ function ProjectFormModal({ open, mode, values, onChange, onClose, onSubmit, cli
           </label>
         </div>
 
-        <div className="mt-6 flex justify-end gap-3 border-t border-slate-800 pt-5">
+        <div className="mt-6 flex justify-end gap-3 app-divider border-t pt-5">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-2xl border border-slate-700 px-5 py-3 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+            className="app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
           >
             Cancel
           </button>
@@ -347,7 +347,7 @@ const ProjectGrid = (props) => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search projects..."
-            className="rounded-md border border-slate-700 bg-slate-900 px-4 py-3 text-sm  outline-none transition focus:border-sky-400 placeholder:text-slate-500 w-full sm:w-64"
+            className="app-input rounded-md border px-4 py-3 text-sm outline-none transition focus:border-sky-400 w-full sm:w-64"
           />
           <button
             type="button"

@@ -27,7 +27,7 @@ const InputField = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className="px-4 py-4 pr-10 w-full text-sm border border-slate-800 bg-transparent rounded-xl transition-all focus:outline-none active:outline-none"
+          className="app-input px-4 py-4 pr-10 w-full text-sm border rounded-xl transition-all focus:outline-none active:outline-none"
         />
 
         {/* ICON */}

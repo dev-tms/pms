@@ -104,7 +104,7 @@ class Login extends Component {
         <ToastContainer position="top-center" theme="colored" />
 
         <div className="login flex items-center justify-center min-h-[calc(100vh-73px)] px-4">
-          <div className="app-header-bg space-y-4 max-w-[550px] w-full mx-auto mt-4 rounded-2xl border border-slate-800 p-6 py-7 md:py-10">
+          <div className="app-card space-y-4 max-w-[550px] w-full mx-auto mt-4 rounded-2xl border p-6 py-7 md:py-10">
 
             <h1 className="text-3xl font-extrabold text-center md:text-4xl">
               Login
