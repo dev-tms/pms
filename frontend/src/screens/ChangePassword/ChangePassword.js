@@ -153,7 +153,7 @@ const ChangePassword = (props) => {
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
             <p className="text-sm uppercase tracking-[0.35em] text-sky-300/80">Security</p>
-            <h1 className="mt-3 app-heading text-3xl font-bold md:text-4xl">Change Password</h1>
+            <h1 className="mt-3 app-page-title">Change Password</h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">
               Keep your account secure by using a strong password with a mix of letters, numbers, and symbols.
             </p>

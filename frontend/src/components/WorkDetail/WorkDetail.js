@@ -87,7 +87,7 @@ const WorkDetail = (props) => {
           <p className="text-sm uppercase tracking-[0.32em] text-sky-400/80 mb-1">
             Client
           </p>
-          <h2 className="app-heading text-2xl font-bold">
+          <h2 className="app-modal-title">
             {formData.clientName || "Client details"}
           </h2>
         </div>)}

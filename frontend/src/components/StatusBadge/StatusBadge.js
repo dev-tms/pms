@@ -7,7 +7,7 @@ import {
   getTaskStatusStyle,
 } from "../../utils/statusStyles";
 
-const badgeBaseClass = "inline-flex items-center px-2 py-1 rounded-md text-sm font-medium";
+const badgeBaseClass = "app-badge";
 
 export function StatusBadge({ value, type = "task", className = "" }) {
   if (type === "entity") {

@@ -122,7 +122,7 @@ function WorkDetailModal({ open, work, task, employees, qas, onClose, setUpdateG
         <div className="flex items-center justify-between mb-5">
           <div>
             <p className="text-sm uppercase tracking-[0.32em] text-sky-400/80 mb-1">Work detail</p>
-            <h2 className="app-heading text-2xl font-bold">{work?.workName ?? "—"}</h2>
+            <h2 className="app-modal-title">{work?.workName ?? "—"}</h2>
           </div>
           <button
             onClick={onClose}
@@ -430,7 +430,7 @@ const TaskGrid = (props) => {
       <div className="mt-3 md:mt-4 lg:mt-5">
         <div className="pb-4 flex justify-between flex-row gap-3 mb-3">
           <div className="flex items-center gap-2">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl">Tasks</h1>
+            <h1 className="app-page-title">Tasks</h1>
           </div>
 
           {/* add button */}
@@ -481,7 +481,7 @@ const TaskGrid = (props) => {
 
       {/* ── done tasks ───────────────────────────────────────────────────── */}
       <div className="mt-10 mb-6">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl mb-3">
+        <h2 className="app-section-title mb-3">
           Done Tasks
         </h2>
         <MyTable

@@ -181,7 +181,7 @@ const Dashboard = ({ profile, theme }) => {
                         </div>
 
                         <p className="mb-1 text-sm uppercase tracking-[0.32em] text-sky-400/80">Welcome back</p>
-                        <h2 className="app-heading text-2xl font-bold">
+                        <h2 className="app-modal-title">
                             Welcome to TMS 🎉
                         </h2>
                         <p className="app-muted mt-3 text-sm">
@@ -201,7 +201,7 @@ const Dashboard = ({ profile, theme }) => {
             {/* page header */}
             <div className='flex justify-between flex-col md:flex-row'>
                 <div>
-                    <h1 className='text-2xl lg:text-3xl xl:text-4xl'>
+                    <h1 className='app-welcome-title'>
                         Welcome back, {profile?.firstName} <span className='inline-block animate-wave'>👋</span>
                     </h1>
                 </div>

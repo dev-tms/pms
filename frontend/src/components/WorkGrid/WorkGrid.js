@@ -169,7 +169,7 @@ function WorkModal({ open, onClose, rowData, profile, onSaved }) {
             <p className="mb-1 text-sm uppercase tracking-[0.32em] text-sky-400/80">
               Work form
             </p>
-            <h2 className="app-heading text-2xl font-bold">
+            <h2 className="app-modal-title">
               {isEdit ? "Edit work" : "Add work"}
             </h2>
           </div>
@@ -503,7 +503,7 @@ const WorkGrid = (props) => {
       <div className="mt-3 md:mt-4 lg:mt-5 relative">
 
         <div className="pb-4 flex justify-between flex-row gap-3 mb-3">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl">Works</h1>
+          <h1 className="app-page-title">Works</h1>
           <button
             onClick={() => { setRowData({}); setOpen(true); }}
             className="btn-primary inline-flex min-h-[46px] items-center justify-center rounded-md px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] transition"

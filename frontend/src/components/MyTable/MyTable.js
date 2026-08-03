@@ -70,20 +70,19 @@ export default function MyTable({
         >
             {/* ── scroll container: the ONLY element that scrolls ─────────── */}
             <div className="overflow-x-auto overflow-y-auto max-h-[550px]">
-                <table className={`min-w-full text-sm text-left ${tableClassName}`} style={{ color: "var(--app-text)" }}>
+                <table className={`app-table min-w-full ${tableClassName}`}>
                     {caption ? (
-                        <caption className="px-4 py-6 text-left text-lg font-bold" style={{ color: "var(--app-heading)" }}>
+                        <caption className="app-table-caption px-4 py-6">
                             {caption}
                         </caption>
                     ) : null}
 
                     {/* ── sticky thead ──────────────────────────────────────── */}
                     <thead
-                        className={`sticky top-0 z-2 text-sm uppercase tracking-wide border-b ${headClassName}`}
+                        className={`app-table-head sticky top-0 z-2 border-b ${headClassName}`}
                         style={{
                             borderColor: "var(--app-border)",
                             backgroundColor: "var(--app-table-header-bg)",
-                            color: "var(--app-muted-text)",
                         }}
                     >
                         <tr>
@@ -91,7 +90,7 @@ export default function MyTable({
                                 <th
                                     key={col.accessor}
                                     scope="col"
-                                    className={`px-4 py-4 font-semibold text-base ${col.headerClassName ?? "whitespace-nowrap"}`}
+                                    className={`app-table-th px-4 py-4 ${col.headerClassName ?? "whitespace-nowrap"}`}
                                 >
                                     {col.header}
                                 </th>
@@ -104,7 +103,7 @@ export default function MyTable({
                             <tr>
                                 <td
                                     colSpan={resolvedColumns.length}
-                                    className={`px-4 py-8 text-center text-base ${emptyStateClassName}`}
+                                    className={`app-table-td px-4 py-8 text-center ${emptyStateClassName}`}
                                     style={{ color: "var(--app-muted-text)" }}
                                 >
                                     {emptyText}
@@ -114,7 +113,7 @@ export default function MyTable({
                             data.map((row, rowIndex) => (
                                 <tr
                                     key={row[keyField] ?? rowIndex}
-                                    className={`transition text-base ${rowClassName}`}
+                                    className={`transition ${rowClassName}`}
                                     style={{ borderTop: "1px solid var(--app-table-divider)" }}
                                     onMouseEnter={(e) => {
                                         e.currentTarget.style.backgroundColor = "var(--app-table-row-hover)";
@@ -130,7 +129,7 @@ export default function MyTable({
                                         return (
                                             <td
                                                 key={col.accessor}
-                                                className={`px-4 py-3 align-middle text-base ${col.cellClassName ?? "whitespace-nowrap"}`}
+                                                className={`app-table-td px-4 py-3 align-middle ${col.cellClassName ?? "whitespace-nowrap"}`}
                                             >
                                                 {col.render
                                                     ? col.render(value || "-", row, rowIndex)
@@ -140,7 +139,7 @@ export default function MyTable({
                                                                 href={linkValue}
                                                                 target={col.openInNewTab === false ? undefined : "_blank"}
                                                                 rel={col.openInNewTab === false ? undefined : "noreferrer"}
-                                                                className="font-medium text-blue-400 underline text-base underline-offset-4 transition hover:text-blue-300"
+                                                                className="font-medium text-blue-400 underline underline-offset-4 transition hover:text-blue-300"
                                                             >
                                                                 {labelValue ?? linkValue}
                                                             </a>

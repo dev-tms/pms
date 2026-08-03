@@ -63,7 +63,7 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-sm uppercase tracking-[0.32em] text-sky-300/80">Leave Form</p>
-            <h2 className="mt-2 app-heading text-2xl font-bold">
+            <h2 className="mt-2 app-modal-title">
               {mode === 'edit' ? 'Edit leave record' : 'Add leave record'}
             </h2>
           </div>
@@ -375,7 +375,7 @@ const Leaves = ({ profile }) => {
           <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
             <div>
               <p className="text-sm uppercase tracking-[0.35em] text-sky-300/80">Time Off</p>
-              <h1 className="mt-3 app-heading text-3xl font-bold md:text-4xl">Leave Management</h1>
+              <h1 className="mt-3 app-page-title">Leave Management</h1>
             </div>
             <button
               type="button"
@@ -426,7 +426,7 @@ const Leaves = ({ profile }) => {
                   <div className="mb-4 flex items-center justify-between gap-3 app-divider border-b pb-4">
                     <div>
                       <p className="text-sm uppercase tracking-[0.28em] text-sky-300/80">Monthly Leave Table</p>
-                      <h2 className="mt-2 app-heading text-2xl font-semibold">{month}</h2>
+                      <h2 className="mt-2 app-modal-title">{month}</h2>
                     </div>
                     <span className="rounded-2xl bg-sky-500/12 px-4 py-2 text-sm font-medium text-sky-200">
                       {records.length} records

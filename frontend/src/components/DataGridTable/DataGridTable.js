@@ -107,7 +107,7 @@ function ContactFormModal({ open, mode, values, TLs, onChange, onClose, onSubmit
             <p className="mb-1 text-base uppercase tracking-[0.32em] text-sky-400/80">
               Contact form
             </p>
-            <h2 className="app-heading text-2xl font-bold">
+            <h2 className="app-modal-title">
               {mode === "edit" ? "Edit contact" : "Add contact"}
             </h2>
           </div>
@@ -415,7 +415,7 @@ const DataGridTable = (props) => {
 
       {/* top bar */}
       <div className="pb-4 flex justify-between gap-3 mb-3 flex-col sm:flex-row">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl">Contacts</h1>
+        <h1 className="app-page-title">Contacts</h1>
 
         <div className="flex items-center gap-3 flex-col sm:flex-row">
           {/* search */}

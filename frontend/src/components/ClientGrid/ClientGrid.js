@@ -37,7 +37,7 @@ function ClientFormModal({ open, mode, values, onChange, onClose, onSubmit }) {
             <p className="mb-1 text-sm uppercase tracking-[0.32em] text-sky-400/80">
               Client form
             </p>
-            <h2 className="app-heading text-2xl font-bold">
+            <h2 className="app-modal-title">
               {mode === "edit" ? "Edit client" : "Add client"}
             </h2>
           </div>
@@ -194,7 +194,7 @@ const ClientGrid = (props) => {
       {/* Top bar */}
       <div className="pb-4 flex justify-between gap-3 mb-3 flex-col sm:flex-row">
         <div className="flex items-center gap-2">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl">Clients</h1>
+          <h1 className="app-page-title">Clients</h1>
         </div>
 
         <div className="flex items-center gap-3 flex-col sm:flex-row">

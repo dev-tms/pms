@@ -189,26 +189,26 @@ function ClientTable({ sheets, isAdmin }) {
   return (
     <div className="app-card w-full rounded-xl border overflow-hidden">
       <div className="overflow-x-auto overflow-y-auto max-h-[420px]">
-        <table className="min-w-full text-sm text-left">
+        <table className="app-table min-w-full">
           <thead
-            className="sticky top-0 z-10 text-sm uppercase tracking-wide app-divider border-b"
-            style={{ backgroundColor: "var(--app-table-header-bg)", color: "var(--app-muted-text)" }}
+            className="app-table-head sticky top-0 z-10 app-divider border-b"
+            style={{ backgroundColor: "var(--app-table-header-bg)" }}
           >
             <tr>
-              <th className="px-4 py-3 font-semibold whitespace-nowrap min-w-[260px]">Work</th>
-              <th className="px-4 py-3 font-semibold whitespace-nowrap min-w-[200px]">Task</th>
-              <th className="px-4 py-3 font-semibold whitespace-nowrap min-w-[280px]">Links</th>
-              <th className="px-4 py-3 font-semibold whitespace-nowrap min-w-[280px]">Comments</th>
-              <th className="px-4 py-3 font-semibold whitespace-nowrap">Time Spent</th>
-              {isAdmin && <th className="px-4 py-3 font-semibold whitespace-nowrap">Approved Hours</th>}
+              <th className="app-table-th px-4 py-3 whitespace-nowrap min-w-[260px]">Work</th>
+              <th className="app-table-th px-4 py-3 whitespace-nowrap min-w-[200px]">Task</th>
+              <th className="app-table-th px-4 py-3 whitespace-nowrap min-w-[280px]">Links</th>
+              <th className="app-table-th px-4 py-3 whitespace-nowrap min-w-[280px]">Comments</th>
+              <th className="app-table-th px-4 py-3 whitespace-nowrap">Time Spent</th>
+              {isAdmin && <th className="app-table-th px-4 py-3 whitespace-nowrap">Approved Hours</th>}
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-800">
             {sheets.map((row, i) => (
               <tr key={row.id ?? i} className="transition align-top">
-                <td className="px-4 py-3 text-sm text-slate-200 whitespace-normal">{row.workName || "—"}</td>
-                <td className="px-4 py-3 text-sm text-slate-400 whitespace-normal">{row.taskName || "—"}</td>
-                <td className="px-4 py-3 text-sm text-sky-400 whitespace-pre-line break-all">
+                <td className="app-table-td px-4 py-3 whitespace-normal">{row.workName || "—"}</td>
+                <td className="app-table-td px-4 py-3 app-muted whitespace-normal">{row.taskName || "—"}</td>
+                <td className="app-table-td px-4 py-3 text-sky-400 whitespace-pre-line break-all">
                   {row.links
                     ? row.links.split(/,\s*\n?/).map((link, li) =>
                       link.trim() ? (
@@ -220,8 +220,8 @@ function ClientTable({ sheets, isAdmin }) {
                     )
                     : "—"}
                 </td>
-                <td className="px-4 py-3 text-sm text-slate-400 whitespace-pre-line">{row.comments || "—"}</td>
-                <td className="px-4 py-3">
+                <td className="app-table-td px-4 py-3 app-muted whitespace-pre-line">{row.comments || "—"}</td>
+                <td className="app-table-td px-4 py-3">
                   <TimeCell hours={row.timeSpentHours} minutes={row.timeSpentMinutes} status={row.hoursStatus} type="spent" />
                 </td>
                 {isAdmin && (
@@ -359,7 +359,7 @@ const ViewReport = (props) => {
 
       {/* ── page header + week filter ─────────────────────────────────────── */}
       <div className="pb-4 flex justify-between gap-3 mb-6 flex-col sm:flex-row sm:items-center">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl">Weekly Report</h1>
+        <h1 className="app-page-title">Weekly Report</h1>
 
         <div className="flex items-center gap-2">
           <label className="text-sm text-slate-400 whitespace-nowrap">Filter by week</label>
@@ -389,7 +389,7 @@ const ViewReport = (props) => {
           <div className="flex items-center justify-between gap-4 mb-4">
             <div>
               <p className="text-sm uppercase tracking-[0.32em] text-sky-400/80 mb-1">Week</p>
-              <h2 className="app-heading text-2xl font-bold">{dateKey}</h2>
+              <h2 className="app-modal-title">{dateKey}</h2>
             </div>
             {isAdmin && Object.keys(dayWiseSheetsByDateThenClient[dateKey]).length > 0 && (
               <ConfirmDialog

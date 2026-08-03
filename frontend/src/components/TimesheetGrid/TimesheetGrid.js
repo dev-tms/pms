@@ -557,7 +557,7 @@ const TimesheetGrid = (props) => {
     <section className="relative mt-3 md:mt-4 lg:mt-5">
       <div className=" sm:mb-7 flex justify-between flex-col sm:flex-row  max-[880px]:pb-5 ">
         <div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl mb-3">
+          <h1 className="app-page-title mb-3">
             Timesheet
           </h1>
         </div>

@@ -39,7 +39,7 @@ function ProjectFormModal({ open, mode, values, onChange, onClose, onSubmit, cli
             <p className="mb-1 text-sm uppercase tracking-[0.32em] text-sky-400/80">
               Project form
             </p>
-            <h2 className="app-heading text-2xl font-bold">
+            <h2 className="app-modal-title">
               {mode === "edit" ? "Edit project" : "Add project"}
             </h2>
           </div>
@@ -325,7 +325,7 @@ const ProjectGrid = (props) => {
 
       <div className="pb-4 flex justify-between gap-3 mb-3 flex-col sm:flex-row">
         <div className="flex items-center gap-2">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl">Projects</h1>
+          <h1 className="app-page-title">Projects</h1>
         </div>
 
         <div className="flex items-center gap-3 flex-col sm:flex-row">

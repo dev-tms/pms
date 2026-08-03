@@ -83,7 +83,7 @@ function BirthdayFormModal({ open, mode, values, onChange, onClose, onSubmit }) 
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-sm uppercase tracking-[0.32em] text-sky-300/80">Employee Birthday</p>
-            <h2 className="mt-2 app-heading text-2xl font-bold">
+            <h2 className="mt-2 app-modal-title">
               {mode === 'edit' ? 'Edit employee birthday' : 'Add employee birthday'}
             </h2>
           </div>
@@ -268,7 +268,7 @@ const Birthdays = ({ profile }) => {
           <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
             <div>
               <p className="text-sm uppercase tracking-[0.35em] text-pink-300/80">Celebrations</p>
-              <h1 className="mt-3 app-heading text-3xl font-bold md:text-4xl">Employees Birthdays</h1>
+              <h1 className="mt-3 app-page-title">Employees Birthdays</h1>
 
             </div>
             {/* <button

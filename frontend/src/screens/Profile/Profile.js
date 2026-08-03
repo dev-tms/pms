@@ -154,7 +154,7 @@ const Profile = ({ profile }) => {
                     <Sparkles size={12} />
                     Profile Overview
                   </div>
-                  <h1 className="mt-3 app-heading text-3xl font-bold md:text-4xl">
+                  <h1 className="mt-3 app-page-title">
                     {userProfile?.firstName} {userProfile?.lastName}
                   </h1>
                   <p className="mt-2 text-base text-slate-300">{userProfile?.role}</p>
@@ -246,7 +246,7 @@ const Profile = ({ profile }) => {
             <div className="mb-6 flex items-start justify-between gap-4">
               <div>
                 <p className="mb-1 text-sm uppercase tracking-[0.32em] text-sky-400/80">Edit Profile</p>
-                <h2 className="app-heading text-2xl font-bold">Update your details</h2>
+                <h2 className="app-modal-title">Update your details</h2>
               </div>
               <button
                 type="button"
