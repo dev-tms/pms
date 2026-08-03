@@ -36,8 +36,28 @@ export const findByWorkId = async (id) => {
  */
 export const updateWork = async (work) => {
     log.Info(work);
-    let id = work.id  && work.id !== '' ? work.id : undefined;
+    let id = work.id && work.id !== '' ? work.id : undefined;
     let resp;
+
+    if (!id && work.workName && work.projectId) {
+        const existingWork = await prisma.work.findFirst({
+            where: {
+                workName: {
+                    equals: work.workName.trim(),
+                    mode: 'insensitive'
+                },
+                projectId: work.projectId
+            }
+        }).catch(err => {
+            log.Error(err);
+            return null;
+        });
+
+        if (existingWork) {
+            id = existingWork.id;
+        }
+    }
+
     let data = {
         workName: work.workName,
         project: {
@@ -54,30 +74,30 @@ export const updateWork = async (work) => {
         updatedAt: new Date(),
         updatedBy: work.modifier
     };
-    if(work.dueDate && work.dueDate.length > 0) {
+    if (work.dueDate && work.dueDate.length > 0) {
         data.dueDate = new Date(work.dueDate);
     }
-    if(id) {
+    if (id) {
         resp = await prisma.work.update({
             where: {
-                id: work.id
+                id: id
             },
             data: data
         }).catch(err => {
             log.Error(err);
         });
-            
+
     } else {
-        data.createdAt= new Date();
-        data.createdBy= work.modifier;
-        data.currentStatus= "New";
+        data.createdAt = new Date();
+        data.createdBy = work.modifier;
+        data.currentStatus = "New";
         resp = await prisma.work.create({
             data: data
         }).catch(err => {
             log.Error(err);
         });
     }
-    
+
     return resp;
 }
 

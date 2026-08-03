@@ -194,3 +194,13 @@ enum Status {
   Active
   Inactive
 }
+
+model UsefullLinks {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  label String?
+  link string?
+  createdAt DateTime?
+  createdBy String?
+  updatedAt DateTime?
+  updatedBy String?
+}
