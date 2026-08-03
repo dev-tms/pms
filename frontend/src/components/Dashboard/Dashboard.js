@@ -13,7 +13,7 @@ import { ThoughtMateProgressLoaderAnimated } from '../TMLoader/ThoughtMateProgre
 const WELCOME_SHOWN_KEY = 'tms_welcome_shown';
 const SHOW_LOADER = 'tms_show_loader';
 
-const Dashboard = ({ profile }) => {
+const Dashboard = ({ profile, theme }) => {
     const [rows, setRows] = useState([]);
     const [works, setWorks] = useState([]);
     const [todayTotalTasks, setTodayTotalTasks] = useState([]);
@@ -21,7 +21,7 @@ const Dashboard = ({ profile }) => {
     const getStatus = (status) => {
         return taskStatus.filter((s) => s.id === status)[0]?.value || status;
     }
-    
+
     console.log("todayTotalTasks", todayTotalTasks);
     // Only show if this is the first render since login (not on re-navigation)
     const [showConfetti, setShowConfetti] = useState(() => {
@@ -37,13 +37,15 @@ const Dashboard = ({ profile }) => {
         width: window.innerWidth,
         height: window.innerHeight,
     });
-    
+
+    console.log("theme from dashboard", theme);
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
 
-                if(sessionStorage.getItem(SHOW_LOADER) === 'true') {
+                if (sessionStorage.getItem(SHOW_LOADER) === 'true') {
                     setLoading(true);
                 } else {
                     setTimeout(() => {
@@ -176,14 +178,14 @@ const Dashboard = ({ profile }) => {
 
             {/* Welcome popup — only renders when showWelcomePopup is true */}
             {showWelcomePopup && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-4">
-                    <div className="relative w-full max-w-md rounded-[28px] border border-slate-700 bg-slate-950 p-6 shadow-[0_30px_80px_rgba(2,6,23,0.6)] text-center"
+                <div className="app-modal-overlay fixed inset-0 z-[60] flex items-center justify-center px-4">
+                    <div className="app-modal relative w-full max-w-md rounded-[28px] border p-6 text-center"
                         style={{ animation: "popup 0.35s ease-out" }}
                     >
                         {/* close X */}
                         <button
                             onClick={dismissWelcome}
-                            className="absolute right-4 top-4 rounded-xl border border-slate-700 p-1.5 text-slate-400 transition hover:border-slate-500 hover:text-white"
+                            className="app-btn-ghost absolute right-4 top-4 rounded-xl border p-1.5 transition"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                         </button>
@@ -195,11 +197,11 @@ const Dashboard = ({ profile }) => {
                         </div>
 
                         <p className="mb-1 text-xs uppercase tracking-[0.32em] text-sky-400/80">Welcome back</p>
-                        <h2 className="text-2xl font-bold text-white">
+                        <h2 className="app-heading text-2xl font-bold">
                             Welcome to TMS 🎉
                         </h2>
-                        <p className="mt-3 text-sm text-slate-400">
-                            Glad to have you back, <span className="text-white font-medium">{profile?.firstName || 'User'}</span>!
+                        <p className="app-muted mt-3 text-sm">
+                            Glad to have you back, <span className="app-heading font-medium">{profile?.firstName || 'User'}</span>!
                         </p>
 
                         <button
@@ -220,7 +222,9 @@ const Dashboard = ({ profile }) => {
                     </h1>
                 </div>
                 <div className='mt-5 md:mt-0'>
-                    <Link to='/tasks' className="inline-flex min-h-[46px] items-center justify-center rounded-md border px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] no-underline shadow-[0_10px_24px_rgba(2,6,23,0.18)] transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-55 border-sky-400/30 bg-sky-500/10 text-sky-300 hover:border-sky-300/50 hover:bg-sky-500/15 hover:text-sky-100 mr-3">
+                    <Link to='/tasks' className={`
+                        inline-flex min-h-[46px] items-center justify-center rounded-md border px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] no-underline shadow-[0_10px_24px_rgba(2,6,23,0.18)] transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-55 border-sky-400/30 bg-sky-500/10 text-sky-300 hover:border-sky-300/50 hover:bg-sky-500/15  mr-3 ${theme === 'light' ? 'border-sky-400/30 bg-sky-500/10 text-sky-300 hover:border-sky-300/50 hover:bg-sky-500/15' : 'border-sky-400/30 bg-sky-500/10 text-sky-300 hover:border-sky-300/50 hover:bg-sky-500/15'}
+                        `}>
                         + Add Task
                     </Link>
                     {profile?.role !== 'EMPLOYEE' && (
@@ -234,10 +238,10 @@ const Dashboard = ({ profile }) => {
             {/* stats */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5 md:mt-8">
                 {stats.map((stat, i) => (
-                    <div key={i} className="flex justify-between items-start p-5 py-4 md:py-7 border border-slate-800 rounded-xl bg-slate-900 transition-colors">
+                    <div key={i} className="app-card flex justify-between items-start p-5 py-4 md:py-7 border rounded-xl transition-colors">
                         <div>
-                            <p className="text-md text-slate-400 mb-1">{stat.label}</p>
-                            {/* <h3 className="text-2xl md:text-3xl font-medium text-white">{stat.value}</h3> */}
+                            <p className="app-muted text-md mb-1">{stat.label}</p>
+                            {/* <h3 className="text-2xl md:text-3xl app-heading font-medium">{stat.value}</h3> */}
                             <Counter value={stat.value} duration={1000} />
                         </div>
                         <div className={`p-2 rounded-lg ${iconColors[i].bg} ${iconColors[i].text}`}>

@@ -46,7 +46,7 @@ const AddTask = (props) => {
   const [qaList, setQAList] = useState(props.qas);
   const [userList, setUserList] = useState(props.employees);
   const [submittingForm, setSubmittingForm] = useState(false);
-  const labelCls = "mb-2 block text-sm text-slate-300";
+  const labelCls = "app-label mb-2 block text-sm";
   const errorCls = "mt-2 block text-xs text-rose-400";
 
   const sortByField = (arr, field) => [...arr].sort((a, b) => a[field].localeCompare(b[field]));

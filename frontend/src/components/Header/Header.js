@@ -3,12 +3,22 @@ import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import { logoutUser, searchTasks } from '../../controller/auth/loginApis';
 import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react'
+import { Menu, Moon, Sun, X } from 'lucide-react'
 import JoinMeetingButton from './JoinMeetingButton';
-import logo from '../../thoughtmate-logo.png';
+import logolight from '../../thoughtmate-logo-light.png';
+import logo from '../../thoughtmate-logo-dark.png';
 
 
-const Header = ({ profile, authenticated, logoutUser, isMobileView = false, isMobileSidebarOpen = false, onMenuToggle = () => { } }) => {
+const Header = ({
+  profile,
+  authenticated,
+  logoutUser,
+  isMobileView = false,
+  isMobileSidebarOpen = false,
+  onMenuToggle = () => { },
+  theme = 'dark',
+  onThemeToggle = () => { },
+}) => {
 
   const history = useHistory();
 
@@ -57,7 +67,7 @@ const Header = ({ profile, authenticated, logoutUser, isMobileView = false, isMo
             <button
               type='button'
               onClick={onMenuToggle}
-              className='inline-flex h-11 w-11 items-center justify-center rounded-lg border transition-colors hover:bg-slate-800/70'
+              className='app-icon-button inline-flex h-11 w-11 items-center justify-center rounded-lg border transition-colors'
               style={{ borderColor: 'var(--app-border)', color: 'var(--app-text)' }}
               aria-label={isMobileSidebarOpen ? 'Close sidebar' : 'Open sidebar'}
               aria-expanded={isMobileSidebarOpen}
@@ -92,12 +102,23 @@ const Header = ({ profile, authenticated, logoutUser, isMobileView = false, isMo
           <div className=''>
             <div className='text-center w-full'>
               <Link to='/' className='flex items-center justify-center'>
-                <img src={logo} alt='ThoughtMate logo' width={250} />
+                <img src={theme === 'light' ? logo : logolight} alt='ThoughtMate logo' width={250} />
                 {/* <h1 className='text-3xl md:text-4xl user-select-none' style={{ color: "#6E7172" }}>Thought<span className='' style={{ color: "#C07F00" }}>Mate</span></h1> */}
               </Link></div>
           </div>
 
           <div className='flex items-center justify-end gap-4'>
+            <button
+              type='button'
+              onClick={onThemeToggle}
+              className='app-icon-button inline-flex h-11 items-center gap-2 rounded-lg border px-3 text-sm transition-colors bg-transparent'
+              style={{ borderColor: 'var(--app-border)', color: 'var(--app-text)' }}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+              {/* <span className='hidden sm:inline'>{theme === 'dark' ? 'Light' : 'Dark'}</span> */}
+            </button>
+
             <div className="">
               <JoinMeetingButton />
             </div>
@@ -156,11 +177,21 @@ const Header = ({ profile, authenticated, logoutUser, isMobileView = false, isMo
 
 
         </header >
-      </> : <header className='header px-2 py-5 border-b max-h-[79.88px] border-l' style={{ backgroundColor: 'var(--app-header-bg)', borderColor: 'var(--app-border)' }}><div className=''>
+      </> : <header className='header px-2 py-5 border-b max-h-[79.88px] border-l' style={{ backgroundColor: 'var(--app-header-bg)', borderColor: 'var(--app-border)' }}><div className='flex items-center justify-between gap-3'>
         <div className='text-center w-full'>
           <Link to='/'   >
             <h1 className='text-3xl md:text-4xl user-select-none' style={{ color: "#6E7172" }}>Thought<span className='' style={{ color: "#C07F00" }}>Mate</span></h1>
           </Link></div>
+        <button
+          type='button'
+          onClick={onThemeToggle}
+          className='app-icon-button inline-flex h-11 items-center gap-2 rounded-lg border px-3 text-sm transition-colors'
+          style={{ borderColor: 'var(--app-border)', color: 'var(--app-text)' }}
+          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+          <span className='hidden sm:inline'>{theme === 'dark' ? 'Light' : 'Dark'}</span>
+        </button>
       </div>
       </header>
       }

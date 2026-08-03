@@ -11,7 +11,7 @@ function Field({ label, children }) {
       <span className="text-xs uppercase tracking-[0.2em] text-slate-500 font-medium">
         {label}
       </span>
-      <div className="rounded-2xl border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-slate-200 min-h-[46px] flex items-center">
+      <div className="app-input rounded-2xl border px-4 py-3 text-sm min-h-[46px] flex items-center">
         {children || <span className="text-slate-600">—</span>}
       </div>
     </div>
@@ -105,7 +105,7 @@ const WorkDetail = (props) => {
           <p className="text-xs uppercase tracking-[0.32em] text-sky-400/80 mb-1">
             Client
           </p>
-          <h2 className="text-2xl font-bold text-white">
+          <h2 className="app-heading text-2xl font-bold">
             {formData.clientName || "Client details"}
           </h2>
         </div>)}
@@ -116,7 +116,7 @@ const WorkDetail = (props) => {
             href={formData.workLink}
             target="_blank"
             rel="noreferrer"
-            className="shrink-0 inline-flex items-center gap-2 rounded-xl border border-slate-700 px-3 py-2 text-sm text-slate-300 transition hover:border-sky-500 hover:text-sky-400"
+            className="app-btn-ghost shrink-0 inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition hover:border-sky-500 hover:text-sky-400"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -186,7 +186,7 @@ const WorkDetail = (props) => {
               <span className="text-xs uppercase tracking-[0.2em] text-slate-500 font-medium">
                 Work link
               </span>
-              <div className="rounded-2xl border border-slate-800 bg-slate-900 px-4 py-3 min-h-[46px] flex items-center">
+              <div className="app-input rounded-2xl border px-4 py-3 min-h-[46px] flex items-center">
                 {formData.workLink ? (
                   <a
                     href={formData.workLink}
@@ -207,18 +207,18 @@ const WorkDetail = (props) => {
               <span className="text-xs uppercase tracking-[0.2em] text-slate-500 font-medium">
                 Comments
               </span>
-              <div className="rounded-2xl border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-slate-200 min-h-[60px]">
+              <div className="app-input rounded-2xl border px-4 py-3 text-sm min-h-[60px]">
                 {formData.comments || <span className="text-slate-600">—</span>}
               </div>
             </div>
           </div>
 
           {/* ── footer ── */}
-          <div className="mt-6 flex justify-end gap-3 border-t border-slate-800 pt-5">
+          <div className="mt-6 flex justify-end gap-3 app-divider border-t pt-5">
             <button
               type="button"
               onClick={handleClose}
-              className="rounded-2xl border border-slate-700 px-5 py-3 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+              className="app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
             >
               Close
             </button>

@@ -53,24 +53,24 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
   if (!open) return null;
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-sm"
+      className="app-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-3xl rounded-[28px] border border-slate-700 bg-slate-950 p-6 shadow-[0_30px_80px_rgba(2,6,23,0.55)]"
+        className="app-modal w-full max-w-3xl rounded-[28px] border p-6"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.32em] text-sky-300/80">Leave Form</p>
-            <h2 className="mt-2 text-2xl font-bold text-white">
+            <h2 className="mt-2 app-heading text-2xl font-bold">
               {mode === 'edit' ? 'Edit leave record' : 'Add leave record'}
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl border border-slate-700 px-3 py-2 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+            className="app-btn-ghost rounded-xl border px-3 py-2 text-sm transition"
           >
             Close
           </button>
@@ -78,12 +78,12 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
 
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           <label className="block">
-            <span className="mb-2 block text-sm text-slate-300">Employee Name</span>
+            <span className="app-label mb-2 block text-sm">Employee Name</span>
             <select
               value={profile?.role === "ADMIN" || profile?.role === "TL" ? values.appliedBy : profile?.id || values.appliedBy}
               disabled={!(profile?.role === "ADMIN" || profile?.role === "TL")}
               onChange={(event) => onChange('appliedBy', event.target.value)}
-              className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400"
+              className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
             >
               <option value="">Select employee</option>
               {employeeOptions.map((option) => (
@@ -96,11 +96,11 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
 
           {(profile?.role === "ADMIN" || profile?.role === "TL") && (
             <label className="block">
-              <span className="mb-2 block text-sm text-slate-300">Approved By</span>
+              <span className="app-label mb-2 block text-sm">Approved By</span>
               <select
                 value={values.approvedLeaveBy}
                 onChange={(event) => onChange('approvedLeaveBy', event.target.value)}
-                className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400"
+                className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
             >
               <option value="">Select approver</option>
               {approverOptions.map((option) => (
@@ -112,43 +112,43 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
           </label>)}
 
           <label className="block">
-            <span className="mb-2 block text-sm text-slate-300">Leave From</span>
+            <span className="app-label mb-2 block text-sm">Leave From</span>
             <input
               type="date"
               value={values.leaveFrom}
               onChange={(event) => onChange('leaveFrom', event.target.value)}
-              className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400"
+              className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
             />
           </label>
 
           <label className="block">
-            <span className="mb-2 block text-sm text-slate-300">Leave To</span>
+            <span className="app-label mb-2 block text-sm">Leave To</span>
             <input
               type="date"
               value={values.leaveTo}
               onChange={(event) => onChange('leaveTo', event.target.value)}
-              className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400"
+              className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
             />
           </label>
 
           <label className="block">
-            <span className="mb-2 block text-sm text-slate-300">Number of Leaves</span>
+            <span className="app-label mb-2 block text-sm">Number of Leaves</span>
             <input
               type="number"
               min="1"
               value={values.numberOfLeaves}
               onChange={(event) => onChange('numberOfLeaves', event.target.value)}
-              className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400"
+              className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
             />
           </label>
 
           {(profile?.role === "ADMIN" || profile?.role === "TL") && (
             <label className="block"> 
-              <span className="mb-2 block text-sm text-slate-300">Status</span>
+              <span className="app-label mb-2 block text-sm">Status</span>
               <select
                 value={values.status}
                 onChange={(event) => onChange('status', event.target.value)}
-                className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400"
+                className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
             >
               <option value="Applied">Applied</option>
               <option value="Approved">Approved</option>
@@ -157,11 +157,11 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
           </label>)}
         </div>
 
-        <div className="mt-6 flex justify-end gap-3 border-t border-slate-800 pt-5">
+        <div className="mt-6 flex justify-end gap-3 app-divider border-t pt-5">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-2xl border border-slate-700 px-5 py-3 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+            className="app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
           >
             Cancel
           </button>
@@ -197,7 +197,7 @@ const Leaves = ({ profile }) => {
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500/15 text-sm font-bold text-sky-200">
             {value?.charAt(0)}
           </div>
-          <p className="font-medium text-white">{value}</p>
+          <p className="app-heading font-medium">{value}</p>
         </div>
       ),
     },
@@ -366,15 +366,15 @@ const Leaves = ({ profile }) => {
 
   return (
     <section className=" py-4 md:py-6  lg:py-8">
-      <div className="relative overflow-hidden rounded-[32px] border border-slate-800/80 bg-[radial-gradient(circle_at_top_right,_rgba(56,189,248,0.16),_transparent_26%),radial-gradient(circle_at_left,_rgba(16,185,129,0.10),_transparent_22%),linear-gradient(180deg,_rgba(15,23,42,0.98),_rgba(2,6,23,0.98))] p-5 md:p-7">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.16),_transparent_60%)]" />
+      <div className="relative overflow-hidden rounded-[32px] border border-slate-800/80 app-panel p-5 md:p-7">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 app-panel" />
         <div className="pointer-events-none absolute -right-20 bottom-0 h-56 w-56 rounded-full bg-sky-400/10 blur-3xl" />
 
         <div className="relative z-10">
           <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.35em] text-sky-300/80">Time Off</p>
-              <h1 className="mt-3 text-3xl font-bold text-white md:text-4xl">Leave Management</h1>
+              <h1 className="mt-3 app-heading text-3xl font-bold md:text-4xl">Leave Management</h1>
             </div>
             <button
               type="button"
@@ -387,19 +387,19 @@ const Leaves = ({ profile }) => {
           </div>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-[26px] border border-slate-800/80 bg-[linear-gradient(180deg,_rgba(15,23,42,0.78),_rgba(2,6,23,0.9))] p-5 shadow-[0_18px_40px_rgba(2,6,23,0.24)]">
+            <div className="rounded-[26px] border border-slate-800/80 app-panel p-5 shadow-[0_18px_40px_rgba(2,6,23,0.24)]">
               <div className="inline-flex rounded-2xl bg-sky-500/12 p-2 text-sky-200"><CalendarDays size={18} /></div>
-              <p className="mt-4 text-3xl font-bold text-white">{leaveRecords.length}</p>
+              <p className="mt-4 app-heading text-3xl font-bold">{leaveRecords.length}</p>
               <p className="mt-2 text-sm text-slate-400">Total leave records</p>
             </div>
-            <div className="rounded-[26px] border border-slate-800/80 bg-[linear-gradient(180deg,_rgba(15,23,42,0.78),_rgba(2,6,23,0.9))] p-5 shadow-[0_18px_40px_rgba(2,6,23,0.24)]">
+            <div className="rounded-[26px] border border-slate-800/80 app-panel p-5 shadow-[0_18px_40px_rgba(2,6,23,0.24)]">
               <div className="inline-flex rounded-2xl bg-amber-500/12 p-2 text-amber-200"><UserCheck size={18} /></div>
-              <p className="mt-4 text-3xl font-bold text-white">{filteredRecords.length}</p>
+              <p className="mt-4 app-heading text-3xl font-bold">{filteredRecords.length}</p>
               <p className="mt-2 text-sm text-slate-400">Visible after filtering</p>
             </div>
           </div>
 
-          <div className="mt-8 rounded-[30px] border border-slate-800/80 bg-[linear-gradient(180deg,_rgba(15,23,42,0.72),_rgba(2,6,23,0.86))] p-4 shadow-[0_20px_45px_rgba(2,6,23,0.28)]">
+          <div className="mt-8 rounded-[30px] border border-slate-800/80 app-panel p-4 shadow-[0_20px_45px_rgba(2,6,23,0.28)]">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="relative w-full md:max-w-md">
                 <Search size={16} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
@@ -408,7 +408,7 @@ const Leaves = ({ profile }) => {
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
                   placeholder="Search by employee or approver"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-11 py-3 text-sm text-white outline-none transition focus:border-sky-400"
+                  className="app-input w-full rounded-2xl border px-11 py-3 text-sm outline-none transition focus:border-sky-400"
                 />
               </div>
             </div>
@@ -416,16 +416,16 @@ const Leaves = ({ profile }) => {
 
           <div className="mt-8 space-y-6">
             {monthSections.length === 0 ? (
-              <div className="rounded-[30px] border border-slate-800/80 bg-[linear-gradient(180deg,_rgba(15,23,42,0.72),_rgba(2,6,23,0.86))] p-8 text-center text-sm text-slate-400 shadow-[0_20px_45px_rgba(2,6,23,0.22)]">
+              <div className="rounded-[30px] border border-slate-800/80 app-panel p-8 text-center text-sm text-slate-400 shadow-[0_20px_45px_rgba(2,6,23,0.22)]">
                 No leave records found.
               </div>
             ) : (
               monthSections.map(([month, records]) => (
-                <div key={month} className="rounded-[30px] border border-slate-800/80 bg-[linear-gradient(180deg,_rgba(15,23,42,0.72),_rgba(2,6,23,0.86))] p-4 shadow-[0_20px_45px_rgba(2,6,23,0.22)] md:p-5">
-                  <div className="mb-4 flex items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+                <div key={month} className="rounded-[30px] border border-slate-800/80 app-panel p-4 shadow-[0_20px_45px_rgba(2,6,23,0.22)] md:p-5">
+                  <div className="mb-4 flex items-center justify-between gap-3 app-divider border-b pb-4">
                     <div>
                       <p className="text-xs uppercase tracking-[0.28em] text-sky-300/80">Monthly Leave Table</p>
-                      <h2 className="mt-2 text-2xl font-semibold text-white">{month}</h2>
+                      <h2 className="mt-2 app-heading text-2xl font-semibold">{month}</h2>
                     </div>
                     <span className="rounded-2xl bg-sky-500/12 px-4 py-2 text-sm font-medium text-sky-200">
                       {records.length} records

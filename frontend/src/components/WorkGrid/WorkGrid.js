@@ -12,9 +12,9 @@ import { ThoughtMateProgressLoaderAnimated } from "../TMLoader/ThoughtMateProgre
 // ─── style tokens (mirrors AddTimesheet) ──────────────────────────────────────
 
 const inputCls =
-  "w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition min-h-[48px] focus:border-sky-400 placeholder:text-slate-500";
+  "app-input w-full rounded-xl border px-4 py-3 text-sm outline-none transition min-h-[48px] focus:border-sky-400";
 const selectNativeCls = `${inputCls} appearance-none pr-10`;
-const labelCls = "mb-2 block text-sm text-slate-300";
+const labelCls = "app-label mb-2 block text-sm";
 const errorCls = "mt-2 block text-xs text-rose-400";
 
 const reactSelectStyles = {
@@ -217,11 +217,11 @@ function WorkModal({ open, onClose, rowData, profile, onSaved }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4 backdrop-blur-sm"
+      className="app-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-3xl rounded-[28px] border border-slate-700 bg-slate-950 p-6 shadow-[0_30px_80px_rgba(2,6,23,0.6)] overflow-y-auto max-h-[90vh]"
+        className="app-modal w-full max-w-3xl rounded-[28px] border p-6 overflow-y-auto max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* modal header — mirrors AddTimesheet */}
@@ -230,14 +230,14 @@ function WorkModal({ open, onClose, rowData, profile, onSaved }) {
             <p className="mb-1 text-xs uppercase tracking-[0.32em] text-sky-400/80">
               Work form
             </p>
-            <h2 className="text-2xl font-bold text-white">
+            <h2 className="app-heading text-2xl font-bold">
               {isEdit ? "Edit work" : "Add work"}
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="shrink-0 rounded-xl border border-slate-700 px-3 py-2 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+            className="shrink-0 app-btn-ghost rounded-xl border px-3 py-2 text-sm transition"
           >
             Close
           </button>
@@ -307,7 +307,7 @@ function WorkModal({ open, onClose, rowData, profile, onSaved }) {
                 name="dueDate"
                 value={formData.dueDate}
                 onChange={handleChange}
-                className={`${inputCls} [color-scheme:dark]`}
+                className={`${inputCls}`}
               />
             </label>
 
@@ -367,11 +367,11 @@ function WorkModal({ open, onClose, rowData, profile, onSaved }) {
           </div>
 
           {/* footer — mirrors AddTimesheet */}
-          <div className="mt-6 flex justify-end gap-3 border-t border-slate-800 pt-5">
+          <div className="mt-6 flex justify-end gap-3 app-divider border-t pt-5">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-2xl border border-slate-700 px-5 py-3 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+              className="app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
             >
               Cancel
             </button>
@@ -579,7 +579,7 @@ const WorkGrid = (props) => {
             placeholder="Search work / project..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="sm:col-span-2 px-4 py-2 border rounded-xl bg-transparent outline-none border-slate-700 text-slate-300 placeholder:text-slate-600 text-sm"
+            className="app-input sm:col-span-2 px-4 py-2 border rounded-xl outline-none text-sm"
           />
         </div>
         <div className="mb-4">

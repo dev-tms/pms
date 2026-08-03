@@ -2,8 +2,10 @@ import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { BriefcaseBusiness, Cake, CalendarOff, CircleUser, Clock, FolderKanban, LayoutDashboard, Settings, SquareCheckBig, UsersRound } from 'lucide-react'
 import { connect } from 'react-redux';
+import logolight from '../../thoughtmate-logo-light.png';
+import logo from '../../thoughtmate-logo-dark.png';
 
-const Sidebar = ({ profile, authenticated }) => {
+const Sidebar = ({ profile, authenticated, theme }) => {
     console.log("profile from sidebar", profile)
     console.log("profile from authenticated", authenticated)
 
@@ -17,8 +19,8 @@ const Sidebar = ({ profile, authenticated }) => {
         <div className='min-h-screen'>
             <div className='border-b' style={{ borderColor: 'var(--app-border)', padding: '23px 23px 20px' }}>
                 <Link to='/'   >
-                    {/* <img src={logo} alt='ThoughtMate logo' className='w-full' /> */}
-                    <h1 className='text-3xl user-select-none' style={{ color: "#6E7172" }}>Thought<span className='' style={{ color: "#C07F00" }}>Mate</span></h1>
+                    <img src={theme === 'light' ? logo : logolight} alt='ThoughtMate logo' className='w-full' />
+                    {/* <h1 className='text-3xl user-select-none' style={{ color: "#6E7172" }}>Thought<span className='' style={{ color: "#C07F00" }}>Mate</span></h1> */}
                 </Link>
             </div>
             <nav className='py-4'>

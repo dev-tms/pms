@@ -69,21 +69,30 @@ export const dateMax = () => {
   return maxDate;
 }
 
+const readThemeVar = (name, fallback) => {
+  if (typeof window === "undefined") return fallback;
+  const value = window.getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return value || fallback;
+};
+
 export const selectStyles = {
     control: (base, state) => ({
       ...base,
-      backgroundColor: "#0f172a",
-      borderColor: state.isFocused ? "#38bdf8" : "#334155",
+      backgroundColor: readThemeVar("--app-input-bg", "#0f172a"),
+      borderColor: state.isFocused ? "#38bdf8" : readThemeVar("--app-input-border", "#334155"),
       boxShadow: state.isFocused ? "0 0 0 1px #38bdf8" : "none",
       borderRadius: "1rem",
       minHeight: 48,
       paddingLeft: 4,
-      ":hover": { borderColor: state.isFocused ? "#38bdf8" : "#475569" },
+      color: readThemeVar("--app-text", "#f8fafc"),
+      ":hover": {
+        borderColor: state.isFocused ? "#38bdf8" : readThemeVar("--app-ghost-hover-border", "#475569"),
+      },
     }),
     menu: (base) => ({
       ...base,
-      backgroundColor: "#0f172a",
-      border: "1px solid #334155",
+      backgroundColor: readThemeVar("--app-dropdown-bg", "#0f172a"),
+      border: `1px solid ${readThemeVar("--app-border", "#334155")}`,
       borderRadius: "1rem",
       overflow: "hidden",
       zIndex: 30,
@@ -91,18 +100,36 @@ export const selectStyles = {
     menuList: (base) => ({
       ...base,
       padding: 6,
-      backgroundColor: "#0f172a",
+      backgroundColor: readThemeVar("--app-dropdown-bg", "#0f172a"),
     }),
     option: (base, state) => ({
       ...base,
-      backgroundColor: state.isFocused ? "#1e293b" : "#0f172a",
-      color: "#e2e8f0",
+      backgroundColor: state.isFocused
+        ? readThemeVar("--app-select-option-hover", "#1e293b")
+        : readThemeVar("--app-dropdown-bg", "#0f172a"),
+      color: readThemeVar("--app-text", "#e2e8f0"),
       borderRadius: 10,
       cursor: "pointer",
     }),
-    singleValue: (base) => ({ ...base, color: "#f8fafc" }),
-    input: (base) => ({ ...base, color: "#f8fafc" }),
-    placeholder: (base) => ({ ...base, color: "#64748b" }),
-    indicatorSeparator: (base) => ({ ...base, backgroundColor: "#334155" }),
-    dropdownIndicator: (base) => ({ ...base, color: "#94a3b8" }),
+    singleValue: (base) => ({ ...base, color: readThemeVar("--app-text", "#f8fafc") }),
+    input: (base) => ({ ...base, color: readThemeVar("--app-text", "#f8fafc") }),
+    placeholder: (base) => ({ ...base, color: readThemeVar("--app-placeholder", "#64748b") }),
+    indicatorSeparator: (base) => ({
+      ...base,
+      backgroundColor: readThemeVar("--app-border", "#334155"),
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: readThemeVar("--app-muted-text", "#94a3b8"),
+    }),
   };
+
+export const appInputCls =
+  "app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition min-h-[48px] focus:border-sky-400";
+export const appLabelCls = "app-label mb-2 block text-sm";
+export const appModalOverlayCls =
+  "app-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm";
+export const appModalCls =
+  "app-modal w-full max-w-3xl rounded-[28px] border p-6 overflow-y-auto max-h-[90vh]";
+export const appBtnGhostCls =
+  "app-btn-ghost rounded-xl border px-3 py-2 text-sm transition";

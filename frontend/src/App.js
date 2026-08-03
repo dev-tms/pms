@@ -7,11 +7,20 @@ import Header from './components/Header/Header.js';
 import Sidebar from './components/Sidebar/Sidebar.js';
 
 const MOBILE_BREAKPOINT = 2000;
+const THEME_STORAGE_KEY = 'app-theme';
+const THEMES = {
+  DARK: 'dark',
+  LIGHT: 'light',
+};
 
 const App = ({ authenticated, profile }) => {
   // console.log("authentiocation",authenticated)
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(() => window.innerWidth < MOBILE_BREAKPOINT);
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+    return savedTheme === THEMES.LIGHT ? THEMES.LIGHT : THEMES.DARK;
+  });
   const location = useLocation();
 
   useEffect(() => {
@@ -33,7 +42,15 @@ const App = ({ authenticated, profile }) => {
     setIsMobileSidebarOpen(false);
   }, [location.pathname]);
 
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.style.colorScheme = theme;
+    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+  }, [theme]);
 
+  const handleThemeToggle = () => {
+    setTheme((prevTheme) => (prevTheme === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK));
+  };
 
 
 
@@ -55,7 +72,7 @@ const App = ({ authenticated, profile }) => {
               {isMobileView && (
                 <>
                   <div
-                    className={`fixed inset-0 z-40 bg-slate-950/55 transition-opacity duration-300 ${isMobileSidebarOpen
+                    className={`app-modal-overlay fixed inset-0 z-40 transition-opacity duration-300 ${isMobileSidebarOpen
                       ? 'pointer-events-auto opacity-100'
                       : 'pointer-events-none opacity-0'
                       }`}
@@ -69,7 +86,7 @@ const App = ({ authenticated, profile }) => {
                     style={{ backgroundColor: 'var(--app-sidebar-bg)' }}
                     aria-hidden={!isMobileSidebarOpen}
                   >
-                    <Sidebar profile authenticated />
+                    <Sidebar profile authenticated theme={theme} />
 
                   </aside>
                 </>
@@ -92,10 +109,12 @@ const App = ({ authenticated, profile }) => {
             onMenuToggle={() =>
               setIsMobileSidebarOpen((prev) => !prev)
             }
+            theme={theme}
+            onThemeToggle={handleThemeToggle}
             profile
             authenticated
           />
-          <Navigation />
+          <Navigation theme={theme} />
           {/* <Footer /> */}
         </main>
       </div>

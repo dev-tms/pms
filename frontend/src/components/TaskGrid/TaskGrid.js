@@ -153,21 +153,21 @@ function WorkDetailModal({ open, work, task, employees, qas, onClose, setUpdateG
   if (!open) return null;
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-4 backdrop-blur-sm"
+      className="app-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-3xl rounded-[28px] border border-slate-700 bg-slate-950 p-6 shadow-[0_30px_80px_rgba(2,6,23,0.6)] overflow-y-auto max-h-[90vh]"
+        className="app-modal w-full max-w-3xl rounded-[28px] border p-6 overflow-y-auto max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-5">
           <div>
             <p className="text-xs uppercase tracking-[0.32em] text-sky-400/80 mb-1">Work detail</p>
-            <h2 className="text-2xl font-bold text-white">{work?.workName ?? "—"}</h2>
+            <h2 className="app-heading text-2xl font-bold">{work?.workName ?? "—"}</h2>
           </div>
           <button
             onClick={onClose}
-            className="rounded-xl border border-slate-700 px-3 py-2 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+            className="app-btn-ghost rounded-xl border px-3 py-2 text-sm transition"
           >
             Close
           </button>
@@ -490,7 +490,7 @@ const TaskGrid = (props) => {
             placeholder="Search task / work..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="sm:col-span-2 px-4 py-2 border rounded-xl bg-transparent outline-none border-slate-700 text-slate-300 placeholder:text-slate-600 text-sm"
+            className="app-input sm:col-span-2 px-4 py-2 border rounded-xl outline-none text-sm"
           />
           {/* work name filter */}
           {/* <input
@@ -498,7 +498,7 @@ const TaskGrid = (props) => {
             placeholder="Filter by work name..."
             value={workNameFilter}
             onChange={(e) => setWorkNameFilter(e.target.value)}
-            className="px-4 py-2 border rounded-xl bg-transparent outline-none border-slate-700 text-slate-300 placeholder:text-slate-600 text-sm"
+            className="app-input px-4 py-2 border rounded-xl outline-none text-sm"
           /> */}
           {/* date from */}
           <input
@@ -507,7 +507,7 @@ const TaskGrid = (props) => {
             max={dateMax()}
             min={dateMin(14)}
             onChange={(e) => setFilterStartDate(e.target.value ? new Date(e.target.value) : "")}
-            className="px-3 py-2 border rounded-xl bg-transparent outline-none border-slate-700 text-slate-400 text-sm [color-scheme:dark]"
+            className="app-input px-3 py-2 border rounded-xl outline-none text-sm"
           />
         </div>
       </div>

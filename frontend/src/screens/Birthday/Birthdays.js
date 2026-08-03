@@ -73,24 +73,24 @@ function BirthdayFormModal({ open, mode, values, onChange, onClose, onSubmit }) 
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-sm"
+      className="app-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-3xl rounded-[28px] border border-slate-700 bg-slate-950 p-6 shadow-[0_30px_80px_rgba(2,6,23,0.55)]"
+        className="app-modal w-full max-w-3xl rounded-[28px] border p-6"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.32em] text-sky-300/80">Employee Birthday</p>
-            <h2 className="mt-2 text-2xl font-bold text-white">
+            <h2 className="mt-2 app-heading text-2xl font-bold">
               {mode === 'edit' ? 'Edit employee birthday' : 'Add employee birthday'}
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl border border-slate-700 px-3 py-2 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+            className="app-btn-ghost rounded-xl border px-3 py-2 text-sm transition"
           >
             Close
           </button>
@@ -103,32 +103,32 @@ function BirthdayFormModal({ open, mode, values, onChange, onClose, onSubmit }) 
             ['Designation', 'designation', 'text'],
           ].map(([label, field, type]) => (
             <label key={field} className="block">
-              <span className="mb-2 block text-sm text-slate-300">{label}</span>
+              <span className="app-label mb-2 block text-sm">{label}</span>
               <input
                 type={type}
                 value={values[field]}
                 onChange={(event) => onChange(field, event.target.value)}
-                className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400"
+                className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
               />
             </label>
           ))}
 
           <label className="block">
-            <span className="mb-2 block text-sm text-slate-300">Birth Date</span>
+            <span className="app-label mb-2 block text-sm">Birth Date</span>
             <input
               type="date"
               value={values.birthDate}
               onChange={(event) => onChange('birthDate', event.target.value)}
-              className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400"
+              className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
             />
           </label>
         </div>
 
-        <div className="mt-6 flex justify-end gap-3 border-t border-slate-800 pt-5">
+        <div className="mt-6 flex justify-end gap-3 app-divider border-t pt-5">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-2xl border border-slate-700 px-5 py-3 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+            className="app-btn-ghost rounded-2xl border px-5 py-3 text-sm transition"
           >
             Cancel
           </button>
@@ -178,7 +178,7 @@ const Birthdays = ({ profile }) => {
             {value?.charAt(0)}
           </div>
           <div>
-            <p className="font-medium text-white">{value}</p>
+            <p className="app-heading font-medium">{value}</p>
             <p className="text-xs text-slate-400">{row.designation}</p>
           </div>
         </div>
@@ -261,14 +261,14 @@ const Birthdays = ({ profile }) => {
 
   return (
     <section className="py-4 md:py-6 lg:py-8">
-      <div className="relative overflow-hidden rounded-[32px] border border-slate-800/80 bg-[radial-gradient(circle_at_top_right,_rgba(244,114,182,0.16),_transparent_26%),radial-gradient(circle_at_left,_rgba(56,189,248,0.14),_transparent_22%),linear-gradient(180deg,_rgba(15,23,42,0.98),_rgba(2,6,23,0.98))] p-5 md:p-7">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,_rgba(244,114,182,0.12),_transparent_60%)]" />
+      <div className="relative overflow-hidden rounded-[32px] border border-slate-800/80 app-panel p-5 md:p-7">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 app-panel" />
 
         <div className="relative z-10">
           <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.35em] text-pink-300/80">Celebrations</p>
-              <h1 className="mt-3 text-3xl font-bold text-white md:text-4xl">Employees Birthdays</h1>
+              <h1 className="mt-3 app-heading text-3xl font-bold md:text-4xl">Employees Birthdays</h1>
               
             </div>
             {/* <button
@@ -282,26 +282,26 @@ const Birthdays = ({ profile }) => {
           </div>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            <div className="rounded-[24px] border border-slate-800 bg-slate-900/55 p-5">
+            <div className="app-card rounded-[24px] border p-5">
               <div className="inline-flex rounded-2xl bg-pink-500/12 p-2 text-pink-200"><Users size={18} /></div>
-              <p className="mt-4 text-3xl font-bold text-white">{employees.length}</p>
-              <p className="mt-2 text-sm text-slate-400">Total employees listed</p>
+              <p className="mt-4 app-heading text-3xl font-bold">{employees.length}</p>
+              <p className="app-muted mt-2 text-sm">Total employees listed</p>
             </div>
-            <div className="rounded-[24px] border border-slate-800 bg-slate-900/55 p-5">
+            <div className="app-card rounded-[24px] border p-5">
               <div className="inline-flex rounded-2xl bg-sky-500/12 p-2 text-sky-200"><CalendarDays size={18} /></div>
-              <p className="mt-4 text-3xl font-bold text-white">{getUpcomingCount(employees)}</p>
-              <p className="mt-2 text-sm text-slate-400">Birthdays this month</p>
+              <p className="mt-4 app-heading text-3xl font-bold">{getUpcomingCount(employees)}</p>
+              <p className="app-muted mt-2 text-sm">Birthdays this month</p>
             </div>
-            <div className="rounded-[24px] border border-slate-800 bg-slate-900/55 p-5">
+            <div className="app-card rounded-[24px] border p-5">
               <div className="inline-flex rounded-2xl bg-rose-500/12 p-2 text-rose-200"><Cake size={18} /></div>
-              <p className="mt-4 text-3xl font-bold text-white">
+              <p className="mt-4 app-heading text-3xl font-bold">
                 {employees.length ? getNextBirthday(employees) : '-' }
               </p>
-              <p className="mt-2 text-sm text-slate-400">Next row birthday snapshot</p>
+              <p className="app-muted mt-2 text-sm">Next row birthday snapshot</p>
             </div>
           </div>
 
-          <div className="mt-8 rounded-[28px] border border-slate-800 bg-slate-950/45 p-4">
+          <div className="app-card mt-8 rounded-[28px] border p-4">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="relative w-full md:max-w-md">
                 <Search size={16} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
@@ -310,7 +310,7 @@ const Birthdays = ({ profile }) => {
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
                   placeholder="Search by employee, department, or role"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-11 py-3 text-sm text-white outline-none transition focus:border-pink-400"
+                  className="app-input w-full rounded-2xl border px-11 py-3 text-sm outline-none transition focus:border-pink-400"
                 />
               </div>
               

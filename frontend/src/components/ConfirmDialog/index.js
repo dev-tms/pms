@@ -39,44 +39,44 @@ function ConfirmDialog({
           
           {/* Overlay */}
           <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="app-modal-overlay absolute inset-0 backdrop-blur-sm"
             onClick={handleClose}
           ></div>
 
           {/* Modal Box */}
-          <div className="relative z-10 w-full max-w-md rounded-[28px] border border-slate-700 bg-slate-950 shadow-[0_30px_80px_rgba(2,6,23,0.6)]">
+          <div className="app-modal relative z-10 w-full max-w-md rounded-[28px] border">
             
             {/* Header */}
-            <div className="flex items-start justify-between gap-4 border-b border-slate-800 px-6 py-4 pr-2">
+            <div className="app-divider flex items-start justify-between gap-4 border-b px-6 py-4 pr-2">
               <div>
                 <p className="mb-1 text-xs uppercase tracking-[0.32em] text-sky-400/80">
                   Confirmation
                 </p>
-                <h2 className="text-lg font-semibold text-white">
+                <h2 className="app-heading text-lg font-semibold">
                   {title}
                 </h2>
               </div>
 
               <button
                 onClick={handleClose}
-                className="rounded-xl border border-slate-700 px-2 py-1 text-slate-400 transition hover:border-slate-500 hover:text-white"
+                className="app-btn-ghost rounded-xl border px-2 py-1 transition"
               >
                 <X width={15} />
               </button>
             </div>
 
             {/* Body */}
-            <div className="px-6 py-5 text-sm text-slate-300">
+            <div className="app-muted px-6 py-5 text-sm">
               {message}
             </div>
 
             {/* Footer */}
-            <div className="flex justify-end gap-3 border-t border-slate-800 px-6 py-4">
+            <div className="app-divider flex justify-end gap-3 border-t px-6 py-4">
               
               <button
                 id={id}
                 onClick={handleClose}
-                className="rounded-2xl leading-none border border-slate-700 px-5 py-3 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+                className="app-btn-ghost rounded-2xl leading-none border px-5 py-3 text-sm transition"
               >
                 Cancel
               </button>
