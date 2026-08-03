@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// Model to store User data. One user will have multiple Executions
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+  firstName String?
+  middleName String?
+  lastName String?
+  dob DateTime?
+  address String?
+  phone String?
+  password String?
+  role Role @default(EMPLOYEE)
+  createdAt DateTime?
+  createdBy String?
+  updatedAt DateTime?
+  updatedBy String?
+  assignedToExec TaskExecution[] @relation(name: "assignedTo")
+  qaExec TaskExecution[] @relation(name: "qa")
+}
+
+model TaskExecution {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  task Task? @relation(fields: [taskId], references: [id])
+  taskId String? @db.ObjectId
+  assignedTo User? @relation("assignedTo",fields: [assignedToId], references: [id])
+  assignedToId String? @db.ObjectId
+  qa User? @relation("qa",fields: [qaId], references: [id])
+  qaId String? @db.ObjectId
+  status String?
+  noOfQaFeedback Int?
+  noOfQaIteration Int?
+  noOfClientFeedback Int?
+  noOfClientIteration Int?
+  action String?
+  links String?
+  comments String?
+  timeSpent Float?
+  approvedHours Float?
+  createdAt DateTime?
+  createdBy String?
+  updatedAt DateTime?
+  updatedBy String?
+}
+
+model Task {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String?
+  client Client? @relation(fields: [clientId], references: [id])
+  clientId String? @db.ObjectId
+  trelloLink String?
+  priority String?
+  taskType String?
+  taskExecutions TaskExecution[]
+  createdAt DateTime?
+  createdBy String?
+  updatedAt DateTime?
+  updatedBy String?
+}
+
+model Client {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String?
+  tasks Task[]
+  createdAt DateTime?
+  createdBy String?
+  updatedAt DateTime?
+  updatedBy String?
+}
+
+
+enum Role {
+  EMPLOYEE
+  TL
+  QA
+  ADMIN
+}
+
+enum Status {
+  Active
+  Inactive
+}

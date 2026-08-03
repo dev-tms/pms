@@ -1,0 +1,348 @@
+import React, { useEffect, useMemo, useState } from 'react';
+import { Cake, CalendarDays, Search, Users } from 'lucide-react';
+import MyTable from '../../components/MyTable/MyTable';
+import { listUsers } from '../../controller/auth/loginApis';
+import { connect } from 'react-redux';
+
+const mapEmployees = (employees) => {
+
+  return employees.data?.map((employee) => ({
+    id: employee.id,
+    name: employee.firstName + ' ' + employee.lastName,
+    department: employee.role,
+    designation: employee.designation,
+    birthDate: employee.birthDate ? formatBirthDate(employee.birthDate) : '',
+  }));
+}
+
+const EMPTY_EMPLOYEE = {
+  id: '',
+  name: '',
+  department: '',
+  designation: '',
+  birthDate: '',
+};
+
+const formatBirthDate = (value) => {
+  if (!value) return '-';
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return value;
+  return parsed.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+  });
+};
+
+const getUpcomingCount = (employees) => {
+  const today = new Date();
+  const currentMonth = today.getMonth();
+  return employees.filter((employee) => {
+    const birthDate = new Date(employee.birthDate);
+    return birthDate.getMonth() === currentMonth;
+  }).length;
+};
+
+const getNextBirthday = (employees) => {
+  const today = new Date();
+  const currentMonth = today.getMonth();
+  const currentDate = today.getDate();
+
+  const upcomingBirthdays = employees.filter((employee) => {
+    const birthDate = new Date(employee.birthDate);
+    return (
+      birthDate.getMonth() === currentMonth &&
+      birthDate.getDate() >= currentDate
+    );
+  });
+
+  if (upcomingBirthdays.length === 0) {
+    return "-";
+  }
+
+  upcomingBirthdays.sort((a, b) => {
+    const aBirthDate = new Date(a.birthDate);
+    const bBirthDate = new Date(b.birthDate);
+    return aBirthDate.getDate() - bBirthDate.getDate();
+  });
+
+  return formatBirthDate(upcomingBirthdays[0].birthDate).split(' ').slice(0, 2).join(' ');
+}
+
+function BirthdayFormModal({ open, mode, values, onChange, onClose, onSubmit }) {
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-3xl rounded-[28px] border border-slate-700 bg-slate-950 p-6 shadow-[0_30px_80px_rgba(2,6,23,0.55)]"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.32em] text-sky-300/80">Employee Birthday</p>
+            <h2 className="mt-2 text-2xl font-bold text-white">
+              {mode === 'edit' ? 'Edit employee birthday' : 'Add employee birthday'}
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-xl border border-slate-700 px-3 py-2 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+          >
+            Close
+          </button>
+        </div>
+
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {[
+            ['Employee Name', 'name', 'text'],
+            ['Department', 'department', 'text'],
+            ['Designation', 'designation', 'text'],
+          ].map(([label, field, type]) => (
+            <label key={field} className="block">
+              <span className="mb-2 block text-sm text-slate-300">{label}</span>
+              <input
+                type={type}
+                value={values[field]}
+                onChange={(event) => onChange(field, event.target.value)}
+                className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400"
+              />
+            </label>
+          ))}
+
+          <label className="block">
+            <span className="mb-2 block text-sm text-slate-300">Birth Date</span>
+            <input
+              type="date"
+              value={values.birthDate}
+              onChange={(event) => onChange('birthDate', event.target.value)}
+              className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400"
+            />
+          </label>
+        </div>
+
+        <div className="mt-6 flex justify-end gap-3 border-t border-slate-800 pt-5">
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-2xl border border-slate-700 px-5 py-3 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={onSubmit}
+            className="rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400"
+          >
+            {mode === 'edit' ? 'Save changes' : 'Add employee'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const Birthdays = ({ profile }) => {
+  const [employees, setEmployees] = useState([]);
+  const [search, setSearch] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState('add');
+  const [formValues, setFormValues] = useState(EMPTY_EMPLOYEE);
+
+  useEffect(() => {
+    async function fetchProfile() {
+      if(profile) {
+        const employeeList = await listUsers(profile);
+        if(employeeList) {
+          setEmployees(mapEmployees(employeeList));
+        } else {
+          setEmployees(mapEmployees([profile]));
+        }
+      }
+    }
+    fetchProfile();
+  }, [profile]);
+
+  const columns = [
+    {
+      header: 'Employee',
+      accessor: 'name',
+      headerClassName: 'min-w-[220px] whitespace-normal',
+      cellClassName: 'min-w-[220px] whitespace-normal',
+      render: (value, row) => (
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500/15 text-sm font-bold text-sky-200">
+            {value?.charAt(0)}
+          </div>
+          <div>
+            <p className="font-medium text-white">{value}</p>
+            <p className="text-xs text-slate-400">{row.designation}</p>
+          </div>
+        </div>
+      ),
+    },
+    { header: 'Department', accessor: 'department' },
+    {
+      header: 'Birthday',
+      accessor: 'birthDate',
+      render: (value) => (
+        <span className="rounded-full bg-pink-500/10 px-3 py-1 text-xs font-medium text-pink-200">
+          {value}
+        </span>
+      ),
+    },
+    /* {
+      header: 'Action',
+      accessor: 'actions',
+      headerClassName: 'whitespace-nowrap text-center',
+      cellClassName: 'whitespace-nowrap text-center',
+      render: (_, row) => (
+        <div className="flex justify-center">
+          <ActionButtons row={row} onEdit={() => openEditModal(row)} onDelete={() => handleDelete(row.id)} />
+        </div>
+      ),
+    }, */
+  ];
+
+  const filteredEmployees = useMemo(() => {
+    return employees.filter((employee) => {
+      const keyword = search.toLowerCase();
+      return (
+        !keyword ||
+        employee.name.toLowerCase().includes(keyword) ||
+        employee.department?.toLowerCase().includes(keyword) ||
+        employee.designation?.toLowerCase().includes(keyword)
+      );
+    });
+  }, [employees, search]);
+
+  /* const openAddModal = () => {
+    setModalMode('add');
+    setFormValues(EMPTY_EMPLOYEE);
+    setModalOpen(true);
+  };
+
+  const openEditModal = (employee) => {
+    setModalMode('edit');
+    setFormValues(employee);
+    setModalOpen(true);
+  }; */
+
+  /* const handleDelete = (employeeId) => {
+    setEmployees((prev) => prev.filter((employee) => employee.id !== employeeId));
+  }; */
+
+  const handleFormChange = (field, value) => {
+    setFormValues((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = () => {
+    const normalizedEmployee = {
+      ...formValues,
+      id: formValues.id || `employee-${Date.now()}`,
+      name: formValues.name.trim() || 'Unnamed Employee',
+      department: formValues.department.trim() || '-',
+      designation: formValues.designation.trim() || '-',
+      birthDate: formValues.birthDate || '',
+    };
+
+    setEmployees((prev) =>
+      modalMode === 'edit'
+        ? prev.map((employee) => (employee.id === normalizedEmployee.id ? normalizedEmployee : employee))
+        : [normalizedEmployee, ...prev]
+    );
+
+    setModalOpen(false);
+    setFormValues(EMPTY_EMPLOYEE);
+  };
+
+  return (
+    <section className="py-4 md:py-6 lg:py-8">
+      <div className="relative overflow-hidden rounded-[32px] border border-slate-800/80 bg-[radial-gradient(circle_at_top_right,_rgba(244,114,182,0.16),_transparent_26%),radial-gradient(circle_at_left,_rgba(56,189,248,0.14),_transparent_22%),linear-gradient(180deg,_rgba(15,23,42,0.98),_rgba(2,6,23,0.98))] p-5 md:p-7">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,_rgba(244,114,182,0.12),_transparent_60%)]" />
+
+        <div className="relative z-10">
+          <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.35em] text-pink-300/80">Celebrations</p>
+              <h1 className="mt-3 text-3xl font-bold text-white md:text-4xl">Employees Birthdays</h1>
+              
+            </div>
+            {/* <button
+              type="button"
+              onClick={openAddModal}
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-pink-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-pink-400"
+            >
+              <Plus size={16} />
+              Add Employee Birthday
+            </button> */}
+          </div>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="rounded-[24px] border border-slate-800 bg-slate-900/55 p-5">
+              <div className="inline-flex rounded-2xl bg-pink-500/12 p-2 text-pink-200"><Users size={18} /></div>
+              <p className="mt-4 text-3xl font-bold text-white">{employees.length}</p>
+              <p className="mt-2 text-sm text-slate-400">Total employees listed</p>
+            </div>
+            <div className="rounded-[24px] border border-slate-800 bg-slate-900/55 p-5">
+              <div className="inline-flex rounded-2xl bg-sky-500/12 p-2 text-sky-200"><CalendarDays size={18} /></div>
+              <p className="mt-4 text-3xl font-bold text-white">{getUpcomingCount(employees)}</p>
+              <p className="mt-2 text-sm text-slate-400">Birthdays this month</p>
+            </div>
+            <div className="rounded-[24px] border border-slate-800 bg-slate-900/55 p-5">
+              <div className="inline-flex rounded-2xl bg-rose-500/12 p-2 text-rose-200"><Cake size={18} /></div>
+              <p className="mt-4 text-3xl font-bold text-white">
+                {employees.length ? getNextBirthday(employees) : '-' }
+              </p>
+              <p className="mt-2 text-sm text-slate-400">Next row birthday snapshot</p>
+            </div>
+          </div>
+
+          <div className="mt-8 rounded-[28px] border border-slate-800 bg-slate-950/45 p-4">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div className="relative w-full md:max-w-md">
+                <Search size={16} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                  placeholder="Search by employee, department, or role"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-11 py-3 text-sm text-white outline-none transition focus:border-pink-400"
+                />
+              </div>
+              
+            </div>
+
+            <div className="mt-5">
+              <MyTable
+                columns={columns}
+                data={filteredEmployees}
+                keyField="id"
+                caption=""
+                emptyText="No birthday records found"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <BirthdayFormModal
+        open={modalOpen}
+        mode={modalMode}
+        values={formValues}
+        onChange={handleFormChange}
+        onClose={() => setModalOpen(false)}
+        onSubmit={handleSubmit}
+      />
+    </section>
+  );
+};
+
+const mapStateToProps = (state) => ({
+  profile: state.session.user?.user,
+});
+
+export default connect(mapStateToProps)(Birthdays);

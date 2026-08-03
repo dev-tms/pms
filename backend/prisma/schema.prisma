@@ -1,0 +1,196 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// Model to store User data. One user will have multiple Executions
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+  firstName String?
+  lastName String?
+  password String?
+  phone String?
+  birthDate DateTime?
+  department String?
+  joiningDate DateTime?
+  designation String?
+  address String?
+  bio String?
+  skills String[]
+  role Role @default(EMPLOYEE)
+  status Status @default(Active)
+  TL User? @relation("TLEmployees", fields: [TLId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  TLId String? @db.ObjectId
+  createdAt DateTime?
+  createdBy String?
+  updatedAt DateTime?
+  updatedBy String?
+  assignedToExec Timesheet[] @relation(name: "assignedTo")
+  qaExec Timesheet[] @relation(name: "qa")
+  tasks Task[] @relation(name: "assignedTo")
+  qaAssignment Task[] @relation(name: "qa")
+  approvedByExec Timesheet[] @relation(name: "approvedBy")
+  finalizedTasks FinalizedWeeklyTimesheet[] @relation(name: "finalizedBy")
+  appliedLeaves LeaveManagement[] @relation(name: "appliedBy")
+  approvedLeaves LeaveManagement[] @relation(name: "approvedLeaveBy")
+  employees User[] @relation(name: "TLEmployees")
+}
+
+model LeaveManagement {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  appliedBy User? @relation("appliedBy",fields: [appliedById], references: [id])
+  appliedById String? @db.ObjectId
+  approvedLeaveBy User? @relation("approvedLeaveBy", fields: [approvedLeaveById], references: [id])
+  approvedLeaveById String? @db.ObjectId
+  leaveFrom DateTime?
+  leaveTo DateTime?
+  numberOfLeaves Float?
+  status String?
+  type String?
+  createdAt DateTime?
+  createdBy String?
+  updatedAt DateTime?
+  updatedBy String?
+}
+
+model FinalizedWeeklyTimesheet {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  work Work? @relation(fields: [workId], references: [id])
+  workId String? @db.ObjectId
+  taskType String?
+  links String?
+  comments String?
+  timeSpentMills Float?
+  approvedHoursMills Float?
+  finalizedHoursMills Float?
+  finalizedBy User? @relation("finalizedBy",fields: [finalizedById], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  finalizedById String? @db.ObjectId
+  finalizedDate DateTime?
+  client Client? @relation(fields: [clientId], references: [id])
+  clientId String? @db.ObjectId
+  approvedTimesheets Timesheet[] @relation(name: "finalizedWeeklySheet")
+  status String?
+  createdAt DateTime?
+  createdBy String?
+  updatedAt DateTime?
+  updatedBy String?
+}
+
+model Timesheet {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  work Work? @relation(fields: [workId], references: [id])
+  workId String? @db.ObjectId
+  taskType String?
+  assignedTo User? @relation("assignedTo",fields: [assignedToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  assignedToId String? @db.ObjectId
+  qa User? @relation("qa",fields: [qaId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  qaId String? @db.ObjectId
+  action String?
+  links String?
+  comments String?
+  timeSpentMills Float?
+  approvedHoursMills Float?
+  approvedBy User? @relation("approvedBy",fields: [approvedById], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  approvedById String? @db.ObjectId
+  finalizedWeeklySheet FinalizedWeeklyTimesheet? @relation("finalizedWeeklySheet",fields: [finalizedWeeklySheetId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  finalizedWeeklySheetId String? @db.ObjectId
+  executionDate DateTime?
+  task Task? @relation(fields: [taskId], references: [id])
+  taskId String? @db.ObjectId
+  status String?
+  hoursStatus Int?
+  createdAt DateTime?
+  createdBy String?
+  updatedAt DateTime?
+  updatedBy String?
+}
+
+model Task {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  work Work? @relation(fields: [workId], references: [id])
+  workId String? @db.ObjectId
+  taskName String?
+  assignedTo User? @relation("assignedTo",fields: [assignedToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  assignedToId String? @db.ObjectId
+  qa User? @relation("qa",fields: [qaId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  qaId String? @db.ObjectId
+  workType String?
+  qaFeedbackLink String?
+  noOfQaFeedback Int?
+  noOfQaIteration Int?
+  noOfClientFeedback Int?
+  noOfClientIteration Int?
+  status String?
+  comments String?
+  timesheets Timesheet[]
+  assignedDate DateTime?
+  createdAt DateTime?
+  createdBy String?
+  updatedAt DateTime?
+  updatedBy String?
+}
+
+model Work {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  workName String?
+  project Project? @relation(fields: [projectId], references: [id])
+  projectId String? @db.ObjectId
+  workLink String?
+  priority String?
+  currentStatus String?
+  hoursLimit Float?
+  estimatedHours Float?
+  comments String?
+  dueDate DateTime?
+  timesheets Timesheet[]
+  tasks Task[]
+  finalizedWeeklyTimesheets FinalizedWeeklyTimesheet[]
+  createdAt DateTime?
+  createdBy String?
+  updatedAt DateTime?
+  updatedBy String?
+}
+
+model Project {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  projectName String?
+  client Client? @relation(fields: [clientId], references: [id])
+  clientId String? @db.ObjectId
+  technology String?
+  comments String?
+  status Status @default(Active)
+  works Work[]
+  createdAt DateTime?
+  createdBy String?
+  updatedAt DateTime?
+  updatedBy String?
+}
+
+model Client {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  clientName String?
+  projects Project[]
+  finalizedWeeklyTimesheets FinalizedWeeklyTimesheet[]
+  createdAt DateTime?
+  createdBy String?
+  updatedAt DateTime?
+  updatedBy String?
+}
+
+
+enum Role {
+  EMPLOYEE
+  TL
+  QA
+  ADMIN
+}
+
+enum Status {
+  Active
+  Inactive
+}

@@ -1,0 +1,170 @@
+@import url("https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=Baloo+Paaji+2:wght@400..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Manrope:wght@200..800&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --app-bg: #080c16;
+  --app-text: #f4f7fa;
+  --app-sidebar-bg: #0b111e;
+  --app-header-bg: #0c1322;
+  --app-surface-bg: rgba(2, 6, 23, 0.6);
+  --app-border: #1d283a;
+  --app-muted-text: #cbd5e1;
+  --app-nav-active-bg: #334155;
+  --app-nav-hover-bg: #1e293b;
+  --app-dropdown-bg: #0f172a;
+  --app-button-bg: #334155;
+  --app-button-hover-bg: #64748b;
+}
+
+@font-face {
+  font-family: "Serenata Vantages";
+  src: url("./fonts/serenata-vantages.light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Serenata Vantages";
+  src: url("./fonts/serenata-vantages.regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Serenata Vantages";
+  src: url("./fonts/serenata-vantages.bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Small custom styles */
+html,
+body,
+#root {
+  min-height: 100vh;
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: "Serenata Vantages", sans-serif;
+  font-weight: 500;
+  font-family: "Baloo Paaji 2", sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 116, 139, 0.9) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #64748b 0%, #334155 100%);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #94a3b8 0%, #475569 100%);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.app-surface {
+  background: var(--app-surface-bg);
+  border-color: var(--app-border);
+}
+
+.app-muted {
+  color: var(--app-muted-text);
+}
+
+.sidebar-nav-link {
+  color: var(--app-muted-text);
+}
+
+.sidebar-nav-link:hover {
+  background: var(--app-nav-hover-bg);
+  color: var(--app-text);
+}
+
+.sidebar-nav-link-active {
+  background: var(--app-nav-active-bg);
+  color: var(--app-text);
+}
+
+.app-dropdown-link {
+  color: var(--app-text);
+}
+
+.app-dropdown-link:hover {
+  background: var(--app-nav-hover-bg);
+}
+
+.app-icon-button {
+  color: var(--app-text);
+  background: var(--app-button-bg);
+}
+
+.app-icon-button:hover {
+  background: var(--app-button-hover-bg);
+}
+
+input[type="date"] {
+  color-scheme: dark;
+}
+
+.login input:focus,
+.login input:active {
+  background: transparent !important;
+  outline: none !important;
+}
+
+
+@keyframes vibrate {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.animate-vibrate {
+  animation: vibrate 0.2s linear infinite;
+}
+
+@keyframes wave {
+  0% { transform: rotate(0deg); }
+  15% { transform: rotate(14deg); }
+  30% { transform: rotate(-8deg); }
+  45% { transform: rotate(14deg); }
+  60% { transform: rotate(-4deg); }
+  75% { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.animate-wave {
+  display: inline-block;
+  transform-origin: 70% 70%;
+  animation: wave 1.5s infinite;
+}
+
+@media screen and (max-width: 500px) {
+  .searchbar {
+    display: none;
+  }
+}

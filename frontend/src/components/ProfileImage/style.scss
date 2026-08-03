@@ -1,0 +1,56 @@
+.sidebar-container {
+    padding-top: 100px !important;
+    height: 100vh !important;
+    z-index: 99;
+}
+
+.toogle-button {
+    z-index: 99999;
+    top: 15px;
+    color: #C07F00;
+}
+
+$background-color_1: #C07F00;
+
+.nav-pills {
+    .nav-link.active {
+        background-color: $background-color_1;
+    }
+}
+
+.nav-link {
+    color: #000;
+}
+.sidebar-container .nav-item +.nav-item{
+    margin-top: 10px;
+}
+
+.nav-link:hover {
+    color: #ecdf90;
+}
+
+.drawer {
+    height: 92vh;
+}
+
+.EZDrawer {
+    .EZDrawer__container {
+        background: none;
+        box-shadow: none;
+    }
+}
+
+.btn-link:hover {
+    color: #ecdf90;
+}
+
+.dropdown {
+    .btn:hover {
+        background-color: #ecdf90;
+        border-color: #ecdf90;
+    }
+}
+
+.sidepanel_label {
+    margin-left: 10px;
+}

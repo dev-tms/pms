@@ -1,0 +1,36 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "PMS backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "Nilesh Patel",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "prisma": "^6.11.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3"
+  },
+  "type": "module",
+  "directories": {
+    "doc": "doc"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
+  },
+  "dependencies": {
+    "@hubspot/api-client": "^11.1.0",
+    "@prisma/client": "^6.11.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.1",
+    "jsonwebtoken": "^9.0.2",
+    "node-file-logger": "^0.9.5",
+    "nodemon": "^3.1.3",
+    "uuid": "^9.0.1"
+  }
+}

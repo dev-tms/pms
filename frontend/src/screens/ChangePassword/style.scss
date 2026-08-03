@@ -1,0 +1,44 @@
+$font-family_1: "Nunito", sans-serif;
+$color_1: #000000;
+
+.change-password-container {
+    display: flex;
+    min-height: calc(100vh - 72px);
+    justify-content: center;
+    align-items: center;
+}
+.change-password-form{
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin-top: 200px;
+    margin-bottom: 100px;
+    width: 400px;
+    margin: 0 auto;
+
+
+    h1 {
+        font-family: $font-family_1;
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 49.1px;
+        color: $color_1;
+        text-align: center;
+    }
+
+    label {
+        font-family: $font-family_1;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 17.73px;
+        color: #8B8B8B;
+    }
+
+    .btn-wrapper{
+        padding-top: 20px;
+    }
+}
+
+.mt-150{
+margin-top: 150px;
+}

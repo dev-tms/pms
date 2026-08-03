@@ -1,0 +1,29 @@
+const toastMessages = {
+    loginSuccess: 'Login successful',
+    loginError: 'Login Failed! Invalid Username and Password',
+    fillAllFields: 'Please fill in all required fields.',
+    addUserSuccess: 'New Contact added successfully.',
+    updateUserSuccess: 'Contact updated successfully.',
+    addAdvertiserFail:"Details Not matched",
+    addWorkSuccess:"Work Saved successfully.",
+    saveTimesheetSuccess:"Timesheet saved successfully.",
+    saveTaskSuccess:"Task saved successfully.",
+    internalServerError: "Internal server error, Please try later",
+    addProjectSuccess: "Project saved successfully.",
+    addClientSuccess: "Client saved successfully.",
+    saveTimesheetHourSubmissionSuccess:"Hours submitted successfully.",
+    saveTimesheetHourApprovedSuccess: "Hours approved successfully.",
+    noTimesheetHourToApprove:"No records to approve.",
+    noTimesheetHourToSubmit:"No records to submit.",
+    copyTimesheetHourSuccess: "Timesheet hours copied successfully.",
+    noTimesheetHourToCopy: "No timesheet hours to copy.",
+    unauthorizedAccess: "You are not authorized to access this page.",
+    sessionExpired: "Session expired, Please login again.",
+    passwordMismatch: "New Password and Confirm Password do not match.",
+    passwordUpdateSuccess: "Password updated successfully.",
+    invalidCurrentPassword: "Invalid current password.",
+    profileUpdateSuccess: "Profile updated successfully.",
+    genericError: "Something went wrong, Please try later." 
+  };
+  
+  export default toastMessages;

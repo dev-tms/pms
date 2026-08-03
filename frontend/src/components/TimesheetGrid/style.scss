@@ -1,0 +1,491 @@
+// @import "../../styles/variables.scss";
+
+// .css-16c50h-MuiInputBase-root-MuiTablePagination-select {
+//     margin-bottom: 13px;
+// }
+
+// .main .datagrid .popup-content.popup-content-content {
+//     width: 60% !important;
+// }
+
+// .main.datagrid.timesheet-view {
+//     position: relative;
+//     padding: 60px 0 0;
+// }
+
+// .main.datagrid.timesheet-view .user-section+.user-section {
+//     margin-top: 52px;
+// }
+
+// .filter-container {
+//     right: 0;
+//     top: 15px;
+//     display: flex;
+//     justify-content: flex-end;
+//     margin-bottom: 28px;
+// }
+
+// .btn-primary, .btn-secondary {
+//     padding: 10px 12px;
+// }
+
+// .css-pf6jdy-MuiDataGrid-root .MuiDataGrid-filler {
+//     -webkit-flex: 1;
+//     -ms-flex: 1;
+//     flex: 1;
+//     // background-color: rgba(240, 246, 246, 0.7);
+//     background-color: transparent !important;
+// }
+
+// .filter-form {
+//     display: flex;
+//     flex-wrap: wrap;
+//     gap: 16px;
+//     align-items: flex-end;
+
+//     .date-filter {
+//         display: flex;
+//         flex-direction: column;
+//         gap: 8px;
+//         min-width: 240px;
+
+//         .form-control {
+//             width: 100%;
+//         }
+
+//         .form-label {
+//             min-width: unset;
+//             padding: 0;
+//             margin-bottom: 0;
+//         }
+//     }
+// }
+
+// .timesheet-filter-label {
+//     font-size: 13px !important;
+//     font-weight: 600;
+//     text-transform: uppercase;
+//     letter-spacing: 0.14em;
+//     color: #94a3b8;
+// }
+
+// .timesheet-filter-input {
+//     appearance: none;
+//     background: #0f172a;
+//     border: 1px solid #334155;
+//     border-radius: 16px;
+//     color: #e2e8f0;
+//     padding: 12px 14px;
+//     font-size: 14px;
+//     min-height: 48px;
+//     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+//     transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+
+//     &:focus {
+//         border-color: #38bdf8;
+//         box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+//         background: #111c31;
+//         outline: none;
+//     }
+
+//     &::placeholder {
+//         color: #64748b;
+//     }
+
+//     option {
+//         background: #0f172a;
+//         color: #e2e8f0;
+//     }
+// }
+
+// .timesheet-view {
+//     .w-full.overflow-hidden {
+//         border-radius: 20px;
+//         border-color: #1e293b;
+//         background: linear-gradient(180deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.92));
+//         box-shadow: 0 18px 40px rgba(2, 6, 23, 0.22);
+//     }
+
+//     table thead {
+//         background: rgba(30, 41, 59, 0.94);
+//     }
+
+//     table thead th {
+//         color: #cbd5e1;
+//     }
+
+//     table tbody tr {
+//         border-color: rgba(51, 65, 85, 0.7);
+//     }
+
+//     table tbody td {
+//         color: #e2e8f0;
+//     }
+
+//     .hour-status {
+//         padding: 10px 14px;
+//         width: 100%;
+//         font-size: 13px;
+//         font-weight: 700;
+//         border-radius: 12px;
+//         text-align: center;
+//         letter-spacing: 0.04em;
+//         margin: 0;
+//         background: rgba(148, 163, 184, 0.12);
+//         color: #cbd5e1;
+//     }
+
+//     .button-container {
+//         display: flex;
+//         justify-content: space-between;
+//         align-items: center;
+//         gap: 16px;
+//         margin-bottom: 14px;
+//         flex-wrap: wrap;
+//     }
+
+//     .timesheet-user-name {
+//         margin: 0;
+//         font-size: 28px;
+//         line-height: 1.1;
+//         color: #f8fafc;
+//     }
+
+//     .timesheet-actions {
+//         display: flex;
+//         justify-content: flex-end;
+//         gap: 12px;
+//         flex-wrap: wrap;
+//     }
+
+//     .timesheet-action-btn {
+//         display: inline-flex;
+//         align-items: center;
+//         justify-content: center;
+//         min-height: 46px;
+//         padding: 0 18px;
+//         border-radius: 14px;
+//         border: 1px solid transparent;
+//         font-size: 13px;
+//         font-weight: 700;
+//         letter-spacing: 0.08em;
+//         text-transform: uppercase;
+//         text-decoration: none;
+//         transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+//         box-shadow: 0 10px 24px rgba(2, 6, 23, 0.18);
+//         cursor: pointer;
+
+//         &:hover:not(:disabled) {
+//             transform: translateY(-1px);
+//         }
+
+//         &:disabled,
+//         &.disabled {
+//             opacity: 0.55;
+//             cursor: not-allowed;
+//             transform: none;
+//         }
+//     }
+
+//     .timesheet-action-btn--ghost {
+//         background: rgba(14, 165, 233, 0.08);
+//         border-color: rgba(56, 189, 248, 0.28);
+//         color: #7dd3fc;
+//     }
+
+//     .timesheet-action-btn--ghost:hover:not(:disabled) {
+//         background: rgba(14, 165, 233, 0.14);
+//         border-color: rgba(56, 189, 248, 0.45);
+//         color: #bae6fd;
+//     }
+
+//     .timesheet-action-btn--primary {
+//         background: linear-gradient(135deg, #0ea5e9, #2563eb);
+//         color: #eff6ff;
+//     }
+
+//     .timesheet-action-btn--secondary {
+//         background: linear-gradient(135deg, #0284c7, #0369a1);
+//         color: #f0f9ff;
+//     }
+
+//     .timesheet-action-btn--warning {
+//         background: linear-gradient(135deg, #f59e0b, #d97706);
+//         color: #fff7ed;
+//     }
+
+//     .timesheet-icon-btn {
+//         display: inline-flex;
+//         align-items: center;
+//         justify-content: center;
+//         width: 40px;
+//         height: 40px;
+//         border: 1px solid rgba(56, 189, 248, 0.22);
+//         border-radius: 12px;
+//         background: rgba(14, 165, 233, 0.08);
+//         color: #7dd3fc;
+//         transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+
+//         &:hover {
+//             background: rgba(14, 165, 233, 0.16);
+//             border-color: rgba(56, 189, 248, 0.45);
+//             color: #bae6fd;
+//             transform: translateY(-1px);
+//         }
+//     }
+
+//     .bottom-grid {
+//         display: flex;
+//         justify-content: flex-end;
+//     }
+
+//     .total-time {
+//         margin-top: 16px;
+//         border: 1px solid #1e293b;
+//         background: linear-gradient(180deg, rgba(15, 23, 42, 0.94), rgba(17, 24, 39, 0.94));
+//         padding: 12px 16px;
+//         border-radius: 18px;
+//         box-shadow: 0 14px 34px rgba(2, 6, 23, 0.18);
+//         width: auto;
+
+//         .row {
+//             display: flex;
+//             justify-content: space-between;
+//             font-weight: 700;
+//             font-size: 16px;
+//             margin: 0;
+//         }
+
+//         .time-column {
+//             flex: 1;
+//             text-align: center;
+//             font-size: 15px;
+//             color: #e2e8f0;
+//             margin: 0;
+//             min-width: 280px;
+//             padding: 8px 16px;
+
+//             &:first-child {
+//                 border-right: 1px solid rgba(71, 85, 105, 0.7);
+//             }
+//         }
+//     }
+// }
+
+// .css-pf6jdy-MuiDataGrid-root .MuiDataGrid-scrollbarFiller {
+//     background-color: rgba(240, 246, 246, 0.7);
+// }
+
+// .btn.action_btn:hover {
+//     color: inherit;
+//     background-color: transparent;
+//     border-color: transparent;
+// }
+
+// .filter-form {
+//     .date-filter {
+//         .form-control {
+//             width: 100%;
+//         }
+//     }
+// }
+
+// .report-view {
+//     .MuiDataGrid-row {
+//         min-height: 52px !important;
+
+//         .MuiDataGrid-cell {
+//             min-height: 52px !important;
+
+//             .data-grid-inner-cell {
+//                 max-height: 150px;
+//                 overflow-y: auto;
+//                 overflow-x: hidden;
+//                 padding: 15px 10px;
+//             }
+//         }
+//     }
+// }
+
+// .priority {
+//     padding-left: 10px;
+//     color: #000000;
+//     line-height: 19px;
+
+//     &.Normal {
+//         background-color: $priority-normal !important;
+//     }
+
+//     &.Urgent {
+//         background-color: $priority-urgent !important;
+//     }
+
+//     &.Super {
+//         &.Urgent {
+//             background-color: $priority-super-urgent !important;
+//             color: $white-color;
+//         }
+//     }
+// }
+
+// .hour-status {
+//     color: #000000;
+//     padding-left: 10px;
+
+//     &.submitted {
+//         background-color: $submitted-color;
+//         color: #FFFFFF;
+//         font-weight: bold;
+//     }
+
+//     &.approved {
+//         background-color: $red-color;
+//         color: #FFFFFF;
+//         font-weight: bold;
+//     }
+// }
+
+// .btn-primary {
+//     color: #fff;
+//     background-color: $primary-color;
+//     border-color: $primary-color;
+// }
+
+// .user-section {
+//     // border: 1px black solid;
+//     // background-color: #eeeeee;
+//     // box-shadow: 0px 6px 6px -3px rgba(0, 0, 0, 0.2);
+//     padding: 0px;
+//     margin: 0px;
+
+//     .bottom-grid {
+//         display: flex;
+//         justify-content: flex-end;
+//     }
+// }
+
+// .client-section {
+//     .client-grid {
+//         max-height: "50vh";
+//         width: "100%";
+//         margin: "0 auto";
+//         margin-top: "40px";
+//     }
+
+//     .bottom-grid {
+//         display: flex;
+//         justify-content: flex-end;
+//     }
+
+//     .total-time {
+//         margin-bottom: 10px;
+//     }
+// }
+
+// .datagrid {
+//     margin-right: 20px !important;
+//     margin-left: 20px !important;
+//     margin-bottom: 70px !important;
+// }
+
+// .loading-overlay {
+//     position: fixed;
+//     /* Cover entire screen */
+//     top: 0;
+//     left: 0;
+//     width: 100vw;
+//     height: 100vh;
+//     background: rgba(0, 0, 0, 0.4);
+//     /* semi–transparent black */
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     z-index: 9999;
+//     /* keep it on top of everything */
+// }
+
+// /* Simple spinning circle */
+// .spinner {
+//     width: 60px;
+//     height: 60px;
+//     border: 6px solid #f3f3f3;
+//     /* Light grey background ring */
+//     border-top: 6px solid #3498db;
+//     /* Blue spinner arc */
+//     border-radius: 50%;
+//     animation: spin 1s linear infinite;
+// }
+
+// #popup-root .drawer-btn {
+//     display: none;
+// }
+
+// .modal.show .modal-dialog {
+//     margin-top: 100px;
+// }
+
+// /* Spin animation */
+// @keyframes spin {
+//     0% {
+//         transform: rotate(0deg);
+//     }
+
+//     100% {
+//         transform: rotate(360deg);
+//     }
+// }
+
+// @media screen and (max-width: 880px) {
+//     .filter-container {
+//         position: unset;
+//         padding-bottom: 20px;
+//         justify-content: flex-start;
+//     }
+// }
+
+
+// @media screen and (max-width: 783px) {
+//     .filter-form {
+//         width: 100%;
+//     }
+
+//     .filter-form .date-filter {
+//         width: 100%;
+//         min-width: unset;
+//     }
+
+//     .main.datagrid.timesheet-view .contact-list-heading {
+//         padding: 20px 20px 15px;
+//     }
+
+//     .timesheet-view .button-container {
+//         align-items: flex-start;
+//     }
+
+//     .timesheet-view .timesheet-actions {
+//         justify-content: flex-start;
+//     }
+
+// }
+
+
+// @media screen and (max-width: 620px) {
+//     .user-section .total-time .time-column:first-child {
+//         border: 0;
+//         border-bottom: 1px solid rgba(71, 85, 105, 0.7);
+//     }
+
+//     .user-section .total-time .time-column {
+//         padding: 16px;
+//         text-align: left;
+//         min-width: 100%;
+//     }
+
+//     .timesheet-view .timesheet-action-btn {
+//         width: 100%;
+//     }
+
+//     .timesheet-view .timesheet-actions {
+//         width: 100%;
+//     }
+// }

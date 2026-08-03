@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+$font-family_1: "Nunito", sans-serif;
+$font-family_2: "Roboto", sans-serif;
+$color_1: #000000;
+$background-color_1: #D9D9D9;
+
+
+.heading-wrapper {
+    text-align: center;
+    padding-block-end: 52px;
+
+    h1 {
+        font-family: $font-family_1;
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 49.1px;
+        color: $color_1;
+    }
+
+    p {
+        font-family: $font-family_1;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 24.55px;
+        color: $color_1;
+    }
+}
+
+.login-form-container {
+    min-height: calc(100vh - 77px);
+    .login-form-wrapper {
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        margin-top: 200px;
+        margin-bottom: 100px;
+    }
+
+    .login-form {
+        label {
+            font-family: $font-family_1;
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 17.73px;
+            color: #8B8B8B;
+        }
+
+        .form-control {
+            border: 1px solid #D9D9D9;
+            border-radius: 12px;
+            font-family: $font-family_1;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 18px;
+            min-height: 42px;
+
+            &::placeholder {
+                color: $color_1;
+            }
+        }
+
+        .password-feild {
+            border-right: none;
+        }
+
+        .show-password {
+            padding: 0;
+            background: #fff;
+            border-radius: 12px;
+        }
+
+        .frg-passwd {
+            font-family: $font-family_1;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 19px;
+            color: $color_1;
+        }
+
+        .btn-wrapper {
+            padding-top: 20px;
+        }
+
+        .or-liner {
+            position: relative;
+            text-align: center;
+            font-family: $font-family_1;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 19px;
+            color: #8B8B8B;
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                width: 60px;
+                height: 1px;
+                background-color: $background-color_1;
+                left: 25px;
+                transform: translateY(-50%);
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                width: 60px;
+                height: 1px;
+                background-color: $background-color_1;
+                right: 25px;
+                transform: translateY(-50%);
+            }
+        }
+    }
+}
+
+.btn-primary {
+    background: #C07F00;
+    font-family: $font-family_2;
+    font-size: 18px;
+    font-weight: 500;
+    border-color: #C07F00;
+}
+
+

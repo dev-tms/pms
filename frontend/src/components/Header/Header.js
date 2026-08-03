@@ -1,0 +1,180 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { useHistory } from "react-router-dom";
+import { logoutUser, searchTasks } from '../../controller/auth/loginApis';
+import { Link } from 'react-router-dom';
+import { Menu, X } from 'lucide-react'
+import JoinMeetingButton from './JoinMeetingButton';
+import logo from '../../thoughtmate-logo.png';
+
+
+const Header = ({ profile, authenticated, logoutUser, isMobileView = false, isMobileSidebarOpen = false, onMenuToggle = () => { } }) => {
+
+  const history = useHistory();
+
+
+
+  const [open, setOpen] = useState(false)
+  const dropdownRef = useRef(null)
+  // const currentUser = useMemo(() => getCurrentUser(), [])
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    // console.log("profile", profile)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+
+
+  }, [])
+
+  /*const handleSearch = async (e) => {
+    e.preventDefault();
+    const searchVal = e.target[0]?.value;
+    if(searchVal && searchVal.trim() !== '') {
+      await searchTasks(profile, searchVal).then(res => {
+        if(res.status === 200) {
+          history.push('?search=' + encodeURIComponent(searchVal), { searchResults: res.data });
+        } else {
+          alert('Error searching tasks. Please try again.');
+        }
+      }).catch(err => {
+        console.error('Search error:', err);
+        alert('Error searching tasks. Please try again.');
+      });
+    }
+  }*/
+
+  return (
+    <>
+      {authenticated ? <>
+        <header className='header px-2 py-3 border-b border-l flex justify-between items-center gap-3 md:justify-between md:grid md:grid-cols-3' style={{ backgroundColor: 'var(--app-header-bg)', borderColor: 'var(--app-border)' }}>
+
+          <div className='flex items-center gap-3 sm:w-fit md:w-auto'>{isMobileView && (
+            <button
+              type='button'
+              onClick={onMenuToggle}
+              className='inline-flex h-11 w-11 items-center justify-center rounded-lg border transition-colors hover:bg-slate-800/70'
+              style={{ borderColor: 'var(--app-border)', color: 'var(--app-text)' }}
+              aria-label={isMobileSidebarOpen ? 'Close sidebar' : 'Open sidebar'}
+              aria-expanded={isMobileSidebarOpen}
+              aria-controls='mobile-sidebar'
+            >
+              {isMobileSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          )}
+
+            {/* {<div className='hidden md:block searchbar w-full max-w-[300px]' >
+              <form className="flex items-center max-w-sm mx-auto space-x-2" onSubmit={handleSearch}>
+                <label htmlFor="simple-search" className="sr-only">Search</label>
+                <div className="relative w-full">
+                  <input
+                    type="text"
+                    id="simple-search"
+                    className="w-full rounded-md border bg-transparent px-3 py-2.5 text-sm placeholder:text-gray-400 focus:ring-brand focus:border-brand"
+                    style={{ color: 'var(--app-text)', borderColor: 'var(--app-border)' }}
+                    placeholder="Search..."
+                  />
+                </div>
+                <button type="submit" className="app-icon-button inline-flex items-center justify-center shrink-0 rounded-lg w-10 h-10 focus:outline-none">
+                  <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
+                  </svg>
+                </button>
+              </form>
+            </div>} */}
+
+          </div>
+
+          <div className=''>
+            <div className='text-center w-full'>
+              <Link to='/' className='flex items-center justify-center'>
+                <img src={logo} alt='ThoughtMate logo' width={250} />
+                {/* <h1 className='text-3xl md:text-4xl user-select-none' style={{ color: "#6E7172" }}>Thought<span className='' style={{ color: "#C07F00" }}>Mate</span></h1> */}
+              </Link></div>
+          </div>
+
+          <div className='flex items-center justify-end gap-4'>
+            <div className="">
+              <JoinMeetingButton />
+            </div>
+
+            <div className='user-info '>
+              <div className="relative flex items-end justify-end" ref={dropdownRef}>
+                <button
+                  type="button"
+                  onClick={() => setOpen(prev => !prev)}
+                  className="px-2 py-2  flex gap-2 items-center rounded-md text-sm border outline-none cursor-pointer border-slate"
+                  style={{ color: 'var(--app-text)', borderColor: 'var(--app-border)' }}
+                >
+                  <div className="py-2 px-4 rounded-md bg-blue-500  text-[15px]">
+                    {profile?.firstName.charAt(0).toUpperCase()}
+                  </div>
+                  <span className='hidden md:block '>{profile?.firstName}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-3 fill-slate-400 ml-3 hidden sm:block" viewBox="0 0 24 24">
+                    <path fillRule="evenodd"
+                      d="M11.99997 18.1669a2.38 2.38 0 0 1-1.68266-.69733l-9.52-9.52a2.38 2.38 0 1 1 3.36532-3.36532l7.83734 7.83734 7.83734-7.83734a2.38 2.38 0 1 1 3.36532 3.36532l-9.52 9.52a2.38 2.38 0 0 1-1.68266.69734z"
+                      clipRule="evenodd" />
+                  </svg>
+                </button>
+
+                {open && (
+                  <div
+                    className="absolute shadow-lg py-2 z-[1000]  w-max rounded-lg max-h-96 overflow-auto bottom-[-140px]"
+                    style={{ backgroundColor: 'var(--app-dropdown-bg)' }}
+                  >
+                    <Link to="/profile" onClick={() => setOpen(false)}
+                      className="app-dropdown-link py-2.5 px-5 flex items-center text-sm cursor-pointer">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-4 h-4 mr-3" viewBox="0 0 512 512">
+                        <path d="M337.711 241.3a16 16 0 0 0-11.461 3.988c-18.739 16.561-43.688 25.682-70.25 25.682s-51.511-9.121-70.25-25.683a16.007 16.007 0 0 0-11.461-3.988c-78.926 4.274-140.752 63.672-140.752 135.224v107.152C33.537 499.293 46.9 512 63.332 512h385.336c16.429 0 29.8-12.707 29.8-28.325V376.523c-.005-71.552-61.831-130.95-140.757-135.223zM446.463 480H65.537V376.523c0-52.739 45.359-96.888 104.351-102.8C193.75 292.63 224.055 302.97 256 302.97s62.25-10.34 86.112-29.245c58.992 5.91 104.351 50.059 104.351 102.8zM256 234.375a117.188 117.188 0 1 0-117.188-117.187A117.32 117.32 0 0 0 256 234.375zM256 32a85.188 85.188 0 1 1-85.188 85.188A85.284 85.284 0 0 1 256 32z" />
+                      </svg>
+                      View profile
+                    </Link>
+                    <Link to="/" onClick={() => setOpen(false)}
+                      className="app-dropdown-link py-2.5 px-5 flex items-center text-sm cursor-pointer">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-4 h-4 mr-3" viewBox="0 0 512 512">
+                        <path d="M197.332 170.668h-160C16.746 170.668 0 153.922 0 133.332v-96C0 16.746 16.746 0 37.332 0h160c20.59 0 37.336 16.746 37.336 37.332v96c0 20.59-16.746 37.336-37.336 37.336zM37.332 32A5.336 5.336 0 0 0 32 37.332v96a5.337 5.337 0 0 0 5.332 5.336h160a5.338 5.338 0 0 0 5.336-5.336v-96A5.337 5.337 0 0 0 197.332 32zm160 480h-160C16.746 512 0 495.254 0 474.668v-224c0-20.59 16.746-37.336 37.332-37.336h160c20.59 0 37.336 16.746 37.336 37.336v224c0 20.586-16.746 37.332-37.336 37.332zm-160-266.668A5.337 5.337 0 0 0 32 250.668v224A5.336 5.336 0 0 0 37.332 480h160a5.337 5.337 0 0 0 5.336-5.332v-224a5.338 5.338 0 0 0-5.336-5.336zM474.668 512h-160c-20.59 0-37.336-16.746-37.336-37.332v-96c0-20.59 16.746-37.336 37.336-37.336h160c20.586 0 37.332 16.746 37.332 37.336v96C512 495.254 495.254 512 474.668 512zm-160-138.668a5.338 5.338 0 0 0-5.336 5.336v96a5.337 5.337 0 0 0 5.336 5.332h160a5.336 5.336 0 0 0 5.332-5.332v-96a5.337 5.337 0 0 0-5.332-5.336zm160-74.664h-160c-20.59 0-37.336-16.746-37.336-37.336v-224C277.332 16.746 294.078 0 314.668 0h160C495.254 0 512 16.746 512 37.332v224c0 20.59-16.746 37.336-37.332 37.336zM314.668 32a5.337 5.337 0 0 0-5.336 5.332v224a5.338 5.338 0 0 0 5.336 5.336h160a5.337 5.337 0 0 0 5.332-5.336v-224A5.336 5.336 0 0 0 474.668 32zm0 0" />
+                      </svg>
+                      Dashboard
+                    </Link>
+                    <Link to="" onClick={() => logoutUser(history)}
+                      className="app-dropdown-link py-2.5 px-5 flex items-center text-sm cursor-pointer">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-4 h-4 mr-3" viewBox="0 0 6.35 6.35">
+                        <path d="M3.172.53a.265.266 0 0 0-.262.268v2.127a.265.266 0 0 0 .53 0V.798A.265.266 0 0 0 3.172.53zm1.544.532a.265.266 0 0 0-.026 0 .265.266 0 0 0-.147.47c.459.391.749.973.749 1.626 0 1.18-.944 2.131-2.116 2.131A2.12 2.12 0 0 1 1.06 3.16c0-.65.286-1.228.74-1.62a.265.266 0 1 0-.344-.404A2.667 2.667 0 0 0 .53 3.158a2.66 2.66 0 0 0 2.647 2.663 2.657 2.657 0 0 0 2.645-2.663c0-.812-.363-1.542-.936-2.03a.265.266 0 0 0-.17-.066z" />
+                      </svg>
+                      Logout
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+
+
+        </header >
+      </> : <header className='header px-2 py-5 border-b max-h-[79.88px] border-l' style={{ backgroundColor: 'var(--app-header-bg)', borderColor: 'var(--app-border)' }}><div className=''>
+        <div className='text-center w-full'>
+          <Link to='/'   >
+            <h1 className='text-3xl md:text-4xl user-select-none' style={{ color: "#6E7172" }}>Thought<span className='' style={{ color: "#C07F00" }}>Mate</span></h1>
+          </Link></div>
+      </div>
+      </header>
+      }
+    </>
+  )
+}
+
+const mapStateToProps = (stat) => {
+  return {
+    profile: stat.session.user?.user,
+    authenticated: stat.session.authenticated
+  }
+}
+
+
+
+export default connect(mapStateToProps, { logoutUser })(Header);
