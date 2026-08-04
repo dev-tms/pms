@@ -103,6 +103,7 @@ import { Link } from 'react-router-dom';
 import { KeyRound, ShieldCheck } from 'lucide-react';
 import { connect } from 'react-redux';
 import { changePassword } from '../../controller/auth/loginApis';
+import { toast } from 'react-toastify';
 
 const EMPTY_PASSWORDS = {
   currentPassword: '',
@@ -136,7 +137,7 @@ const ChangePassword = (props) => {
     }
 
     let response = await changePassword(props?.profile?.email, values.currentPassword, values.newPassword);
-    if (response?.errors) {
+    if (response.status !== 200) {
       setMessageType('error');
       setMessage(response.errors[0]);
       return;
@@ -144,6 +145,8 @@ const ChangePassword = (props) => {
       setMessageType('success');
       setMessage('Password updated successfully.');
       setValues(EMPTY_PASSWORDS);
+      window.location.href = "/profile";
+      toast.success("Password updated successfully.");
     }
   };
 

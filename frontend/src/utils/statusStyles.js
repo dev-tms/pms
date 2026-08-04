@@ -29,6 +29,8 @@ export const TASK_STATUS_STYLES = {
   "Sent To Client": "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20",
   "Comments In Trello": "bg-pink-500/10 text-pink-400 border border-pink-500/20",
   Done: "bg-green-500/10 text-green-400 border border-green-500/20",
+  Yes: "bg-green-500/10 text-green-400 border border-green-500/20",
+  No: "bg-gray-500/10 text-gray-400 border border-gray-500/20"
 };
 
 export const PRIORITY_STYLES = {

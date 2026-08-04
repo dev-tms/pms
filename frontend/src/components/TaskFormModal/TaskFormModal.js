@@ -77,6 +77,11 @@ export default function TaskFormModal({
     label: status.value
   }));
 
+  const formattedTaskLeadOptions = [
+    { value: true, label: "Yes" },
+    { value: false, label: "No" }
+  ];
+
   const formattedPriorityOptions = [
     { value: "Normal", label: "Normal" },
     { value: "Super Urgent", label: "Super urgent" },
@@ -377,7 +382,7 @@ export default function TaskFormModal({
           </label>
 
           {/* Comments — full width */}
-          <label className="block md:col-span-2">
+          <label className="block">
             <span className={labelCls}>Comments</span>
             <input
               type="text"
@@ -386,6 +391,20 @@ export default function TaskFormModal({
               onChange={(e) => onChange("comments", e.target.value)}
               className={inputCls}
             />
+          </label>
+
+          <label className="block">
+            <span className={labelCls}>Is Task Lead</span>
+            <Select
+              value={formattedTaskLeadOptions.find(o => o.value === values.isTaskLead) || null}
+              onChange={(e) => onChange("isTaskLead", e.value)}
+              styles={selectStyles}
+              className="rounded:md"
+              options={formattedTaskLeadOptions}
+            >
+              <option value={false}>No</option>
+              <option value={true}>Yes</option>
+            </Select>
           </label>
         </div>
 

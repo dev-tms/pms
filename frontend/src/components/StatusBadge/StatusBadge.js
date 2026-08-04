@@ -26,6 +26,14 @@ export function StatusBadge({ value, type = "task", className = "" }) {
     );
   }
 
+  if (type === "taskLead") {
+    return (
+      <span className={`${badgeBaseClass} ${getTaskStatusStyle(value && value === true ? "Yes" : "No")} ${className}`.trim()}>
+        {value && value === true ? "Yes" : "No"}
+      </span>
+    );
+  }
+
   const label = getTaskStatusLabel(value);
   return (
     <span className={`${badgeBaseClass} ${getTaskStatusStyle(value)} ${className}`.trim()}>

@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import log from '../logger/index.js';
+import { escapeRegex } from '../utils/util.js';
 
 
 const prisma = new PrismaClient({ errorFormat: 'pretty', log: [ 'error', 'warn'], })
@@ -68,6 +69,7 @@ export const updateTask = async (task) => {
         noOfClientFeedback: task.noOfClientFeedback,
         noOfClientIteration: task.noOfClientIteration,
         status: task.status,
+        isTaskLead: task.isTaskLead,
         comments: task.comments,
         updatedAt: new Date(),
         updatedBy: task.modifier,
@@ -297,7 +299,7 @@ export const findAllTasksByTL = async (userId) => {
 
 
 export const searchAllTasksAndWorksByTL = async (userId, searchQuery, assignedDate) => {
-    // const escapedQuery = escapeRegex(searchQuery);
+    searchQuery = escapeRegex(searchQuery);
     const dateFilter = assignedDate ? {
         assignedDate: {
             gte: assignedDate.from,

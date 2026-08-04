@@ -5,8 +5,8 @@ import { toast } from 'react-toastify';
 const cookies = new Cookies();
 
 
-// const API_BASE_URL = "http://192.168.40.150:3700";  //Local Backend;
-const API_BASE_URL = "http://50.116.14.116:3700";  //Live Backend;
+const API_BASE_URL = "http://192.168.40.20:3700";  //Local Backend;
+// const API_BASE_URL = "http://50.116.14.116:3700";  //Live Backend;
 
 export const login = async (user) => {
   const configuration = {
@@ -422,29 +422,6 @@ export const getWeeklyTimesheet = async (user, startDay, endDay) => {
   return result.data;
 }
 
-
-
-
-export const passwordChange = async (user) => {
-  const configuration = {
-    method: "put",
-    url: `${API_BASE_URL}/user/changepassword`,
-    data: {
-      password: user.password,
-    },
-  };
-  console.log(configuration);
-  // make the API call
-  let result = await axios(configuration)
-    .catch((error) => {
-      // error = new Error();
-      return error;
-    });
-  console.log(result);
-  isApiAuthenticated(result);
-  return result.data;
-
-}
 
 export const changePassword = async (email, oldPassword, newPassword) => {
   let token = cookies.get("TOKEN");

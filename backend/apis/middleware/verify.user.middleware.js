@@ -1,5 +1,5 @@
 import { findByEmail, changeUserPassword } from '../models/users.model.js';
-import { createHmac } from 'crypto';
+import crypto, { createHmac } from 'crypto'; 
 import log from '../logger/index.js'
 import PERMISSION_LEVELS from '../configs/envconfig.js';
 

@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import log from '../logger/index.js';
-import { getTwoMonthsBackDate } from '../utils/util.js';
+import { escapeRegex, getTwoMonthsBackDate } from '../utils/util.js';
 
 
 const prisma = new PrismaClient({ errorFormat: 'pretty' })
@@ -157,6 +157,7 @@ export const findAllLatestWorks = async () => {
 
 
 export const searchWorkByName = async (workName) => {
+    workName = escapeRegex(workName);
     const work = await prisma.work.findMany({
         where: {
             OR: [

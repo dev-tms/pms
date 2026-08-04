@@ -50,6 +50,7 @@ const mapResponse = (tasks, works) => {
       updatedAt: task.updatedAt ? new Date(task.updatedAt) : "",
       qaFeedbackLink: task.qaFeedbackLink ?? "",
       status: task.status ?? "",
+      isTaskLead: task.isTaskLead ?? false,
       comments: task.comments ?? "",
     };
     task.status === "11" ? doneTasks.push(row) : unDoneTasks.push(row);
@@ -85,10 +86,11 @@ const EMPTY_FORM = {
   taskName: "",
   qaFeedbackLink: "",
   priority: "Normal",
-  assignedDate: "",
+  assignedDate: new Date().toISOString().split("T")[0],
   assignedToId: [],
   qaId: "",
   status: "",
+  isTaskLead: false,
   comments: "",
 };
 
@@ -176,6 +178,8 @@ const TaskGrid = (props) => {
   const [workNameFilter, setWorkNameFilter] = useState("");
   const [filterStartDate, setFilterStartDate] = useState("");
   const [filterEndDate, setFilterEndDate] = useState(new Date());
+  const [sortBy, setSortBy] = useState("");
+  const [sortDirection, setSortDirection] = useState("asc");
 
   // debouncer ref for search
   const searchDebounceRef = useRef(null);
@@ -249,6 +253,7 @@ const TaskGrid = (props) => {
       assignedToId: row.assignedToId ?? [],
       qaId: row.qaId ?? "",
       status: row.status ?? "",
+      isTaskLead: row.isTaskLead ?? false,
       comments: row.comments ?? "",
     });
     setModalOpen(true);
@@ -271,6 +276,7 @@ const TaskGrid = (props) => {
         assignedToId: formValues.assignedToId || null,
         qaId: formValues.qaId || null,
         status: formValues.status || "1",
+        isTaskLead: formValues.isTaskLead || false,
         comments: formValues.comments || "",
       };
       await addTask(payload, props.profile);
@@ -282,11 +288,60 @@ const TaskGrid = (props) => {
     }
   };
 
+  const sortRows = (data) => {
+    if (!sortBy) return data;
+
+    const normalizeValue = (value) => {
+      if (value == null || value === "") return null;
+      if (value instanceof Date) return value.getTime();
+      if (typeof value === "boolean") return value ? 1 : 0;
+      if (typeof value === "string") return value.toLowerCase();
+      return value;
+    };
+
+    const compare = (a, b) => {
+      const aValue = normalizeValue(a[sortBy]);
+      const bValue = normalizeValue(b[sortBy]);
+
+      if (aValue === bValue) return 0;
+      if (aValue == null) return 1;
+      if (bValue == null) return -1;
+      if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
+      if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
+      return 0;
+    };
+
+    return [...data].sort(compare);
+  };
+
+  const getSortIcon = (accessor) => {
+    if (sortBy !== accessor) return "↕";
+    return sortDirection === "asc" ? "▲" : "▼";
+  };
+
+  const toggleSort = (accessor) => {
+    if (sortBy === accessor) {
+      setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortBy(accessor);
+      setSortDirection("asc");
+    }
+  };
+
   // ── columns ───────────────────────────────────────────────────────────────
 
   const columns = [
     {
-      header: "Work name",
+      header: (
+        <button
+          type="button"
+          onClick={() => toggleSort("workName")}
+          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+        >
+          <span>Work name</span>
+          <span className="text-base text-slate-400">{getSortIcon("workName")}</span>
+        </button>
+      ),
       accessor: "workName",
       headerClassName: "min-w-[200px] whitespace-normal",
       cellClassName: "min-w-[200px] whitespace-normal",
@@ -300,47 +355,123 @@ const TaskGrid = (props) => {
       ),
     },
     {
-      header: "Task name",
+      header: (
+        <button
+          type="button"
+          onClick={() => toggleSort("taskName")}
+          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+        >
+          <span>Task name</span>
+          <span className="text-base text-slate-400">{getSortIcon("taskName")}</span>
+        </button>
+      ),
       accessor: "taskName",
       headerClassName: "min-w-[200px] whitespace-normal",
       cellClassName: "min-w-[200px] whitespace-normal",
       render: (value) => <span className="text-base text-slate-300">{value || "—"}</span>,
     },
     {
-      header: "Priority",
+      header: (
+        <button
+          type="button"
+          onClick={() => toggleSort("priority")}
+          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+        >
+          <span>Priority</span>
+          <span className="text-base text-slate-400">{getSortIcon("priority")}</span>
+        </button>
+      ),
       accessor: "priority",
       render: (value) => <PriorityBadge value={value} />,
     },
     {
-      header: "Assigned date",
+      header: (
+        <button
+          type="button"
+          onClick={() => toggleSort("assignedDate")}
+          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+        >
+          <span>Assigned date</span>
+          <span className="text-base text-slate-400">{getSortIcon("assignedDate")}</span>
+        </button>
+      ),
       accessor: "assignedDate",
       render: (value) => (
         <span className="text-base text-slate-400 whitespace-nowrap">{formatDateDisplay(value)}</span>
       ),
     },
     {
-      header: "Updated",
+      header: (
+        <button
+          type="button"
+          onClick={() => toggleSort("updatedAt")}
+          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+        >
+          <span>Updated</span>
+          <span className="text-base text-slate-400">{getSortIcon("updatedAt")}</span>
+        </button>
+      ),
       accessor: "updatedAt",
       render: (value) => (
         <span className="text-base text-slate-500 whitespace-nowrap">{formatDateDisplay(value)}</span>
       ),
     },
     {
-      header: "Assigned to",
+      header: (
+        <button
+          type="button"
+          onClick={() => toggleSort("assignedToName")}
+          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+        >
+          <span>Assigned to</span>
+          <span className="text-base text-slate-400">{getSortIcon("assignedToName")}</span>
+        </button>
+      ),
       accessor: "assignedToName",
       render: (value) => <AvatarCell name={value} bgClass="bg-blue-600" />,
     },
     {
-      header: "QA",
+      header: (
+        <button
+          type="button"
+          onClick={() => toggleSort("qaName")}
+          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+        >
+          <span>QA</span>
+          <span className="text-base text-slate-400">{getSortIcon("qaName")}</span>
+        </button>
+      ),
       accessor: "qaName",
       render: (value) => <AvatarCell name={value} bgClass="bg-purple-600" />,
     },
     {
-      header: "Status",
+      header: (
+        <button
+          type="button"
+          onClick={() => toggleSort("status")}
+          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+        >
+          <span>Status</span>
+          <span className="text-base text-slate-400">{getSortIcon("status")}</span>
+        </button>
+      ),
       accessor: "status",
       render: (value) => <StatusBadge value={value} />,
     },
-
+    {
+      header: (
+        <button
+          type="button"
+          onClick={() => toggleSort("isTaskLead")}
+          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+        >
+          <span>Is Task Lead</span>
+          <span className="text-base text-slate-400">{getSortIcon("isTaskLead")}</span>
+        </button>
+      ),
+      accessor: "isTaskLead",
+      render: (value) => <StatusBadge value={value} type="taskLead" />,
+    },
 
     {
       header: "Action",
@@ -369,8 +500,11 @@ const TaskGrid = (props) => {
       return matchSearch && matchWork;
     });
 
-  const filteredRows = useMemo(() => filterRows(rows), [rows, search, workNameFilter]);
-  const filteredDoneTasks = useMemo(() => filterRows(doneTasks), [doneTasks, search, workNameFilter]);
+  const filteredRows = useMemo(() => sortRows(filterRows(rows)), [rows, search, workNameFilter, sortBy, sortDirection]);
+  const filteredDoneTasks = useMemo(
+    () => sortRows(filterRows(doneTasks)),
+    [doneTasks, search, workNameFilter, sortBy, sortDirection]
+  );
 
 
   const handleSearch = async () => {

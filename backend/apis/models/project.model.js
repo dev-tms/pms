@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import log from '../logger/index.js';
+import { escapeRegex } from '../utils/util.js';
 
 
 const prisma = new PrismaClient({ errorFormat: 'pretty' })
@@ -19,6 +20,7 @@ export const findByName = async (projectName) => {
 
 export const searchProjectsByName = async (projectName) => {
     // return User.find({email: email});
+    projectName = escapeRegex(projectName);
     const project = await prisma.project.findMany({
         where: {
             projectName: {

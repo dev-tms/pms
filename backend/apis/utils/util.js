@@ -12,5 +12,5 @@ export const getCeilAndFloorDatesByDate = (date) => {
 }
 
 export const escapeRegex = (str) => {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return str?.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
