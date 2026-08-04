@@ -114,7 +114,10 @@ export const findAllWorks = async () => {
             _count: {
                 select: { tasks: true },
             },
-        }
+        },
+        orderBy: [{
+            updatedAt: 'desc'
+        }],
     }).catch(err => {
         log.Error(err);
     });
@@ -188,7 +191,10 @@ export const searchWorkByName = async (workName) => {
             _count: {
                 select: { tasks: true },
             },
-        }
+        },
+        orderBy: [{
+            updatedAt: 'desc'
+        }],
     }).catch(err => {
         log.Error(err);
         return err;

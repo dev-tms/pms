@@ -538,12 +538,13 @@ const TaskGrid = (props) => {
           setLoading(false);
         }
       } else {
-        // if(!isFirstLoad) {
-        const mapped = mapResponse(allData?.allTasks, allData?.allWorks);
-        setRows(mapped.unDoneTasks);
-        setDoneTasks(mapped.doneTasks);
-        setIsFirstLoad(false);
-        // }
+        if(!isFirstLoad) {
+          const mapped = mapResponse(allData?.allTasks, allData?.allWorks);
+          setRows(mapped.unDoneTasks);
+          setDoneTasks(mapped.doneTasks);
+        } else {
+          setIsFirstLoad(false);
+        }
       }
     }, 500);
   }

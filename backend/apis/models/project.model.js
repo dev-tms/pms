@@ -62,6 +62,26 @@ export const updateProject = async (project) => {
     log.Info(project);
     let id = project.id  && project.id !== '' ? project.id : undefined;
     let resp;
+
+    if (!id && project.projectName && project.clientId) {
+        const existingProject = await prisma.project.findFirst({
+            where: {
+                projectName: {
+                    equals: project.projectName.trim(),
+                    mode: 'insensitive'
+                },
+                clientId: project.clientId
+            }
+        }).catch(err => {
+            log.Error(err);
+            return null;
+        });
+
+        if (existingProject) {
+            id = existingProject.id;
+        }
+    }
+
     let data = {
         projectName: project.projectName,
         client: {
