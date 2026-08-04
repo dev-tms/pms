@@ -34,7 +34,7 @@ class Navigation extends Component {
     }
     return (
       <AuthContext.Provider value={store}>
-        <ToastContainer  position="top-center" theme="colored" />
+        <ToastContainer position="top-center" theme="colored" />
         {this.props.checked && (
           <div className='px-4'>
             <Switch>
@@ -57,9 +57,27 @@ class Navigation extends Component {
               <Route exact path='/clients' component={!this.props.authenticated ? Login : (this.props?.profile?.role === 'ADMIN' || this.props?.profile?.role === 'TL' || this.props?.profile?.role === 'QA') ? ClientListing : Home} />
               <Route exact path='/projects' component={!this.props.authenticated ? Login : (this.props?.profile?.role === 'ADMIN' || this.props?.profile?.role === 'TL' || this.props?.profile?.role === 'QA') ? ProjectListing : Home} />
               <Route exact path="/viewreport" component={!this.props.authenticated ? Login : this.props?.profile?.role === 'ADMIN' ? ViewReportScreen : Home} />
-              <Route exact path='/profile' component={this.props.authenticated ? Profile : Login} />
-              <Route exact path="/birthdays" component={this.props.authenticated ? Birthdays : Login} />
-              <Route exact path="/leave" component={this.props.authenticated ? Leaves : Login} />
+              <Route exact path='/profile'
+                render={(routeProps) =>
+                  this.props.authenticated
+                    ? <Profile {...routeProps} theme={this.props.theme} />
+                    : <Login {...routeProps} />
+                }
+              />
+              <Route exact path="/birthdays"
+                render={(routeProps) =>
+                  this.props.authenticated
+                    ? <Birthdays {...routeProps} theme={this.props.theme} />
+                    : <Login {...routeProps} />
+                }
+              />
+              <Route exact path="/leave"
+                render={(routeProps) =>
+                  this.props.authenticated
+                    ? <Leaves {...routeProps} theme={this.props.theme} />
+                    : <Login {...routeProps} />
+                }
+              />
               <Route exact path='*' component={PagenotFound} />
             </Switch>
           </div>

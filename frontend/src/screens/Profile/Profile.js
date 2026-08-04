@@ -22,7 +22,7 @@ const formatBirthDate = (value) => {
   return parsed.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
 };
 
-const Profile = ({ profile }) => {
+const Profile = ({ profile, theme }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [draft, setDraft] = useState({});
   const [userProfile, setUserProfile] = useState(profile);
@@ -218,7 +218,7 @@ const Profile = ({ profile }) => {
                 <div className="mt-5 flex flex-wrap gap-2">
                   {skills.length > 0
                     ? skills.map((skill) => (
-                      <span key={skill} className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-100">
+                      <span key={skill} className={`rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-sm ${theme === 'dark' ? 'text-emerald-100' : 'text-emerald-900'}`}>
                         {skill}
                       </span>
                     ))

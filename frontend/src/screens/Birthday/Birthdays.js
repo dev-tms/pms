@@ -145,7 +145,7 @@ function BirthdayFormModal({ open, mode, values, onChange, onClose, onSubmit }) 
   );
 }
 
-const Birthdays = ({ profile }) => {
+const Birthdays = ({ profile, theme }) => {
   const [employees, setEmployees] = useState([]);
   const [search, setSearch] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
@@ -174,7 +174,7 @@ const Birthdays = ({ profile }) => {
       cellClassName: 'min-w-[220px] whitespace-normal',
       render: (value, row) => (
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500/15 text-sm font-bold text-sky-200">
+          <div className={`flex h-10 w-10 items-center justify-center rounded-full bg-sky-500/15 text-sm font-bold ${theme === 'light' ? 'bg-sky-500/15 text-sky-800' : 'bg-sky-500/15 text-sky-200'}`}>
             {value?.charAt(0)}
           </div>
           <div>
@@ -184,12 +184,12 @@ const Birthdays = ({ profile }) => {
         </div>
       ),
     },
-    { header: 'Department', accessor: 'department' },
+    { header: 'Role', accessor: 'department' },
     {
       header: 'Birthday',
       accessor: 'birthDate',
       render: (value) => (
-        <span className="rounded-full bg-pink-500/10 px-3 py-1 text-sm font-medium text-pink-200">
+        <span className={`rounded-full bg-pink-500/10 px-3 py-1 text-sm font-medium ${theme === 'light' ? 'bg-pink-500/10 text-pink-800' : 'bg-pink-500/10 text-pink-200'}`}>
           {value}
         </span>
       ),
