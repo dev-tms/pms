@@ -18,8 +18,6 @@ const Dashboard = ({ profile, theme }) => {
     const [rows, setRows] = useState([]);
     const [works, setWorks] = useState([]);
     const [todayTotalTasks, setTodayTotalTasks] = useState([]);
-    const [allEmp, setAllEmp] = useState([])
-    const [availableResources, setAvailableResources] = useState([])
     const [loading, setLoading] = useState(false);
     const getStatus = (status) => {
         return taskStatus.filter((s) => s.id === status)[0]?.value || status;
@@ -39,8 +37,6 @@ const Dashboard = ({ profile, theme }) => {
             return fullname.trim();
         }) || [];
 
-        setAllEmp(fullNames);
-
         const busyStatuses = ["In Progress", "In Progress + QA", "QA", "Feedback From QA"];
 
         const availability = fullNames.map((empName) => {
@@ -50,11 +46,9 @@ const Dashboard = ({ profile, theme }) => {
             return { name: empName, available: !isBusy };
         });
 
-        setAvailableResources(availability.map((e) => e.available));
         setFreeEmployees(availability.filter((e) => e.available).map((e) => e.name));
     }, [todayTotalTasks, rows]);
 
-    // console.log('allemp', allEmp)
     console.log('freeEmployees', freeEmployees)
 
     // Only show if this is the first render since login (not on re-navigation)

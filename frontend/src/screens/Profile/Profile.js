@@ -6,7 +6,6 @@ import {
   MapPin,
   Pencil,
   Phone,
-  ShieldCheck,
   Sparkles,
 } from 'lucide-react';
 import { connect } from 'react-redux';

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { getWorkById } from "../../controller/auth/loginApis";
-import { ThoughtMateProgressLoaderAnimated } from "../TMLoader/ThoughtMateProgressLoaderAnimated";
 import { PriorityBadge } from "../StatusBadge/StatusBadge";
 
 // ─── small read-only field ────────────────────────────────────────────────────

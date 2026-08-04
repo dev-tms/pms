@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import { logoutUser, searchTasks } from '../../controller/auth/loginApis';
+import { logoutUser } from '../../controller/auth/loginApis';
 import { Link } from 'react-router-dom';
 import { Menu, Moon, Sun, X } from 'lucide-react'
 import JoinMeetingButton from './JoinMeetingButton';

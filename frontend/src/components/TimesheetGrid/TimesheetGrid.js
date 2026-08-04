@@ -148,7 +148,7 @@ const mapResponse = (timesheets, tasks, works, loggedInUser, executionDateFilter
             qaId: task.qa?.id,
             executionDate: new Date()
           };
-          if (sheet.assignedToId === loggedInUser.id && ((task.status == '11' && dateTimeFormatDate(task.updatedAt) === "Today") || task.status !== '11' || task?.work?.workName === 'Morning Meeting'))
+          if (sheet.assignedToId === loggedInUser.id && ((task.status === '11' && dateTimeFormatDate(task.updatedAt) === "Today") || task.status !== '11' || task?.work?.workName === 'Morning Meeting'))
             item?.assignedTo[userIndex]?.tasks.push(sheet);
         }
       });
@@ -182,7 +182,7 @@ const mapResponse = (timesheets, tasks, works, loggedInUser, executionDateFilter
         qaId: task.qa?.id,
         executionDate: new Date()
       };
-      if (task.assignedTo.id === loggedInUser.id && ((task.status == '11' && dateTimeFormatDate(task.updatedAt) === "Today") || task.status !== '11' || task?.work?.workName === 'Morning Meeting'))
+      if (task.assignedTo.id === loggedInUser.id && ((task.status === '11' && dateTimeFormatDate(task.updatedAt) === "Today") || task.status !== '11' || task?.work?.workName === 'Morning Meeting'))
         todaySheets?.assignedTo[0]?.tasks.push(sheet);
     });
     hierarchicalData.push(todaySheets);
