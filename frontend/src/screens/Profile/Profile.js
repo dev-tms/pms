@@ -130,7 +130,7 @@ const Profile = ({ profile, theme }) => {
 
   return (
     <section className="px-3 py-4 md:px-4 md:py-6 lg:px-6 lg:py-8">
-      <div className="relative overflow-hidden rounded-[32px] border border-slate-800/80 app-panel p-5 md:p-7">
+      <div className="relative overflow-hidden bg-transparent app-panel">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-40 app-panel" />
         <div className="pointer-events-none absolute -right-16 top-24 h-52 w-52 rounded-full bg-sky-400/10 blur-3xl" />
         <div className="pointer-events-none absolute -left-16 bottom-0 h-52 w-52 rounded-full bg-cyan-300/10 blur-3xl" />
@@ -150,7 +150,7 @@ const Profile = ({ profile, theme }) => {
                 </div>
                 {/* name / role / bio */}
                 <div className="min-w-0">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1 text-[11px] uppercase tracking-[0.3em] text-sky-200">
+                  <div className={`inline-flex items-center gap-2 rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1 text-[11px] uppercase tracking-[0.3em] ${theme === 'dark' ? "text-sky-200" : ""}`}>
                     <Sparkles size={12} />
                     Profile Overview
                   </div>

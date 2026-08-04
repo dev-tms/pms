@@ -20,7 +20,7 @@ export const TASK_STATUS_STYLES = {
   New: "bg-sky-500/10 text-sky-400 border border-sky-500/20",
   Assigned: "bg-green-500/10 text-green-400 border border-green-500/20",
   "In Progress": "bg-yellow-500/10 text-yellow-800 border border-yellow-500/20",
-  InProgress: "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20",
+  InProgress: "bg-yellow-500/10 text-yellow-800 border border-yellow-500/20",
   "In Progress + QA": "bg-blue-500/10 text-blue-400 border border-blue-500/20",
   QA: "bg-blue-500/10 text-blue-400 border border-blue-500/20",
   "Feedback From QA": "bg-gray-500/10 text-gray-400 border border-gray-500/20",
