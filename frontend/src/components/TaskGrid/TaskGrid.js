@@ -13,6 +13,7 @@ import TaskFormModal, { formatDateForInput } from "../TaskFormModal/TaskFormModa
 import { ThoughtMateProgressLoaderAnimated } from "../TMLoader/ThoughtMateProgressLoaderAnimated";
 import { dateMax, dateMin } from "../../utils";
 import { PriorityBadge, StatusBadge } from "../StatusBadge/StatusBadge";
+import { ArrowDownUp } from "lucide-react";
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -163,7 +164,7 @@ const TaskGrid = (props) => {
   const [loading, setLoading] = useState(false);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
-
+  console.log("theme taskgrid", props.theme)
 
   // task form modal
   const [modalOpen, setModalOpen] = useState(false);
@@ -315,7 +316,7 @@ const TaskGrid = (props) => {
   };
 
   const getSortIcon = (accessor) => {
-    if (sortBy !== accessor) return "↕";
+    if (sortBy !== accessor) return <ArrowDownUp width={15} />;
     return sortDirection === "asc" ? "▲" : "▼";
   };
 
@@ -336,10 +337,10 @@ const TaskGrid = (props) => {
         <button
           type="button"
           onClick={() => toggleSort("workName")}
-          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+          className={`flex items-center gap-2 text-left  ${props.theme === "dark" ? "text-slate-100 hover:text-sky-300" : ""}`}
         >
           <span>Work name</span>
-          <span className="text-base text-slate-400">{getSortIcon("workName")}</span>
+          <span className="text-sm text-slate-400">{getSortIcon("workName")}</span>
         </button>
       ),
       accessor: "workName",
@@ -348,7 +349,7 @@ const TaskGrid = (props) => {
       render: (value, row) => (
         <button
           onClick={() => { setSelectedWorkRow(row); setWorkDetailOpen(true); }}
-          className="text-left text-sky-400 underline underline-offset-4 hover:text-sky-300 transition text-base"
+          className="text-left text-sky-600 underline underline-offset-4 hover:text-sky-300 transition text-base"
         >
           {value || "—"}
         </button>
@@ -359,7 +360,7 @@ const TaskGrid = (props) => {
         <button
           type="button"
           onClick={() => toggleSort("taskName")}
-          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+          className={`flex items-center gap-2 text-left ${props.theme === "dark" ? "text-slate-100 hover:text-sky-300" : ""}`}
         >
           <span>Task name</span>
           <span className="text-base text-slate-400">{getSortIcon("taskName")}</span>
@@ -375,7 +376,7 @@ const TaskGrid = (props) => {
         <button
           type="button"
           onClick={() => toggleSort("priority")}
-          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+          className={`flex items-center gap-2 text-left ${props.theme === "dark" ? "text-slate-100 hover:text-sky-300" : ""}`}
         >
           <span>Priority</span>
           <span className="text-base text-slate-400">{getSortIcon("priority")}</span>
@@ -389,7 +390,7 @@ const TaskGrid = (props) => {
         <button
           type="button"
           onClick={() => toggleSort("assignedDate")}
-          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+          className={`flex items-center gap-2 text-left ${props.theme === "dark" ? "text-slate-100 hover:text-sky-300" : ""}`}
         >
           <span>Assigned date</span>
           <span className="text-base text-slate-400">{getSortIcon("assignedDate")}</span>
@@ -405,7 +406,7 @@ const TaskGrid = (props) => {
         <button
           type="button"
           onClick={() => toggleSort("updatedAt")}
-          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+          className={`flex items-center gap-2 text-left ${props.theme === "dark" ? "text-slate-100 hover:text-sky-300" : ""}`}
         >
           <span>Updated</span>
           <span className="text-base text-slate-400">{getSortIcon("updatedAt")}</span>
@@ -421,7 +422,7 @@ const TaskGrid = (props) => {
         <button
           type="button"
           onClick={() => toggleSort("assignedToName")}
-          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+          className={`flex items-center gap-2 text-left ${props.theme === "dark" ? "text-slate-100 hover:text-sky-300" : ""}`}
         >
           <span>Assigned to</span>
           <span className="text-base text-slate-400">{getSortIcon("assignedToName")}</span>
@@ -435,7 +436,7 @@ const TaskGrid = (props) => {
         <button
           type="button"
           onClick={() => toggleSort("qaName")}
-          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+          className={`flex items-center gap-2 text-left ${props.theme === "dark" ? "text-slate-100 hover:text-sky-300" : ""}`}
         >
           <span>QA</span>
           <span className="text-base text-slate-400">{getSortIcon("qaName")}</span>
@@ -449,7 +450,7 @@ const TaskGrid = (props) => {
         <button
           type="button"
           onClick={() => toggleSort("status")}
-          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+          className={`flex items-center gap-2 text-left ${props.theme === "dark" ? "text-slate-100 hover:text-sky-300" : ""}`}
         >
           <span>Status</span>
           <span className="text-base text-slate-400">{getSortIcon("status")}</span>
@@ -463,7 +464,7 @@ const TaskGrid = (props) => {
         <button
           type="button"
           onClick={() => toggleSort("isTaskLead")}
-          className="flex items-center gap-2 text-left text-slate-100 hover:text-sky-300"
+          className={`flex items-center gap-2 text-left ${props.theme === "dark" ? "text-slate-100 hover:text-sky-300" : ""}`}
         >
           <span>Is Task Lead</span>
           <span className="text-base text-slate-400">{getSortIcon("isTaskLead")}</span>

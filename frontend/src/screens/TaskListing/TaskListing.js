@@ -6,7 +6,7 @@ import TaskGrid from '../../components/TaskGrid/TaskGrid';
 export class TaskListing extends Component {
   render() {
     return (
-      <TaskGrid profile={this.props.profile} />
+      <TaskGrid profile={this.props.profile} theme={this.props.theme} />
     )
   }
 }

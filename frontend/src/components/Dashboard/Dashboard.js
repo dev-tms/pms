@@ -150,6 +150,7 @@ const Dashboard = ({ profile, theme }) => {
         { bg: "bg-purple-500", text: "text-purple-100" },
         { bg: "bg-teal-900", text: "text-teal-100" },
         { bg: "bg-amber-700", text: "text-amber-100" },
+        { bg: "bg-red-700", text: "text-red-100" },
     ];
 
     const columns = [

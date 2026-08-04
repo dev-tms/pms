@@ -52,7 +52,13 @@ class Navigation extends Component {
               <Route exact path='/users' component={!this.props.authenticated ? Login : this.props?.profile?.role === 'ADMIN' ? UserList : Home} />
               <Route exact path='/change-password' component={this.props.authenticated ? ChangePasswordForm : Login} />
               <Route exact path='/timesheets' component={this.props.authenticated ? TimesheetListing : Login} />
-              <Route exact path='/tasks' component={!this.props.authenticated ? Login : TaskListing} />
+              <Route
+                exact
+                path='/tasks'
+                render={(routerProps) =>
+                  this.props.authenticated ? <TaskListing theme={this.props.theme} /> : <Login />
+                }
+              />
               <Route exact path='/home' component={!this.props.authenticated ? Login : this.props?.profile?.role === 'ADMIN' ? Home : Login} />
               <Route exact path='/works' component={!this.props.authenticated ? Login : (this.props?.profile?.role === 'ADMIN' || this.props?.profile?.role === 'TL' || this.props?.profile?.role === 'QA') ? WorkListing : Home} />
               <Route exact path='/clients' component={!this.props.authenticated ? Login : (this.props?.profile?.role === 'ADMIN' || this.props?.profile?.role === 'TL' || this.props?.profile?.role === 'QA') ? ClientListing : Home} />
