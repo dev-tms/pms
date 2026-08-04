@@ -18,12 +18,45 @@ const Dashboard = ({ profile, theme }) => {
     const [rows, setRows] = useState([]);
     const [works, setWorks] = useState([]);
     const [todayTotalTasks, setTodayTotalTasks] = useState([]);
+    const [allEmp, setAllEmp] = useState([])
+    const [availableResources, setAvailableResources] = useState([])
     const [loading, setLoading] = useState(false);
     const getStatus = (status) => {
         return taskStatus.filter((s) => s.id === status)[0]?.value || status;
     }
 
-    // console.log("todayTotalTasks", todayTotalTasks);
+
+
+    const [freeEmployees, setFreeEmployees] = useState([]);
+
+    console.log("rows", rows)
+    useEffect(() => {
+        const excludeEmp = ["richard.thoughtmate@gmail.com", "jp.thoughtmate@gmail.com", "parag.thoughtmate@gmail.com", "patelamitb@gmail.com"];
+
+        const filteredRows = rows?.filter((em) => !excludeEmp.includes(em.email)) || [];
+        const fullNames = filteredRows?.filter((em) => em.status === "Active").map((em) => {
+            let fullname = (em.firstName ?? "") + " " + (em.lastName ?? "");
+            return fullname.trim();
+        }) || [];
+
+        setAllEmp(fullNames);
+
+        const busyStatuses = ["In Progress", "In Progress + QA", "QA", "Feedback From QA"];
+
+        const availability = fullNames.map((empName) => {
+            const isBusy = todayTotalTasks?.some(
+                (task) => task.assignedTo?.trim() === empName?.trim() && busyStatuses?.includes(task.status)
+            );
+            return { name: empName, available: !isBusy };
+        });
+
+        setAvailableResources(availability.map((e) => e.available));
+        setFreeEmployees(availability.filter((e) => e.available).map((e) => e.name));
+    }, [todayTotalTasks, rows]);
+
+    // console.log('allemp', allEmp)
+    console.log('freeEmployees', freeEmployees)
+
     // Only show if this is the first render since login (not on re-navigation)
     const [showConfetti, setShowConfetti] = useState(() => {
         const alreadyShown = sessionStorage.getItem(WELCOME_SHOWN_KEY);
@@ -39,7 +72,6 @@ const Dashboard = ({ profile, theme }) => {
         height: window.innerHeight,
     });
 
-    console.log("theme from dashboard", theme);
 
 
     useEffect(() => {
@@ -55,7 +87,7 @@ const Dashboard = ({ profile, theme }) => {
                 }
                 if (!profile) return;
                 const res = await taskPage(profile);
-                setRows(res?.data?.allUsers?.length || []);
+                setRows(res?.data?.allUsers || []);
                 setWorks(res?.data?.allWorks);
                 setTodayTotalTasks(res?.data?.allTasks?.filter((t) => t.status !== "11").map((t) => {
                     return {
@@ -110,7 +142,8 @@ const Dashboard = ({ profile, theme }) => {
     const stats = [
         { label: "Total Works", value: works?.length, trend: "up", icon: <FolderKanban size={18} /> },
         { label: "Today Tasks", value: todayTotalTasks?.length, trend: "down", icon: <CheckSquare size={18} /> },
-        { label: "Team Members", value: rows, trend: "up", icon: <Users size={18} /> },
+        { label: "Team Members", value: rows?.length, trend: "up", icon: <Users size={18} /> },
+        { label: "Available Resources", value: freeEmployees?.length, trend: "up", resources: freeEmployees, icon: <Users size={18} /> },
     ];
 
     const iconColors = [
@@ -224,26 +257,37 @@ const Dashboard = ({ profile, theme }) => {
             </div>
 
             {/* stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5 md:mt-8">
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 mt-5 md:mt-8">
                 {stats.map((stat, i) => (
-                    <div key={i} className="app-card flex justify-between items-start p-5 py-4 md:py-7 border rounded-xl transition-colors">
-                        <div>
-                            <p className="app-muted text-md mb-1">{stat.label}</p>
-                            {/* <h3 className="text-2xl md:text-3xl app-heading font-medium">{stat.value}</h3> */}
-                            <Counter value={stat.value} duration={1000} />
+                    <div key={i} className="app-card p-5 py-4 md:py-7 border rounded-xl transition-colors">
+                        <div className='flex justify-between items-start '>
+                            <div>
+                                <p className="app-muted text-md mb-1">{stat.label}</p>
+                                {/* <h3 className="text-2xl md:text-3xl app-heading font-medium">{stat.value}</h3> */}
+                                <Counter value={stat.value} duration={1000} />
+                            </div>
+                            <div className={`p-2 rounded-lg ${iconColors[i]?.bg} ${iconColors[i]?.text}`}>
+                                {stat.icon}
+                            </div>
                         </div>
-                        <div className={`p-2 rounded-lg ${iconColors[i].bg} ${iconColors[i].text}`}>
-                            {stat.icon}
-                        </div>
+                        <>
+                            <ul className='flex items-center flex-wrap gap-2 gap-y-1'>
+                                {stat?.resources?.map((name, index) => (
+                                    <li key={index} className=''>   {name}{index !== stat.resources.length - 1 ? "," : ""}</li>
+                                ))}
+                            </ul>
+                        </>
                     </div>
                 ))}
             </div>
 
-            {loading && (
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60">
-                    <ThoughtMateProgressLoaderAnimated />
-                </div>
-            )}
+            {
+                loading && (
+                    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60">
+                        <ThoughtMateProgressLoaderAnimated />
+                    </div>
+                )
+            }
 
 
             {/* recent tasks */}
@@ -263,7 +307,7 @@ const Dashboard = ({ profile, theme }) => {
                     100% { opacity: 1; transform: scale(1) translateY(0); }
                 }
             `}</style>
-        </section>
+        </section >
     );
 };
 
