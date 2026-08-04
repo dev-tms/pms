@@ -73,7 +73,7 @@ const mapResponse = (tasks, works) => {
       });
     }
   });
-  console.log("Done tasks:", doneTasks);
+  // console.log("Done tasks:", doneTasks);
   return { doneTasks, unDoneTasks: [...unAssignedTasks, ...unDoneTasks] };
 };
 
@@ -419,7 +419,7 @@ const TaskGrid = (props) => {
   }, [search, filterStartDate]);
 
 
-  console.log('filteredRows', filteredRows)
+  // console.log('filteredRows', filteredRows)
   // ── render ────────────────────────────────────────────────────────────────
 
   return (

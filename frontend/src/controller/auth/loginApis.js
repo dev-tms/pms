@@ -5,9 +5,9 @@ import { toast } from 'react-toastify';
 const cookies = new Cookies();
 
 
-// const API_BASE_URL = "http://50.116.14.116:3700";  //Live Backend;
+const API_BASE_URL = "http://50.116.14.116:3700";  //Live Backend;
 // const API_BASE_URL = "http://127.0.0.1:3700";  //Local Backend;
-const API_BASE_URL = "http://192.168.40.150:3700";  //Local Backend;
+// const API_BASE_URL = "http://192.168.40.150:3700";  //Local Backend;
 
 export const login = async (user) => {
   const configuration = {
