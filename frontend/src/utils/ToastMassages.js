@@ -23,7 +23,9 @@ const toastMessages = {
     passwordUpdateSuccess: "Password updated successfully.",
     invalidCurrentPassword: "Invalid current password.",
     profileUpdateSuccess: "Profile updated successfully.",
-    genericError: "Something went wrong, Please try later." 
+    genericError: "Something went wrong, Please try later.",
+    addUsefullLinkSuccess: "Useful link saved successfully.",
+    deleteUsefullLinkSuccess: "Useful link deleted successfully.",
   };
   
   export default toastMessages;

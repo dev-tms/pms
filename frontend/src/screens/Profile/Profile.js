@@ -204,7 +204,7 @@ const Profile = ({ profile, theme }) => {
             </div>
 
             {/* ── skills ── */}
-            <div className="mt-4">
+            {/* <div className="mt-4">
               <div className="rounded-[28px] border border-slate-700/70 app-panel p-5 shadow-[0_20px_45px_rgba(2,6,23,0.22)] md:p-6">
                 <div className="flex items-center gap-3">
                   <div className="rounded-2xl bg-emerald-500/10 p-2 text-emerald-200">
@@ -226,7 +226,7 @@ const Profile = ({ profile, theme }) => {
                   }
                 </div>
               </div>
-            </div>
+            </div> */}
 
           </div>
         </div>
@@ -311,7 +311,7 @@ const Profile = ({ profile, theme }) => {
                 />
               </label>
 
-              <label className="block md:col-span-2">
+              {/* <label className="block md:col-span-2">
                 <span className="app-label mb-2 block text-sm">Skills</span>
                 <input
                   type="text"
@@ -321,7 +321,7 @@ const Profile = ({ profile, theme }) => {
                   className="app-input w-full rounded-xl border px-4 py-3 text-sm outline-none transition min-h-[48px] focus:border-sky-400"
                 />
                 <p className="mt-2 text-sm text-slate-500">Separate each skill with a comma.</p>
-              </label>
+              </label> */}
             </div>
 
             {/* footer */}

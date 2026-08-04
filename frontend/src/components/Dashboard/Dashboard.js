@@ -23,7 +23,7 @@ const Dashboard = ({ profile, theme }) => {
         return taskStatus.filter((s) => s.id === status)[0]?.value || status;
     }
 
-    console.log("todayTotalTasks", todayTotalTasks);
+    // console.log("todayTotalTasks", todayTotalTasks);
     // Only show if this is the first render since login (not on re-navigation)
     const [showConfetti, setShowConfetti] = useState(() => {
         const alreadyShown = sessionStorage.getItem(WELCOME_SHOWN_KEY);
@@ -109,7 +109,7 @@ const Dashboard = ({ profile, theme }) => {
 
     const stats = [
         { label: "Total Works", value: works?.length, trend: "up", icon: <FolderKanban size={18} /> },
-        { label: "Today Tasks", value: todayTotalTasks.length, trend: "down", icon: <CheckSquare size={18} /> },
+        { label: "Today Tasks", value: todayTotalTasks?.length, trend: "down", icon: <CheckSquare size={18} /> },
         { label: "Team Members", value: rows, trend: "up", icon: <Users size={18} /> },
     ];
 

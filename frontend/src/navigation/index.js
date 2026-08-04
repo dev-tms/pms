@@ -20,6 +20,7 @@ import Dashboard from '../components/Dashboard/Dashboard';
 import Profile from '../screens/Profile/Profile';
 import Birthdays from '../screens/Birthday/Birthdays';
 import Leaves from '../screens/Leaves.js/Leaves';
+import UsefulLinksListing from '../screens/UsefulLinks';
 
 
 
@@ -75,6 +76,13 @@ class Navigation extends Component {
                 render={(routeProps) =>
                   this.props.authenticated
                     ? <Leaves {...routeProps} theme={this.props.theme} />
+                    : <Login {...routeProps} />
+                }
+              />
+              <Route exact path="/usefull-links"
+                render={(routeProps) =>
+                  this.props.authenticated
+                    ? <UsefulLinksListing {...routeProps} />
                     : <Login {...routeProps} />
                 }
               />
