@@ -39,6 +39,7 @@ export default function TaskFormModal({
   taskStatus = [],
 }) {
   const [openDropdown, setOpenDropdown] = useState(false);
+  const [employeeSearch, setEmployeeSearch] = useState("");
   const dropdownRef = useRef(null);
 
   // Close dropdown when clicking outside
@@ -168,7 +169,6 @@ export default function TaskFormModal({
             />
           </label>
 
-          {/* Assigned to */}
           {(!values.id.startsWith('_new') && values.id !== '') && (
             <label className="block">
               <span className={labelCls}>Assigned to</span>
@@ -196,15 +196,16 @@ export default function TaskFormModal({
                   onClick={(e) => {
                     e.stopPropagation();
                     setOpenDropdown(!openDropdown);
+                    if (openDropdown) setEmployeeSearch("");
                   }}
-                  className={` h-[48px] app-input relative w-full rounded-2xl border text-left flex items-center justify-between gap-2 px-4 py-3 text-sm transition ${openDropdown
+                  className={`h-[48px] app-input relative w-full rounded-2xl border text-left overflow-hidden flex items-center justify-between gap-2 flex-nowrap px-4 py-3 text-sm transition ${openDropdown
                     ? "border-sky-400 shadow-[0_0_12px_rgba(14,165,233,0.2)]"
                     : ""
                     } focus:outline-none`}
                 >
                   <div className="flex items-center gap-2 flex-1 min-w-0">
                     {Array.isArray(values.assignedToId) && values.assignedToId.length > 0 ? (
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-nowrap gap-2 overflow-x-auto">
                         {employees
                           .filter((u) => values.assignedToId.includes(u.id))
                           .map((employee) => (
@@ -256,14 +257,58 @@ export default function TaskFormModal({
                       </div>
                     )}
 
+                    {/* Search input */}
+                    <div className="px-4 py-2 border-b" style={{ borderBottomColor: "var(--app-border)" }}>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={employeeSearch}
+                          onChange={(e) => setEmployeeSearch(e.target.value)}
+                          onClick={(e) => e.stopPropagation()}
+                          placeholder="Search by name..."
+                          autoFocus
+                          className="app-input w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:border-sky-400"
+                        />
+                        {employeeSearch && (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setEmployeeSearch("");
+                            }}
+                            className="app-muted absolute right-2 top-1/2 -translate-y-1/2 text-sm hover:text-sky-300"
+                          >
+                            ✕
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
                     {/* Options List */}
                     <div className="max-h-64 overflow-y-auto">
-                      {employees.length === 0 ? (
-                        <div className="app-muted px-4 py-6 text-center text-sm">
-                          No employees available
-                        </div>
-                      ) : (
-                        employees.map((employee, index) => {
+                      {(() => {
+                        const filteredEmployees = employees.filter((employee) => {
+                          const fullName = `${employee.firstName ?? ""} ${employee.lastName ?? ""}`.trim().toLowerCase();
+                          return fullName.includes(employeeSearch.trim().toLowerCase());
+                        });
+
+                        if (employees.length === 0) {
+                          return (
+                            <div className="app-muted px-4 py-6 text-center text-sm">
+                              No employees available
+                            </div>
+                          );
+                        }
+
+                        if (filteredEmployees.length === 0) {
+                          return (
+                            <div className="app-muted px-4 py-6 text-center text-sm">
+                              No employees match "{employeeSearch}"
+                            </div>
+                          );
+                        }
+
+                        return filteredEmployees.map((employee, index) => {
                           const isSelected = Array.isArray(values.assignedToId) && values.assignedToId.includes(employee.id);
                           return (
                             <label
@@ -271,9 +316,9 @@ export default function TaskFormModal({
                               className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition duration-150 ${isSelected
                                 ? "bg-sky-500/10 border-l-2 border-sky-500"
                                 : "border-l-2 border-transparent"
-                                } ${index !== employees.length - 1 ? "border-b" : ""}`}
+                                } ${index !== filteredEmployees.length - 1 ? "border-b" : ""}`}
                               style={
-                                index !== employees.length - 1
+                                index !== filteredEmployees.length - 1
                                   ? { borderBottomColor: "var(--app-border)" }
                                   : undefined
                               }
@@ -301,8 +346,8 @@ export default function TaskFormModal({
                               )}
                             </label>
                           );
-                        })
-                      )}
+                        });
+                      })()}
                     </div>
                   </div>
                 )}

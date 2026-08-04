@@ -10,6 +10,7 @@ import { selectStyles } from "../../utils/index";
 
 
 const AddTimesheet = (props) => {
+  console.log("timesheet props", props)
   const isEditMode = Boolean(props.timesheet?._id);
   const inputCls =
     "app-input w-full rounded-xl border px-4 py-3 text-base outline-none transition min-h-[48px] focus:border-sky-400";
@@ -40,10 +41,10 @@ const AddTimesheet = (props) => {
   const [formData, setFormData] = useState({
     id: props.timesheet?._id || "",
     status: props.timesheet?.status || "",
-    taskType: props.timesheet?.taskType || "",
-    action: props.timesheet?.action || "",
+    taskType: props.timesheet?.taskType || props.timesheet?.workName === "Morning Meeting" ? 'New Change' : "",
+    action: props.timesheet?.action || props.timesheet?.workName === "Morning Meeting" ? 'Meeting' : "",
     links: props.timesheet?.links || "",
-    comments: props.timesheet?.comments || "",
+    comments: props.timesheet?.comments || props.timesheet?.workName === "Morning Meeting" ? 'Morning Meeting' : "",
     timeSpentMills: props.timesheet?.timeSpentMills || "",
     timeSpentHours: getHoursFromMills(props.timesheet?.timeSpentMills) || 0,
     timeSpentMinutes: getMinutesFromMills(props.timesheet?.timeSpentMills) || 0,

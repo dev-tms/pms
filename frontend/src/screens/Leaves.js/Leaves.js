@@ -178,7 +178,8 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
   );
 }
 
-const Leaves = ({ profile }) => {
+const Leaves = ({ profile, theme }) => {
+  // console.log("theme from leaves", theme);
   const [leaveRecords, setLeaveRecords] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [search, setSearch] = useState('');
@@ -194,7 +195,7 @@ const Leaves = ({ profile }) => {
       cellClassName: 'min-w-[220px] whitespace-normal',
       render: (value) => (
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500/15 text-sm font-bold text-sky-200">
+          <div className={`flex h-10 w-10 items-center justify-center rounded-full bg-sky-500/15 text-sm font-bold text-sky-200 ${theme === 'light' ? 'bg-sky-500/15 text-sky-800' : 'bg-sky-500/15 text-sky-300'}`}>
             {value?.charAt(0)}
           </div>
           <p className="app-heading font-medium">{value}</p>
@@ -205,7 +206,7 @@ const Leaves = ({ profile }) => {
       header: 'Leave From',
       accessor: 'leaveFrom',
       render: (value) => (
-        <span className="rounded-full bg-amber-500/10 px-3 py-1 text-sm font-medium text-amber-200">
+        <span className={`rounded-full bg-amber-500/10 px-3 py-1 text-sm font-medium  ${theme === 'light' ? 'bg-amber-500/10 text-amber-800' : 'bg-amber-500/10 text-amber-200'}`}>
           {formatLeaveDate(value)}
         </span>
       ),
@@ -214,7 +215,7 @@ const Leaves = ({ profile }) => {
       header: 'Leave To',
       accessor: 'leaveTo',
       render: (value) => (
-        <span className="rounded-full bg-cyan-500/10 px-3 py-1 text-sm font-medium text-cyan-200">
+        <span className={`rounded-full bg-cyan-500/10 px-3 py-1 text-sm font-medium  ${theme === 'light' ? 'bg-cyan-500/10 text-cyan-800' : 'bg-cyan-500/10 text-cyan-200'}`}>
           {formatLeaveDate(value)}
         </span>
       ),
@@ -225,7 +226,7 @@ const Leaves = ({ profile }) => {
       header: 'Status',
       accessor: 'status',
       render: (value) => (
-        <span className="rounded-full bg-cyan-500/10 px-3 py-1 text-sm font-medium text-cyan-200">
+        <span className={`rounded-full bg-cyan-500/10 px-3 py-1 text-sm font-medium ${theme === 'light' ? 'bg-cyan-500/10 text-cyan-800' : 'bg-cyan-500/10 text-cyan-200'}`}>
           {value}
         </span>
       ),
@@ -428,7 +429,7 @@ const Leaves = ({ profile }) => {
                       <p className="text-sm uppercase tracking-[0.28em] text-sky-300/80">Monthly Leave Table</p>
                       <h2 className="mt-2 app-modal-title">{month}</h2>
                     </div>
-                    <span className="rounded-2xl bg-sky-500/12 px-4 py-2 text-sm font-medium text-sky-200">
+                    <span className={`rounded-2xl px-4 py-2 text-sm font-medium ${theme === 'light' ? 'text-sky-800' : 'text-sky-200'}`}>
                       {records.length} records
                     </span>
                   </div>

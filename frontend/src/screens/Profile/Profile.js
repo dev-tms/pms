@@ -22,7 +22,7 @@ const formatBirthDate = (value) => {
   return parsed.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
 };
 
-const Profile = ({ profile }) => {
+const Profile = ({ profile, theme }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [draft, setDraft] = useState({});
   const [userProfile, setUserProfile] = useState(profile);
@@ -204,7 +204,7 @@ const Profile = ({ profile }) => {
             </div>
 
             {/* ── skills ── */}
-            <div className="mt-4">
+            {/* <div className="mt-4">
               <div className="rounded-[28px] border border-slate-700/70 app-panel p-5 shadow-[0_20px_45px_rgba(2,6,23,0.22)] md:p-6">
                 <div className="flex items-center gap-3">
                   <div className="rounded-2xl bg-emerald-500/10 p-2 text-emerald-200">
@@ -218,7 +218,7 @@ const Profile = ({ profile }) => {
                 <div className="mt-5 flex flex-wrap gap-2">
                   {skills.length > 0
                     ? skills.map((skill) => (
-                      <span key={skill} className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-100">
+                      <span key={skill} className={`rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-sm ${theme === 'dark' ? 'text-emerald-100' : 'text-emerald-900'}`}>
                         {skill}
                       </span>
                     ))
@@ -226,7 +226,7 @@ const Profile = ({ profile }) => {
                   }
                 </div>
               </div>
-            </div>
+            </div> */}
 
           </div>
         </div>
@@ -311,7 +311,7 @@ const Profile = ({ profile }) => {
                 />
               </label>
 
-              <label className="block md:col-span-2">
+              {/* <label className="block md:col-span-2">
                 <span className="app-label mb-2 block text-sm">Skills</span>
                 <input
                   type="text"
@@ -321,7 +321,7 @@ const Profile = ({ profile }) => {
                   className="app-input w-full rounded-xl border px-4 py-3 text-sm outline-none transition min-h-[48px] focus:border-sky-400"
                 />
                 <p className="mt-2 text-sm text-slate-500">Separate each skill with a comma.</p>
-              </label>
+              </label> */}
             </div>
 
             {/* footer */}

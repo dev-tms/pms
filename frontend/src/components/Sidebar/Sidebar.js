@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { BriefcaseBusiness, Cake, CalendarOff, CircleUser, Clock, FolderKanban, LayoutDashboard, Settings, SquareCheckBig, UsersRound } from 'lucide-react'
+import { BriefcaseBusiness, Cake, CalendarOff, CircleUser, Clock, FolderKanban, LayoutDashboard, Link2, Settings, SquareCheckBig, UsersRound } from 'lucide-react'
 import { connect } from 'react-redux';
 import logolight from '../../thoughtmate-logo-light.png';
 import logo from '../../thoughtmate-logo-dark.png';
 
 const Sidebar = ({ profile, authenticated, theme }) => {
-    console.log("profile from sidebar", profile)
-    console.log("profile from authenticated", authenticated)
+    // console.log("profile from sidebar", profile)
+    // console.log("profile from authenticated", authenticated)
 
     const getNavClass = ({ isActive }) =>
         `mx-3 my-1 flex items-center gap-2 rounded-lg px-4 py-3 transition-colors ${isActive
@@ -112,6 +112,13 @@ const Sidebar = ({ profile, authenticated, theme }) => {
                     activeClassName="sidebar-nav-link-active"  >
                     <Cake size={18} />
                     Birthdays
+                </NavLink>
+                <NavLink
+                    to='/usefull-links'
+                    className={getNavClass}
+                    activeClassName="sidebar-nav-link-active">
+                    <Link2 size={18} />
+                    Useful Links
                 </NavLink>
                 <NavLink
                     to='/profile'
