@@ -83,7 +83,7 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
               value={profile?.role === "ADMIN" || profile?.role === "TL" ? values.appliedBy : profile?.id || values.appliedBy}
               disabled={!(profile?.role === "ADMIN" || profile?.role === "TL")}
               onChange={(event) => onChange('appliedBy', event.target.value)}
-              className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
+              className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400 min-h-[53px]"
             >
               <option value="">Select employee</option>
               {employeeOptions.map((option) => (
@@ -100,7 +100,7 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
               <select
                 value={values.approvedLeaveBy}
                 onChange={(event) => onChange('approvedLeaveBy', event.target.value)}
-                className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
+                className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400 min-h-[53px]"
               >
                 <option value="">Select approver</option>
                 {approverOptions.map((option) => (
@@ -117,7 +117,7 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
               type="date"
               value={values.leaveFrom}
               onChange={(event) => onChange('leaveFrom', event.target.value)}
-              className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
+              className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400 min-h-[53px]"
             />
           </label>
 
@@ -127,7 +127,7 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
               type="date"
               value={values.leaveTo}
               onChange={(event) => onChange('leaveTo', event.target.value)}
-              className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
+              className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400 min-h-[53px]"
             />
           </label>
 
@@ -138,7 +138,7 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
               min="1"
               value={values.numberOfLeaves}
               onChange={(event) => onChange('numberOfLeaves', event.target.value)}
-              className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
+              className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400 min-h-[53px]"
             />
           </label>
 
@@ -148,7 +148,7 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
               <select
                 value={values.status}
                 onChange={(event) => onChange('status', event.target.value)}
-                className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400"
+                className="app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400 min-h-[53px]"
               >
                 <option value="Applied">Applied</option>
                 <option value="Approved">Approved</option>
@@ -401,8 +401,8 @@ const Leaves = ({ profile, theme }) => {
             </div>
           </div>
 
-          <div className="mt-8 rounded-[30px] border border-slate-800/80 app-panel p-4 shadow-[0_20px_45px_rgba(2,6,23,0.28)]">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="mt-8 bg-transparent">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between  bg-transparent">
               <div className="relative w-full md:max-w-md">
                 <Search size={16} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
                 <input

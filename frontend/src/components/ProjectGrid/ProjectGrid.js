@@ -22,7 +22,7 @@ function ProjectFormModal({ open, mode, values, onChange, onClose, onSubmit, cli
   if (!open) return null;
 
   const inputCls =
-    "app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400";
+    "app-input w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-sky-400 min-h-[53px]";
   const labelCls = "app-label mb-2 block text-sm";
 
   return (

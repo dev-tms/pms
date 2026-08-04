@@ -128,7 +128,7 @@ const Header = ({
                   className="px-2 py-2  flex gap-2 items-center rounded-md text-sm border outline-none cursor-pointer border-slate"
                   style={{ color: 'var(--app-text)', borderColor: 'var(--app-border)' }}
                 >
-                  <div className="py-2 px-4 rounded-md bg-blue-500  text-[15px]">
+                  <div className="py-2 px-4 rounded-md bg-blue-500 text-white text-[15px]">
                     {profile?.firstName.charAt(0).toUpperCase()}
                   </div>
                   <span className='hidden md:block '>{profile?.firstName}</span>

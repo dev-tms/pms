@@ -102,11 +102,11 @@ function AvatarCell({ name, bgClass = "bg-blue-600", textClass = "text-white" })
   return (
     <div className="flex items-center gap-2">
       {name !== '-' && (
-        <div className={`h-7 w-7 rounded-full ${bgClass} flex items-center justify-center ${textClass} text-sm font-bold shrink-0`}>
+        <span className={`h-7 w-7 rounded-full ${bgClass} flex items-center justify-center ${textClass} text-sm leading-normal shrink-0`}>
           {name.charAt(0).toUpperCase()}
-        </div>
+        </span>
       )}
-      <span className="text-sm text-slate-300">{name}</span>
+      <span className="text-sm text-slate-300 leading-normal">{name}</span>
     </div>
   );
 }
@@ -429,7 +429,7 @@ const TaskGrid = (props) => {
         </button>
       ),
       accessor: "assignedToName",
-      render: (value) => <AvatarCell name={value} bgClass="bg-blue-600" />,
+      render: (value) => <AvatarCell name={value} bgClass="bg-blue-600" textClass="text-white" />,
     },
     {
       header: (
@@ -443,7 +443,7 @@ const TaskGrid = (props) => {
         </button>
       ),
       accessor: "qaName",
-      render: (value) => <AvatarCell name={value} bgClass="bg-purple-600" />,
+      render: (value) => <AvatarCell name={value} bgClass="bg-purple-600" textClass="text-white" />,
     },
     {
       header: (
@@ -466,7 +466,7 @@ const TaskGrid = (props) => {
           onClick={() => toggleSort("isTaskLead")}
           className={`flex items-center gap-2 text-left ${props.theme === "dark" ? "text-slate-100 hover:text-sky-300" : ""}`}
         >
-          <span>Is Task Lead</span>
+          <span>Task Lead</span>
           <span className="text-base text-slate-400">{getSortIcon("isTaskLead")}</span>
         </button>
       ),
@@ -506,7 +506,6 @@ const TaskGrid = (props) => {
     () => sortRows(filterRows(doneTasks)),
     [doneTasks, search, workNameFilter, sortBy, sortDirection]
   );
-
 
   const handleSearch = async () => {
 
