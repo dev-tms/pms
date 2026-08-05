@@ -37,7 +37,7 @@ export async function findUser(req, res) {
                 log.Info('CONTROLLER : User Not found');
                 response = { status: 200, message: 'User Not found',data: {}};
             }else{
-                response = {id: user.id, firstName: user.firstName, lastName: user.lastName, email: user.email, phone: user.phone, birthDate: user.birthDate, joiningDate: user.joiningDate, skills: user.skills, role: user.role, status: user.status, password:user.password};
+                response = {id: user.id, firstName: user.firstName, lastName: user.lastName, email: user.email, phone: user.phone, birthDate: user.birthDate, joiningDate: user.joiningDate, skills: user.skills, role: user.role, status: user.status, password:user.password, address: user.address, bio: user.bio};
                 
             }
             log.Info('Response : ');
