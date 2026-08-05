@@ -200,8 +200,8 @@ const ChangePassword = (props) => {
             {message ? (
               <div
                 className={`rounded-2xl px-4 py-3 text-sm ${messageType === 'error'
-                  ? 'border border-rose-800/40 bg-rose-950/20 text-rose-300'
-                  : 'border border-emerald-800/40 bg-emerald-950/20 text-emerald-300'
+                  ? 'border border-rose-800/40 bg-rose-950/20 text-rose-400'
+                  : 'border border-emerald-800/40 bg-emerald-950/20 text-emerald-400'
                   }`}
               >
                 {message}

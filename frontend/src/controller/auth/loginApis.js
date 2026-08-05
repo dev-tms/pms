@@ -5,8 +5,8 @@ import { toast } from 'react-toastify';
 const cookies = new Cookies();
 
 
-const API_BASE_URL = "http://192.168.40.20:3700";  //Local Backend;
-// const API_BASE_URL = "http://50.116.14.116:3700";  //Live Backend;
+// const API_BASE_URL = "http://192.168.40.20:3700";  //Local Backend;
+const API_BASE_URL = "http://50.116.14.116:3700";  //Live Backend;
 
 export const login = async (user) => {
   const configuration = {
@@ -37,6 +37,8 @@ export const login = async (user) => {
 }
 
 export const register = async (user, loginUser) => {
+  console.log("user", user);
+  console.log("loginUser", loginUser);
   let token = cookies.get("TOKEN");
   user.modifier = loginUser.id;
   if (user.password_old) {
@@ -141,7 +143,7 @@ export const getProfile = async (user) => {
     .catch((error) => {
       return error;
     });
-  // console.log(result.data);
+  // console.log("result", result);
   isApiAuthenticated(result);
   return result.data;
 }

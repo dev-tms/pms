@@ -295,7 +295,7 @@ const Birthdays = ({ profile, theme }) => {
         <div className="relative z-10">
           <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
             <div>
-              <p className="text-sm uppercase tracking-[0.35em] text-pink-300">Celebrations</p>
+              <p className="text-sm uppercase tracking-[0.35em] text-pink-500">Celebrations</p>
               <h1 className="mt-3 app-page-title">Employees Birthdays</h1>
 
             </div>

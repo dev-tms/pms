@@ -29,7 +29,6 @@ const JoinMeetingButton = () => {
 
     // Optional: live check every 30 sec (no refresh needed)
     const interval = setInterval(checkAnimation, 30000);
-    
     return () => clearInterval(interval);
   }, []);
 
@@ -45,7 +44,8 @@ const JoinMeetingButton = () => {
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}
-      className={"group flex items-center gap-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition px-4 py-3 " + (shouldAnimate ? "animate-vibrate" : "")}
+      style={{ padding: "15px 18px" }}
+      className={"group flex items-center gap-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition " + (shouldAnimate ? "animate-vibrate" : "")}
     >
       <Video />
       <span className="hidden lg:block text-[14px]">

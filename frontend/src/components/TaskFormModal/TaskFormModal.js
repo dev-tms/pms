@@ -85,6 +85,7 @@ export default function TaskFormModal({
 
   const formattedPriorityOptions = [
     { value: "Normal", label: "Normal" },
+    { value: "Urgent", label: "Urgent" },
     { value: "Super Urgent", label: "Super urgent" },
     { value: "Super Duper Urgent", label: "Super duper urgent" },
   ];
