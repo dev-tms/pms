@@ -72,7 +72,7 @@ export const findAllLeaves = async () => {
     const allUsers = await prisma.leaveManagement.findMany(
         {
             include: {
-                appliedBy: { select: { id: true, firstName: true, lastName: true } },
+                appliedBy: { select: { id: true, firstName: true, lastName: true, status: true } },
                 approvedLeaveBy: { select: { id: true, firstName: true, lastName: true } }
             }
         }
@@ -99,7 +99,7 @@ export const findAllLeavesByTL = async (TLId) => {
                 ]
             },
             include: {
-                appliedBy: { select: { id: true, firstName: true, lastName: true } },
+                appliedBy: { select: { id: true, firstName: true, lastName: true, status: true } },
                 approvedLeaveBy: { select: { id: true, firstName: true, lastName: true } }
             }
         }
@@ -117,7 +117,7 @@ export const findAllLeavesByUser = async (userId) => {
                 appliedById: userId
             },
             include: {
-                appliedBy: { select: { id: true, firstName: true, lastName: true } },
+                appliedBy: { select: { id: true, firstName: true, lastName: true, status: true } },
                 approvedLeaveBy: { select: { id: true, firstName: true, lastName: true } }
             }
         }

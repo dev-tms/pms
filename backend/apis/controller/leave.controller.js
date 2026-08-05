@@ -1,5 +1,6 @@
 import log from '../logger/index.js';
 import { getAllLeaves, saveOrUpdateLeave } from '../middleware/leave.middleware.js';
+import { getUserById } from '../middleware/user.middleware.js';
 
 /**
  * Controller to get all Leaves
@@ -8,9 +9,16 @@ import { getAllLeaves, saveOrUpdateLeave } from '../middleware/leave.middleware.
  */
 export async function findLeaves(req, res) {
     try {
-        const allLeaves = await getAllLeaves(req.query);
-        const response = { status: 200, data: allLeaves};
-        res.send(response);
+        const userId = req.body?.id || req.query?.id;
+        const user = await getUserById(userId);
+        if(user && user.id) {
+            const allLeaves = await getAllLeaves(user);
+            const response = { status: 200, data: allLeaves};
+            res.send(response);
+        } else {
+            const response = { status: 201, error: "Leaves not found", data: []};
+            res.send(response);
+        }
     } catch (err) {
         res.status(500).send({errors: err});
     }

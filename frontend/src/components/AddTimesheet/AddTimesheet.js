@@ -41,10 +41,10 @@ const AddTimesheet = (props) => {
   const [formData, setFormData] = useState({
     id: props.timesheet?._id || "",
     status: props.timesheet?.status || "",
-    taskType: props.timesheet?.taskType || props.timesheet?.workName === "Morning Meeting" ? 'New Change' : "",
-    action: props.timesheet?.action || props.timesheet?.workName === "Morning Meeting" ? 'Meeting' : "",
+    taskType: props.timesheet?.taskType || (props.timesheet?.workName === "Morning Meeting" ? 'New Change' : ""),
+    action: props.timesheet?.action || (props.timesheet?.workName === "Morning Meeting" ? 'Meeting' : ""),
     links: props.timesheet?.links || "",
-    comments: props.timesheet?.comments || props.timesheet?.workName === "Morning Meeting" ? 'Morning Meeting' : "",
+    comments: props.timesheet?.comments || (props.timesheet?.workName === "Morning Meeting" ? 'Morning Meeting' : ""),
     timeSpentMills: props.timesheet?.timeSpentMills || "",
     timeSpentHours: getHoursFromMills(props.timesheet?.timeSpentMills) || 0,
     timeSpentMinutes: getMinutesFromMills(props.timesheet?.timeSpentMills) || 0,

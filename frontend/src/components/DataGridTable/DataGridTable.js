@@ -7,6 +7,7 @@ import MyTable from "../MyTable/MyTable";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { ThoughtMateProgressLoaderAnimated } from "../TMLoader/ThoughtMateProgressLoaderAnimated.js";
 import { StatusBadge } from "../StatusBadge/StatusBadge";
+import { dateMax, dateMin } from "../../utils/index.js";
 
 // ─── style tokens (shared across all grids) ───────────────────────────────────
 
@@ -15,6 +16,18 @@ const inputCls =
 const selectCls = `${inputCls} appearance-none pr-10`;
 const labelCls = "app-label mb-2 block text-base";
 const errorCls = "mt-2 block text-base text-rose-400";
+
+const formatDate = (dateString) => {
+  if (!dateString) return '-';
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return dateString;
+
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const year = date.getUTCFullYear();
+
+  return `${year}-${month}-${day}`;
+};
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -33,6 +46,8 @@ const mapResponse = (contacts) => {
     TLId: contact.TL?.id,
     password: "",
     password_old: contact.password,
+    birthDate: contact?.birthDate ? formatDate(contact.birthDate) : '',
+    joiningDate: contact?.joiningDate ? formatDate(contact.joiningDate) : '',
   }));
 };
 
@@ -53,6 +68,8 @@ const EMPTY_FORM = {
   status: "Active",
   TLId: "",
   password: "",
+  birthDate: "",
+  joiningDate: "",
 };
 
 const buildForm = (row) => ({
@@ -64,6 +81,8 @@ const buildForm = (row) => ({
   status: row?.status ?? "Active",
   TLId: row?.TLId ?? "",
   password: "",
+  birthDate: row?.birthDate ?? "",
+  joiningDate: row?.joiningDate ?? "",
 });
 
 // ─── ContactFormModal ─────────────────────────────────────────────────────────
@@ -208,13 +227,25 @@ function ContactFormModal({ open, mode, values, TLs, onChange, onClose, onSubmit
           </label>
 
           {/* Password */}
-          <label className="block md:col-span-2">
+          <label className="block">
             <span className={labelCls}>Password {mode === "add" && <span className="text-rose-400">*</span>}</span>
             <input
               type="password"
               value={values.password ?? ""}
               placeholder={mode === "edit" ? "Leave blank to keep current password" : "Enter password"}
               onChange={(e) => onChange("password", e.target.value)}
+              className={inputCls}
+            />
+          </label>
+          <label className="block">
+            <span className={labelCls}>Birthdate {mode === "add" && <span className="text-rose-400">*</span>}</span>
+            <input
+              type="date"
+              value={values.birthDate ?? ""}
+              min={dateMin()}
+              max={dateMax()}
+              placeholder="Enter birth date"
+              onChange={(e) => onChange("birthDate", e.target.value)}
               className={inputCls}
             />
           </label>

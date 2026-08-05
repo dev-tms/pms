@@ -8,4 +8,5 @@
 .vscode
 /backend/.vscode
 /frontend/build
+/frontend/build.zip
 /backend/build

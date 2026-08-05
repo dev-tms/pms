@@ -15,15 +15,13 @@ import { findAllLeaves, findAllLeavesByTL, findAllLeavesByUser, updateLeave } fr
 export async function getAllLeaves(user) {
     try {
         if(user?.role) {
-            let leaves = [];
             if(user?.role == 'ADMIN') {
-                leaves = await findAllLeaves();
+                return await findAllLeaves();
             } if(user?.role == 'TL') {
-                leaves = await findAllLeavesByTL(user.id);
+                return await findAllLeavesByTL(user.id);
             } else {
-                leaves = await findAllLeavesByUser(user.id);
+                return await findAllLeavesByUser(user.id);
             }
-            return leaves;
         } else {
             return [];
         }

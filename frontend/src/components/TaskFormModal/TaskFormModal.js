@@ -211,7 +211,7 @@ export default function TaskFormModal({
                           .map((employee) => (
                             <span
                               key={employee.id}
-                              className="inline-flex items-center gap-1.5 bg-sky-500/20 border border-sky-500/40 text-sky-300 px-2.5 py-1 rounded-lg text-sm font-medium whitespace-nowrap"
+                              className="inline-flex items-center gap-1.5 bg-sky-500/20 border border-sky-500/40 text-sky-500 px-2.5 py-1 rounded-lg text-sm font-medium whitespace-nowrap"
                             >
                               {`${employee.firstName ?? ""} ${employee.lastName ?? ""}`.trim().split(" ")[0]}
                               <button
@@ -337,7 +337,7 @@ export default function TaskFormModal({
                                 onClick={(e) => e.stopPropagation()}
                               />
                               <div className="flex-1 min-w-0">
-                                <span className={`text-sm font-medium ${isSelected ? "text-sky-300" : "app-muted"}`}>
+                                <span className={`text-sm font-medium ${isSelected ? "text-sky-500" : "app-muted"}`}>
                                   {`${employee.firstName ?? ""} ${employee.lastName ?? ""}`.trim()}
                                 </span>
                               </div>
@@ -439,7 +439,7 @@ export default function TaskFormModal({
           </label>
 
           <label className="block">
-            <span className={labelCls}>Is Task Lead</span>
+            <span className={labelCls}>Task Lead</span>
             <Select
               value={formattedTaskLeadOptions.find(o => o.value === values.isTaskLead) || null}
               onChange={(e) => onChange("isTaskLead", e.value)}

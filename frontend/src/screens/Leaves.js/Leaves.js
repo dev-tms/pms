@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 const mapEmployees = (leaves) => {
   if (!leaves?.data) return [];
-  return leaves?.data?.map((leave) => ({
+  return leaves?.data?.filter((leave) => leave?.appliedBy?.status === "Active").map((leave) => ({
     id: leave.id,
     employeeName: leave.appliedBy?.firstName + ' ' + leave.appliedBy?.lastName || 'Unknown Employee',
     appliedBy: leave.appliedBy?.id || '',
@@ -253,7 +253,7 @@ const Leaves = ({ profile, theme }) => {
         }
         const emp = await listUsers(profile);
         if (emp?.data) {
-          setEmployees(emp.data);
+          setEmployees(emp.data?.filter((user) => user.status === "Active"));
         }
       }
     }
@@ -375,7 +375,7 @@ const Leaves = ({ profile, theme }) => {
         <div className="relative z-10">
           <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
             <div>
-              <p className="text-sm uppercase tracking-[0.35em] text-sky-300/80">Time Off</p>
+              <p className="text-sm uppercase tracking-[0.35em] text-sky-300">Time Off</p>
               <h1 className="mt-3 app-page-title">Leave Management</h1>
             </div>
             <button
@@ -390,12 +390,12 @@ const Leaves = ({ profile, theme }) => {
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             <div className="rounded-[26px] border border-slate-800/80 app-panel p-5 shadow-[0_18px_40px_rgba(2,6,23,0.24)]">
-              <div className="inline-flex rounded-2xl bg-sky-500/12 p-2 text-sky-200"><CalendarDays size={18} /></div>
+              <div className="inline-flex rounded-2xl bg-sky-500 p-2 text-sky-200"><CalendarDays size={18} /></div>
               <p className="mt-4 app-heading text-3xl font-bold">{leaveRecords.length}</p>
               <p className="mt-2 text-sm text-slate-400">Total leave records</p>
             </div>
             <div className="rounded-[26px] border border-slate-800/80 app-panel p-5 shadow-[0_18px_40px_rgba(2,6,23,0.24)]">
-              <div className="inline-flex rounded-2xl bg-amber-500/12 p-2 text-amber-200"><UserCheck size={18} /></div>
+              <div className="inline-flex rounded-2xl bg-amber-500 p-2 text-amber-200"><UserCheck size={18} /></div>
               <p className="mt-4 app-heading text-3xl font-bold">{filteredRecords.length}</p>
               <p className="mt-2 text-sm text-slate-400">Visible after filtering</p>
             </div>
@@ -426,7 +426,7 @@ const Leaves = ({ profile, theme }) => {
                 <div key={month} className="rounded-[30px] border border-slate-800/80 app-panel p-4 shadow-[0_20px_45px_rgba(2,6,23,0.22)] md:p-5">
                   <div className="mb-4 flex items-center justify-between gap-3 app-divider border-b pb-4">
                     <div>
-                      <p className="text-sm uppercase tracking-[0.28em] text-sky-300/80">Monthly Leave Table</p>
+                      <p className="text-sm uppercase tracking-[0.28em] text-sky-300">Monthly Leave Table</p>
                       <h2 className="mt-2 app-modal-title">{month}</h2>
                     </div>
                     <span className={`rounded-2xl px-4 py-2 text-sm font-medium ${theme === 'light' ? 'text-sky-800' : 'text-sky-200'}`}>

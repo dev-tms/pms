@@ -5,13 +5,13 @@ import { listUsers } from '../../controller/auth/loginApis';
 import { connect } from 'react-redux';
 
 const mapEmployees = (employees) => {
-
-  return employees.data?.map((employee) => ({
+  return employees.data?.filter((employee) => employee.status === 'Active').map((employee) => ({
     id: employee.id,
     name: employee.firstName + ' ' + employee.lastName,
     department: employee.role,
     designation: employee.designation,
     birthDate: employee.birthDate ? formatBirthDate(employee.birthDate) : '',
+    rawBirthDate: employee.birthDate || '',
   }));
 }
 
@@ -21,6 +21,7 @@ const EMPTY_EMPLOYEE = {
   department: '',
   designation: '',
   birthDate: '',
+  rawBirthDate: '',
 };
 
 const formatBirthDate = (value) => {
@@ -33,12 +34,37 @@ const formatBirthDate = (value) => {
   });
 };
 
+const parseBirthDate = (value) => {
+  if (!value) return null;
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+};
+
+const getNextBirthdayDate = (birthDateValue) => {
+  const birthDate = parseBirthDate(birthDateValue);
+  if (!birthDate) return null;
+
+  const today = new Date();
+  const nextBirthday = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+
+  if (nextBirthday < today && nextBirthday.toDateString() !== today.toDateString()) {
+    nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
+  }
+
+  return nextBirthday;
+};
+
+const getBirthdaySortValue = (employee) => {
+  const nextBirthday = getNextBirthdayDate(employee.rawBirthDate ?? employee.birthDate);
+  return nextBirthday ? nextBirthday.getTime() : Number.MAX_SAFE_INTEGER;
+};
+
 const getUpcomingCount = (employees) => {
   const today = new Date();
   const currentMonth = today.getMonth();
   return employees.filter((employee) => {
-    const birthDate = new Date(employee.birthDate);
-    return birthDate.getMonth() === currentMonth;
+    const birthDate = parseBirthDate(employee.rawBirthDate ?? employee.birthDate);
+    return birthDate?.getMonth() === currentMonth;
   }).length;
 };
 
@@ -48,8 +74,9 @@ const getNextBirthday = (employees) => {
   const currentDate = today.getDate();
 
   const upcomingBirthdays = employees.filter((employee) => {
-    const birthDate = new Date(employee.birthDate);
+    const birthDate = parseBirthDate(employee.rawBirthDate ?? employee.birthDate);
     return (
+      birthDate &&
       birthDate.getMonth() === currentMonth &&
       birthDate.getDate() >= currentDate
     );
@@ -59,13 +86,9 @@ const getNextBirthday = (employees) => {
     return "-";
   }
 
-  upcomingBirthdays.sort((a, b) => {
-    const aBirthDate = new Date(a.birthDate);
-    const bBirthDate = new Date(b.birthDate);
-    return aBirthDate.getDate() - bBirthDate.getDate();
-  });
+  upcomingBirthdays.sort((a, b) => getBirthdaySortValue(a) - getBirthdaySortValue(b));
 
-  return formatBirthDate(upcomingBirthdays[0].birthDate).split(' ').slice(0, 2).join(' ');
+  return formatBirthDate(upcomingBirthdays[0].rawBirthDate ?? upcomingBirthdays[0].birthDate).split(' ').slice(0, 2).join(' ');
 }
 
 function BirthdayFormModal({ open, mode, values, onChange, onClose, onSubmit }) {
@@ -159,7 +182,7 @@ const Birthdays = ({ profile, theme }) => {
         if (employeeList) {
           setEmployees(mapEmployees(employeeList));
         } else {
-          setEmployees(mapEmployees([profile]));
+          setEmployees(mapEmployees({ data: [profile] }));
         }
       }
     }
@@ -219,6 +242,10 @@ const Birthdays = ({ profile, theme }) => {
     });
   }, [employees, search]);
 
+  const sortedEmployees = useMemo(() => {
+    return [...filteredEmployees].sort((a, b) => getBirthdaySortValue(a) - getBirthdaySortValue(b));
+  }, [filteredEmployees]);
+
   /* const openAddModal = () => {
     setModalMode('add');
     setFormValues(EMPTY_EMPLOYEE);
@@ -246,7 +273,8 @@ const Birthdays = ({ profile, theme }) => {
       name: formValues.name.trim() || 'Unnamed Employee',
       department: formValues.department.trim() || '-',
       designation: formValues.designation.trim() || '-',
-      birthDate: formValues.birthDate || '',
+      birthDate: formValues.birthDate ? formatBirthDate(formValues.birthDate) : '',
+      rawBirthDate: formValues.birthDate || '',
     };
 
     setEmployees((prev) =>
@@ -267,7 +295,7 @@ const Birthdays = ({ profile, theme }) => {
         <div className="relative z-10">
           <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
             <div>
-              <p className="text-sm uppercase tracking-[0.35em] text-pink-300/80">Celebrations</p>
+              <p className="text-sm uppercase tracking-[0.35em] text-pink-300">Celebrations</p>
               <h1 className="mt-3 app-page-title">Employees Birthdays</h1>
 
             </div>
@@ -283,17 +311,17 @@ const Birthdays = ({ profile, theme }) => {
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             <div className="app-card rounded-[24px] border p-5">
-              <div className="inline-flex rounded-2xl bg-pink-500/12 p-2 text-pink-200"><Users size={18} /></div>
+              <div className="inline-flex rounded-2xl bg-pink-500 p-2 text-pink-200"><Users size={18} /></div>
               <p className="mt-4 app-heading text-3xl font-bold">{employees.length}</p>
               <p className="app-muted mt-2 text-sm">Total employees listed</p>
             </div>
             <div className="app-card rounded-[24px] border p-5">
-              <div className="inline-flex rounded-2xl bg-sky-500/12 p-2 text-sky-200"><CalendarDays size={18} /></div>
+              <div className="inline-flex rounded-2xl bg-sky-500 p-2 text-sky-200"><CalendarDays size={18} /></div>
               <p className="mt-4 app-heading text-3xl font-bold">{getUpcomingCount(employees)}</p>
               <p className="app-muted mt-2 text-sm">Birthdays this month</p>
             </div>
             <div className="app-card rounded-[24px] border p-5">
-              <div className="inline-flex rounded-2xl bg-rose-500/12 p-2 text-rose-200"><Cake size={18} /></div>
+              <div className="inline-flex rounded-2xl bg-rose-500 p-2 text-rose-200"><Cake size={18} /></div>
               <p className="mt-4 app-heading text-3xl font-bold">
                 {employees.length ? getNextBirthday(employees) : '-'}
               </p>
@@ -319,7 +347,7 @@ const Birthdays = ({ profile, theme }) => {
             <div className="mt-5">
               <MyTable
                 columns={columns}
-                data={filteredEmployees}
+                data={sortedEmployees}
                 keyField="id"
                 caption=""
                 emptyText="No birthday records found"

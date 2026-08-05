@@ -254,7 +254,7 @@ const TimesheetGrid = (props) => {
 
   const renderHourBadge = (value, variant) => {
     const toneClassName = variant === "approved"
-      ? "border border-rose-500/20 bg-rose-500/15 text-rose-300"
+      ? "border border-rose-500/20 bg-rose-500/15 text-rose-400"
       : variant === "submitted"
         ? "border border-emerald-500/20 bg-emerald-500/15 text-emerald-300"
         : "border border-slate-600/40 bg-slate-700/40 text-slate-300";
@@ -533,7 +533,7 @@ const TimesheetGrid = (props) => {
         setHierarchicalData(data?.hierarchicalData);
 
         const userList = await listUsers(props.profile);
-        let developerList = userList?.data.filter(user => user.role !== 'QA');
+        let developerList = userList?.data.filter(user => user.role !== 'QA' && user.status === 'Active');
         developerList.sort((a, b) => a.firstName.localeCompare(b.firstName));
         if (props?.profile?.role !== 'ADMIN') {
           setUsersForFilter(developerList.filter(user => user.role !== 'ADMIN' && (user.TLId === props?.profile?.id || user.id === props?.profile?.id)));
