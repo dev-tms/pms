@@ -26,13 +26,21 @@ const Profile = ({ profile, theme }) => {
   const [draft, setDraft] = useState({});
   const [userProfile, setUserProfile] = useState(profile);
   const [reloadProfile, setReloadProfile] = useState(false);
-
   useEffect(() => {
     async function fetchProfile() {
       if (profile) {
         const profileData = await getProfile(profile);
         if (profileData) {
-          setUserProfile(profileData);
+          const normalizedProfile = profileData?.data && typeof profileData.data === 'object'
+            ? profileData.data
+            : profileData;
+          setUserProfile((prev) => ({
+            ...profile,
+            ...prev,
+            ...normalizedProfile,
+            address: normalizedProfile.address ?? prev?.address ?? profile.address ?? '',
+            bio: normalizedProfile.bio ?? prev?.bio ?? profile.bio ?? '',
+          }));
         } else {
           setUserProfile(profile);
         }
@@ -99,11 +107,22 @@ const Profile = ({ profile, theme }) => {
     }
     const updateProfile = {
       ...draft,
-      skills: draft.skills.split(',').map(s => s.trim()).filter(Boolean),
+      status: userProfile?.status || 'Active',
+      password_old: userProfile?.password,
+      password: userProfile?.password,
+      skills: typeof draft.skills === 'string'
+        ? draft.skills.split(',').map((s) => s.trim()).filter(Boolean)
+        : draft.skills ?? [],
     };
     try {
       const response = await register(updateProfile, userProfile);
       if (response?.status === 200) {
+        setUserProfile((prev) => ({
+          ...prev,
+          ...updateProfile,
+          address: draft.address ?? '',
+          bio: draft.bio ?? '',
+        }));
         toast.success(draft.id ? toastMessages.updateUserSuccess : toastMessages.addUserSuccess);
         setReloadProfile((prev) => !prev);
       } else {
@@ -114,7 +133,6 @@ const Profile = ({ profile, theme }) => {
     } finally {
       setIsEditing(false);
     }
-    setIsEditing(false);
   };
 
   const updateDraft = (field, value) => {
@@ -156,8 +174,8 @@ const Profile = ({ profile, theme }) => {
                   <h1 className="mt-3 app-page-title">
                     {userProfile?.firstName} {userProfile?.lastName}
                   </h1>
-                  <p className="mt-2 text-base text-slate-300">{userProfile?.role}</p>
-                  <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-400">{userProfile?.bio}</p>
+                  <p className="mt-2 text-base app-muted">{userProfile?.role}</p>
+                  <p className="mt-4 max-w-2xl text-sm leading-6 app-muted">{userProfile?.bio || 'No bio added yet.'}</p>
                 </div>
               </div>
 
@@ -190,7 +208,7 @@ const Profile = ({ profile, theme }) => {
               ].map(({ label, icon, value }) => (
                 <div key={label} className="app-card rounded-2xl border p-4 text-sm shadow-[0_10px_30px_rgba(2,6,23,0.08)]">
                   <p className="app-muted text-sm uppercase tracking-[0.26em]">{label}</p>
-                  <div className="mt-3 flex items-center gap-3">{icon}{value || '—'}</div>
+                  <div className="mt-3 flex items-center gap-3 app-heading">{icon}{value || '—'}</div>
                 </div>
               ))}
               <div className="app-card rounded-2xl border p-4 text-sm shadow-[0_10px_30px_rgba(2,6,23,0.08)] sm:col-span-2">
@@ -200,6 +218,13 @@ const Profile = ({ profile, theme }) => {
                   {formatBirthDate(userProfile?.birthDate)}
                 </div>
               </div>
+              {/* show bio */}
+              {/* <div className="app-card rounded-2xl border p-4 text-sm shadow-[0_10px_30px_rgba(2,6,23,0.08)] sm:col-span-2">
+                <p className="text-sm uppercase tracking-[0.26em] text-slate-500">Bio</p>
+                <div className="mt-3 flex items-center gap-3 app-heading">
+                  <p className="text-sm">{userProfile?.bio?.length > 0 ? userProfile?.bio : 'No bio added yet.'}</p>
+                </div>
+              </div> */}
             </div>
 
             {/* ── skills ── */}
@@ -271,8 +296,9 @@ const Profile = ({ profile, theme }) => {
                   <input
                     type={type}
                     value={draft[field] ?? ''}
-                    onChange={(e) => updateDraft(field, e.target.value)}
-                    className="app-input w-full rounded-xl border px-4 py-3 text-sm outline-none transition min-h-[48px] focus:border-sky-400"
+                    // if field is role, then disable the input user cant change the role
+                    onChange={(e) => field === 'role' ? null : updateDraft(field, e.target.value)}
+                    className={`app-input w-full rounded-xl border px-4 py-3 text-sm outline-none transition min-h-[48px] focus:border-sky-400 ${field === 'role' ? 'cursor-not-allowed disabled:opacity-60' : ''}`}
                   />
                 </label>
               ))}

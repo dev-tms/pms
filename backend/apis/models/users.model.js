@@ -51,13 +51,15 @@ export const updateUser = async (user) => {
         email: user.email,
         password: user.password,
         phone: user.phone,
-        address: user.address,
-        bio: user.bio,
+        address: user.address ?? '',
+        bio: user.bio ?? '',
         skills: user.skills,
         role: user.role,
-        status: user.status,
         updatedAt: new Date(),
         updatedBy: user.modifier
+    }
+    if (user.status) {
+        data.status = user.status;
     }
     if(user.birthDate && user.birthDate.length > 0) {
         data.birthDate = new Date(user.birthDate);

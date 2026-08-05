@@ -256,8 +256,8 @@ const TimesheetGrid = (props) => {
     const toneClassName = variant === "approved"
       ? "border border-rose-500/20 bg-rose-500/15 text-rose-400"
       : variant === "submitted"
-        ? "border border-emerald-500/20 bg-emerald-500/15 text-emerald-300"
-        : "border border-slate-600/40 bg-slate-700/40 text-slate-300";
+        ? "border border-emerald-500/20 bg-emerald-500/15 text-emerald-400"
+        : "border border-slate-600/40 bg-slate-700/40 text-slate-400";
 
     return (
       <div className={`w-full rounded-md px-3 py-2 text-center text-sm font-bold tracking-[0.04em] ${toneClassName}`}>

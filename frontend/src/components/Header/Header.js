@@ -110,7 +110,8 @@ const Header = ({
             <button
               type='button'
               onClick={onThemeToggle}
-              className='btn-secondary inline-flex h-11 items-center gap-2 rounded-lg border px-3 text-sm transition'
+              style={{ padding: "18px 16px" }}
+              className='btn-secondary inline-flex items-center gap-2 rounded-lg border text-sm transition'
               aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
