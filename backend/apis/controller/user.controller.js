@@ -59,7 +59,6 @@ export async function findUser(req, res) {
             log.Info(response);
             res.send(response);
         }
-
     } catch (err) {
         res.status(500).send({ errors: err });
     }

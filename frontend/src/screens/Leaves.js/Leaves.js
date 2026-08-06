@@ -332,6 +332,7 @@ const Leaves = ({ profile, theme }) => {
     setFormValues({
       ...record,
       numberOfLeaves: String(record.numberOfLeaves),
+      approvedLeaveBy: record.approvedLeaveBy || profile?.id || '',
     });
     setModalOpen(true);
   };

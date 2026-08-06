@@ -158,6 +158,21 @@ export const updateTask = async (task) => {
                 log.Error(err);
             });
         }
+        console.log('Task created/updated: ', resp.id);
+        if(resp?.id && task.workId && task.workId !== '') {
+            let workResp = await prisma.work.update({
+                where: {
+                    id: task.workId
+                },
+                data: {
+                    priority: task.priority,
+                    updatedAt: new Date(),
+                    updatedBy: task.modifier
+                }
+            }).catch(err => {
+                log.Error(err);
+            });
+        }
     }
 
     return resp;
