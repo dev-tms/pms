@@ -13,7 +13,8 @@ import TaskFormModal, { formatDateForInput } from "../TaskFormModal/TaskFormModa
 import { ThoughtMateProgressLoaderAnimated } from "../TMLoader/ThoughtMateProgressLoaderAnimated";
 import { dateMax, dateMin } from "../../utils";
 import { PriorityBadge, StatusBadge } from "../StatusBadge/StatusBadge";
-import { ArrowDownUp } from "lucide-react";
+import { ArrowDownUp, Crown, Fingerprint, Flag, Flashlight, Flower, Star, Sword, ThumbsUp, Trophy } from "lucide-react";
+import { TbStarFilled } from "react-icons/tb";
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -97,16 +98,27 @@ const EMPTY_FORM = {
 
 // ─── Avatar cell ──────────────────────────────────────────────────────────────
 
-function AvatarCell({ name, bgClass = "bg-blue-600", textClass = "text-white" }) {
+function AvatarCell({ name, bgClass = "bg-blue-600", textClass = "text-white", isLead = false }) {
   if (!name) return <span className="text-slate-500 text-sm">—</span>;
   return (
     <div className="flex items-center gap-2">
-      {name !== '-' && (
-        <span className={`h-7 w-7 rounded-full ${bgClass} flex items-center justify-center ${textClass} text-sm leading-normal shrink-0`}>
-          {name.charAt(0).toUpperCase()}
-        </span>
-      )}
-      <span className="text-sm text-slate-300 leading-normal">{name}</span>
+      {isLead ? (
+        // <span className="text-amber-400 font-medium"> · Lead</span>
+        <span className="text-amber-400 font-medium" title="Star represent task leader"> <TbStarFilled fontSize={28} /></span>
+      ) :
+        (name !== '-' && (
+          <span className={`h-7 w-7 rounded-full ${bgClass} flex items-center justify-center ${textClass} text-sm leading-normal shrink-0`}>
+            {name.charAt(0).toUpperCase()}
+          </span>
+        ))}
+      {/* <span className="text-sm text-slate-300 leading-normal">{name}</span> */}
+      <span className="text-sm text-slate-300 leading-normal flex justify-between items-center gap-3">
+        {name}
+        {/* {isLead && (
+          // <span className="text-amber-400 font-medium"> · Lead</span>
+          <span className="text-amber-400 font-medium"> <TbStarFilled widths={10} /></span>
+        )} */}
+      </span>
     </div>
   );
 }
@@ -163,8 +175,6 @@ const TaskGrid = (props) => {
   const [updateGrid, setUpdateGrid] = useState(true);
   const [loading, setLoading] = useState(false);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
-
-  console.log("theme taskgrid", props.theme)
 
   // task form modal
   const [modalOpen, setModalOpen] = useState(false);
@@ -429,7 +439,7 @@ const TaskGrid = (props) => {
         </button>
       ),
       accessor: "assignedToName",
-      render: (value) => <AvatarCell name={value} bgClass="bg-blue-600" textClass="text-white" />,
+      render: (value, row) => <AvatarCell name={value} bgClass="bg-blue-600" textClass="text-white" isLead={row.isTaskLead} />,
     },
     {
       header: (
@@ -459,20 +469,20 @@ const TaskGrid = (props) => {
       accessor: "status",
       render: (value) => <StatusBadge value={value} />,
     },
-    {
-      header: (
-        <button
-          type="button"
-          onClick={() => toggleSort("isTaskLead")}
-          className={`flex items-center gap-2 text-left ${props.theme === "dark" ? "text-slate-100 hover:text-sky-300" : ""}`}
-        >
-          <span>Task Lead</span>
-          <span className="text-base text-slate-400">{getSortIcon("isTaskLead")}</span>
-        </button>
-      ),
-      accessor: "isTaskLead",
-      render: (value) => <StatusBadge value={value} type="taskLead" />,
-    },
+    // {
+    //   header: (
+    //     <button
+    //       type="button"
+    //       onClick={() => toggleSort("isTaskLead")}
+    //       className={`flex items-center gap-2 text-left ${props.theme === "dark" ? "text-slate-100 hover:text-sky-300" : ""}`}
+    //     >
+    //       <span>Task Lead</span>
+    //       <span className="text-base text-slate-400">{getSortIcon("isTaskLead")}</span>
+    //     </button>
+    //   ),
+    //   accessor: "isTaskLead",
+    //   render: (value) => <StatusBadge value={value} type="taskLead" />,
+    // },
 
     {
       header: "Action",
@@ -537,7 +547,7 @@ const TaskGrid = (props) => {
           setLoading(false);
         }
       } else {
-        if(!isFirstLoad) {
+        if (!isFirstLoad) {
           const mapped = mapResponse(allData?.allTasks, allData?.allWorks);
           setRows(mapped.unDoneTasks);
           setDoneTasks(mapped.doneTasks);
@@ -559,7 +569,7 @@ const TaskGrid = (props) => {
 
   return (
     <>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
 
       {/* ── header + filters ─────────────────────────────────────────────── */}
       <div className="mt-3 md:mt-4 lg:mt-5">
@@ -646,6 +656,7 @@ const TaskGrid = (props) => {
         employees={usersNotQa}
         qas={qas}
         taskStatus={taskStatus}
+        allTasks={[...rows, ...doneTasks]}
       />
 
       {/* ── Work detail modal ─────────────────────────────────────────────── */}
@@ -660,6 +671,7 @@ const TaskGrid = (props) => {
         profile={props.profile}
         updateGrid={updateGrid}
       />
+      <ToastContainer position="top-center" theme="colored" />
     </>
   );
 };

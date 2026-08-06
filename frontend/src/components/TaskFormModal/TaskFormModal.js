@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { selectStyles } from "../../utils";
 import Select from "react-select";
 import { ChevronDown } from "lucide-react";
+import { toast } from "react-toastify";
 
 // ─── date helpers (exported so TaskGrid can reuse) ────────────────────────────
 
@@ -37,6 +38,7 @@ export default function TaskFormModal({
   employees = [],
   qas = [],
   taskStatus = [],
+  allTasks = [],
 }) {
   const [openDropdown, setOpenDropdown] = useState(false);
   const [employeeSearch, setEmployeeSearch] = useState("");
@@ -57,6 +59,26 @@ export default function TaskFormModal({
   }, [openDropdown]);
 
   if (!open) return null;
+
+  const normalizedTaskName = (values.taskName || "").trim().toLowerCase();
+  const taskLeadRecord = allTasks.find(
+    (task) =>
+      task.isTaskLead &&
+      (task.taskName || "").trim().toLowerCase() === normalizedTaskName &&
+      (!values.workId || !task.workId || task.workId === values.workId)
+  );
+
+  const getUserNameByIds = (ids = []) => {
+    const user = employees.find((emp) => ids.includes(emp.id));
+    return user ? `${user.firstName || ""} ${user.lastName || ""}`.trim() : "";
+  };
+
+  // Same task name → show the shared lead name on every assignee's edit popup
+  const taskLeadName =
+    taskLeadRecord?.assignedToName ||
+    getUserNameByIds(taskLeadRecord?.assignedToId || []) ||
+    (values.isTaskLead ? getUserNameByIds(values.assignedToId || []) : "") ||
+    "";
 
   const formattedWorkOptions = works.map(work => ({
     value: work.id,
@@ -438,20 +460,44 @@ export default function TaskFormModal({
               className={inputCls}
             />
           </label>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
+            {/* Task Lead */}
+            <label className="block flex-1">
+              <span className={labelCls}>Task Lead</span>
+              <Select
+                value={formattedTaskLeadOptions.find(o => o.value === values.isTaskLead) || null}
+                onChange={(e) => {
+                  const wantsLead = e.value;
 
-          <label className="block">
-            <span className={labelCls}>Task Lead</span>
-            <Select
-              value={formattedTaskLeadOptions.find(o => o.value === values.isTaskLead) || null}
-              onChange={(e) => onChange("isTaskLead", e.value)}
-              styles={selectStyles}
-              className="rounded:md"
-              options={formattedTaskLeadOptions}
-            >
-              <option value={false}>No</option>
-              <option value={true}>Yes</option>
-            </Select>
-          </label>
+                  // Block turning this task into a lead if another task with the
+                  // same name (and work) already has a lead assigned.
+                  if (
+                    wantsLead &&
+                    taskLeadRecord &&
+                    taskLeadRecord.id !== values.id
+                  ) {
+                    toast.error(
+                      `"${values.taskName}" already has a task lead: ${taskLeadName}. ` + `Remove that assignment first before setting a new one.`
+                    );
+                    return;
+                  }
+
+                  onChange("isTaskLead", wantsLead);
+                }}
+                styles={selectStyles}
+                className="rounded:md"
+                options={formattedTaskLeadOptions}
+              />
+            </label>
+            {/* {mode === "edit" && ( */}
+            <label className="block flex-1">
+              <span className={labelCls}>Task Lead Name</span>
+              <div className={`${inputCls} flex items-center text-slate-400 min-h-[48px]`}>
+                {taskLeadName || "No task lead assigned"}
+              </div>
+            </label>
+            {/* )} */}
+          </div>
         </div>
 
         {/* ── footer ── */}
