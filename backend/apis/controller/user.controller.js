@@ -10,7 +10,7 @@ export async function findUsers(req, res) {
     try {
         const allUsers = await getAllUsers(req.query);
         const response = { status: 200, data: allUsers };
-        console.log("response", response);
+        // console.log("response", response);
         res.send(response);
     } catch (err) {
         res.status(500).send({ errors: err });

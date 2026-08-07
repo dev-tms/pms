@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import log from '../logger/index.js';
-import { escapeRegex, getTwoMonthsBackDate } from '../utils/util.js';
+import { escapeRegex, getNMonthsBackDate } from '../utils/util.js';
 
 
 const prisma = new PrismaClient({ errorFormat: 'pretty' })
@@ -129,7 +129,7 @@ export const findAllWorks = async () => {
 };
 
 export const findAllLatestWorks = async () => {
-    const twoMonthsBackDate = getTwoMonthsBackDate();
+    const twoMonthsBackDate = getNMonthsBackDate(2);
     const allWorks = await prisma.work.findMany({
         where: {
             updatedAt: {
