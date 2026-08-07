@@ -770,7 +770,7 @@ const TimesheetGrid = (props) => {
             ))}
           </div>
         ))}
-        {(loadMore && selectedUser) && <div className="text-center"><button onClick={loadMoreTimesheet} className={primaryActionButtonClassName}>Load More</button></div>}
+        {(loadMore && selectedUser && !loading) && <div className="text-center"><button onClick={loadMoreTimesheet} className={primaryActionButtonClassName}>Load More</button></div>}
         {hierarchicalData.length === 0 && !loading && <div className="pt-5 text-center text-slate-400">No Records Found</div>}
         {loading && <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60">
           <ThoughtMateProgressLoaderAnimated />

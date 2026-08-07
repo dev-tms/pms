@@ -223,7 +223,6 @@ const AddTimesheet = (props) => {
     }
 
     let response = await addTimesheet(formData, props.profile);
-    console.log(response);
     toast.success(toastMessages.saveTimesheetSuccess);
     history.push('/timesheets');
     props.setUpdateGrid(!props.updateGrid);
@@ -263,9 +262,7 @@ const AddTimesheet = (props) => {
     setFormData((prev) => ({
       ...prev,
       timeSpentMills: totalMills,
-      // keep first entry's action as the primary "action" field for backward compatibility
-      action: actionEntries[0]?.action || "",
-      actions: actionEntries, // send the full breakdown too, in case the backend wants it
+      action: actionEntries, // send the full breakdown too, in case the backend wants it
     }));
   }, [actionEntries]);
 
