@@ -286,7 +286,7 @@ const TimesheetGrid = (props) => {
   const [fetchRecords, setFetchRecords] = useState(false);
   const [addTimesheetToUser, setAddTimesheetToUser] = useState(props?.profile?.id);
   console.log("selectedUser is", selectedUser)
-  const [loadMore, setloadMore] = useState(true)
+  const [loadMore, setLoadMore] = useState(true)
 
   // const [users, setUsers] = useState([]);
   const [usersForFilter, setUsersForFilter] = useState([]);
@@ -548,7 +548,7 @@ const TimesheetGrid = (props) => {
       console.log("error when load all timesheet data", error);
     } finally {
       setLoading(false);
-      setloadMore(false);
+      setLoadMore(false);
     }
   };
 
@@ -649,7 +649,10 @@ const TimesheetGrid = (props) => {
               max={dateMax()}
               className={filterInputClassName}
               value={executionDate.toISOString().split('T')[0]}
-              onChange={(e) => setExecutionDate(e.target.value === "" ? new Date() : new Date(e.target.value))}
+              onChange={(e) => {
+                setExecutionDate(e.target.value === "" ? new Date() : new Date(e.target.value));
+                setLoadMore(true);
+              }}
             />
           </label>
           {(props?.profile?.role === 'ADMIN' || props?.profile?.role === 'TL') && <label htmlFor="filterUser" className="flex min-w-full sm:min-w-[240px] flex-col gap-2">
@@ -659,7 +662,10 @@ const TimesheetGrid = (props) => {
               name="selectedUser"
               className={`${filterInputClassName} appearance-none pr-10`}
               value={selectedUser}
-              onChange={(e) => setSelectedUser(e.target.value)}
+              onChange={(e) => {
+                setSelectedUser(e.target.value); 
+                e.target.value !== "" && setLoadMore(true);
+              }}
             >
               <option value="">All Employees</option>
               {usersForFilter.map((user) => (

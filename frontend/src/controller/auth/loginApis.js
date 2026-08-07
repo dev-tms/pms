@@ -278,11 +278,12 @@ export const getTimesheetPage = async (user, executionDate, filterUserId) => {
   let token = cookies.get("TOKEN");
   user.executionDate = executionDate;
   user.filterUserId = filterUserId;
+  let userData = { id: user.id, executionDate: executionDate, filterUserId: filterUserId };
   const configuration = {
     method: "post",
     url: `${API_BASE_URL}/timesheet/page`,
     headers: { Authorization: `Bearer ${token}` },
-    data: user,
+    data: userData,
   };
   // console.log(configuration);
   // make the API call
@@ -297,15 +298,14 @@ export const getTimesheetPage = async (user, executionDate, filterUserId) => {
 }
 
 export const getAllTimesheet = async (user, executionDate, filterUserId, loadNext = true) => {
+  console.log("Load more timesheet data");
   let token = cookies.get("TOKEN");
-  user.executionDate = executionDate;
-  user.filterUserId = filterUserId;
-  user.loadNext = loadNext;
+  let userData = { id: user.id, executionDate: executionDate, filterUserId: filterUserId, loadNext: loadNext };
   const configuration = {
     method: "post",
     url: `${API_BASE_URL}/timesheet/page`,
     headers: { Authorization: `Bearer ${token}` },
-    data: user,
+    data: userData,
   };
   // console.log(configuration);
   // make the API call

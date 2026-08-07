@@ -47,8 +47,8 @@ export async function findTimesheets(req, res) {
 }
 
 function getStartAndEndOfMonth(n, date = new Date()) {
-    const start = new Date(date);
-    const end = getNMonthsBackDate(n, date);
+    const start = getNMonthsBackDate(n, date);
+    const end = new Date(date);
     return { from: start, to: end };
 }
 
