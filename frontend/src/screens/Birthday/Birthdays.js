@@ -242,8 +242,15 @@ const Birthdays = ({ profile, theme }) => {
     });
   }, [employees, search]);
 
+  const getCalendarSortValue = (employee) => {
+    const birthDate = parseBirthDate(employee.rawBirthDate ?? employee.birthDate);
+    if (!birthDate) return Number.MAX_SAFE_INTEGER; // push employees with no birthday to the end
+    // month * 100 + day gives a stable Jan 1 -> Dec 31 ordering
+    return birthDate.getMonth() * 100 + birthDate.getDate();
+  };
+
   const sortedEmployees = useMemo(() => {
-    return [...filteredEmployees].sort((a, b) => getBirthdaySortValue(a) - getBirthdaySortValue(b));
+    return [...filteredEmployees].sort((a, b) => getCalendarSortValue(a) - getCalendarSortValue(b));
   }, [filteredEmployees]);
 
   /* const openAddModal = () => {
