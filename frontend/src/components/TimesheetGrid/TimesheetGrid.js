@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { approveHours, getTimesheetPage, listUsers, updateHoursStatus } from "../../controller/auth/loginApis";
+import { approveHours, getAllTimesheet, getTimesheetPage, listUsers, updateHoursStatus } from "../../controller/auth/loginApis";
 import { Link } from "react-router-dom";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { AddUpdateTimesheet } from "../../screens/AddUpdateTimesheet/AddUpdateTimesheet";
@@ -204,6 +204,47 @@ const mapResponse = (timesheets, tasks, works, loggedInUser, executionDateFilter
   console.log('hierarchicalData', hierarchicalData);
   return { hierarchicalData };
 };
+const mergeHierarchicalData = (existing, incoming) => {
+  const byDate = new Map(existing.map(day => [dateTimeFormatDate(day.executionDate), day]));
+
+  incoming.forEach((incomingDay) => {
+    const key = dateTimeFormatDate(incomingDay.executionDate);
+    const existingDay = byDate.get(key);
+
+    if (!existingDay) {
+      byDate.set(key, incomingDay);
+      return;
+    }
+
+    // merge users for this date
+    const usersById = new Map(existingDay.assignedTo.map(u => [u.id, u]));
+    incomingDay.assignedTo.forEach((incomingUser) => {
+      const existingUser = usersById.get(incomingUser.id);
+      if (!existingUser) {
+        usersById.set(incomingUser.id, incomingUser);
+        return;
+      }
+
+      // merge tasks for this user, deduped by task id
+      const tasksById = new Map(existingUser.tasks.map(t => [t.id + '_' + t._id, t]));
+      incomingUser.tasks.forEach((t) => tasksById.set(t.id + '_' + t._id, t));
+      const mergedTasks = Array.from(tasksById.values());
+
+      usersById.set(incomingUser.id, {
+        ...existingUser,
+        tasks: mergedTasks,
+        timeSpentMills: mergedTasks.reduce((sum, t) => sum + (t.timeSpentMills || 0), 0),
+        approvedHoursMills: mergedTasks.reduce((sum, t) => sum + (t.approvedHoursMills || 0), 0),
+      });
+    });
+
+    byDate.set(key, { ...existingDay, assignedTo: Array.from(usersById.values()) });
+  });
+
+  return Array.from(byDate.values()).sort(
+    (a, b) => new Date(b.executionDate).toISOString().localeCompare(new Date(a.executionDate).toISOString())
+  );
+};
 
 const formatDate = (dateStr) => {
   let date = new Date();
@@ -244,6 +285,8 @@ const TimesheetGrid = (props) => {
   const isFirstLoadRef = useRef(true);
   const [fetchRecords, setFetchRecords] = useState(false);
   const [addTimesheetToUser, setAddTimesheetToUser] = useState(props?.profile?.id);
+  console.log("selectedUser is", selectedUser)
+  const [loadMore, setloadMore] = useState(true)
 
   // const [users, setUsers] = useState([]);
   const [usersForFilter, setUsersForFilter] = useState([]);
@@ -475,6 +518,40 @@ const TimesheetGrid = (props) => {
     }
   };
 
+  const loadMoreTimesheet = async (e) => {
+    try {
+      setLoading(true);
+      const response = await getAllTimesheet(props.profile, executionDate, selectedUser);
+      const { taskList = [], workList = [], timesheets = [] } = response?.data || {};
+      const newData = mapResponse(
+        timesheets,
+        taskList,
+        workList,
+        props.profile,
+        executionDate,
+        isFirstLoadRef.current ? props?.profile?.id : selectedUser
+      );
+
+      setHierarchicalData((prev) => mergeHierarchicalData(prev, newData?.hierarchicalData || []));
+
+      const userList = await listUsers(props.profile);
+      let developerList = userList?.data.filter(user => user.role !== 'QA' && user.status === 'Active');
+      developerList.sort((a, b) => a.firstName.localeCompare(b.firstName));
+      if (props?.profile?.role !== 'ADMIN') {
+        setUsersForFilter(developerList.filter(user => user.role !== 'ADMIN' && (user.TLId === props?.profile?.id || user.id === props?.profile?.id)));
+      } else {
+        setUsersForFilter(developerList);
+      }
+
+      isFirstLoadRef.current = false;
+    } catch (error) {
+      console.log("error when load all timesheet data", error);
+    } finally {
+      setLoading(false);
+      setloadMore(false);
+    }
+  };
+
   // ---- Approve Timesheet Hours ----
   const approveTimesheetHours = async (e) => {
     const [dateKey, userId] = e?.target?.id.split('__');
@@ -597,12 +674,12 @@ const TimesheetGrid = (props) => {
 
       <>
         {hierarchicalData.map((sheet, index) => (
-          <div key={index}>
+          <div key={dateTimeFormatDate(sheet.executionDate)}>
             <div className="mb-4 text-center">
               <h1 className="text-2xl md:text-3xl font-semibold tracking-tight ">{dateTimeFormatDate(sheet.executionDate)}</h1>
             </div>
             {sheet.assignedTo.map((user, index2) => (
-              <div key={index - index2} className={index2 > 0 ? "mt-14" : ""}>
+              <div key={`${dateTimeFormatDate(sheet.executionDate)}-${user.id}-${index2}`} className={index2 > 0 ? "mt-14" : ""}>
                 <div>
                   <div className="mb-3 flex flex-wrap items-center justify-between gap-4 max-[783px]:items-start">
                     <div><h2 className="m-0 text-[25px] leading-none ">{user.name}</h2></div>
@@ -687,6 +764,7 @@ const TimesheetGrid = (props) => {
             ))}
           </div>
         ))}
+        {(loadMore && selectedUser) && <div className="text-center"><button onClick={loadMoreTimesheet} className={primaryActionButtonClassName}>Load More</button></div>}
         {hierarchicalData.length === 0 && !loading && <div className="pt-5 text-center text-slate-400">No Records Found</div>}
         {loading && <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60">
           <ThoughtMateProgressLoaderAnimated />

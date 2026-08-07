@@ -296,6 +296,29 @@ export const getTimesheetPage = async (user, executionDate, filterUserId) => {
   return result.data;
 }
 
+export const getAllTimesheet = async (user, executionDate, filterUserId, loadNext = true) => {
+  let token = cookies.get("TOKEN");
+  user.executionDate = executionDate;
+  user.filterUserId = filterUserId;
+  user.loadNext = loadNext;
+  const configuration = {
+    method: "post",
+    url: `${API_BASE_URL}/timesheet/page`,
+    headers: { Authorization: `Bearer ${token}` },
+    data: user,
+  };
+  // console.log(configuration);
+  // make the API call
+  let result = await axios(configuration)
+    .catch((error) => {
+      // error = new Error();
+      return error;
+    });
+  // console.log(result);
+  isApiAuthenticated(result);
+  return result.data;
+}
+
 export const listTimesheetWeeklyReport = async (user, weekFilter) => {
   user.weekFilter = weekFilter;
   let token = cookies.get("TOKEN");
