@@ -7,6 +7,7 @@ import { addTimesheet, listTasks } from "../../controller/auth/loginApis";
 import taskStatus from "../../utils/TaskStatus";
 import Select from "react-select";
 import { selectStyles } from "../../utils/index";
+import { PlusIcon, Trash2Icon } from "lucide-react";
 
 
 const AddTimesheet = (props) => {
@@ -59,6 +60,13 @@ const AddTimesheet = (props) => {
     executionDate: props.timesheet?.executionDate ? dateFormat(props.timesheet?.executionDate) : dateFormat(new Date().toISOString()),
     hoursStatus: props.timesheet?.hoursStatus || 0
   });
+  const [actionEntries, setActionEntries] = useState([
+    {
+      action: props.timesheet?.action || (props.timesheet?.workName === "Morning Meeting" ? 'Meeting' : ""),
+      timeSpentHours: getHoursFromMills(props.timesheet?.timeSpentMills) || 0,
+      timeSpentMinutes: getMinutesFromMills(props.timesheet?.timeSpentMills) || 0,
+    },
+  ]);
   const [formErrors, setFormErrors] = useState({
     status: "",
     taskType: "",
@@ -245,7 +253,41 @@ const AddTimesheet = (props) => {
     return options;
   };
 
+  useEffect(() => {
+    const totalMills = actionEntries.reduce((sum, entry) => {
+      const hoursMills = (parseInt(entry.timeSpentHours) || 0) * (1000 * 60 * 60);
+      const minutesMills = (parseInt(entry.timeSpentMinutes) || 0) * (1000 * 60);
+      return sum + hoursMills + minutesMills;
+    }, 0);
 
+    setFormData((prev) => ({
+      ...prev,
+      timeSpentMills: totalMills,
+      // keep first entry's action as the primary "action" field for backward compatibility
+      action: actionEntries[0]?.action || "",
+      actions: actionEntries, // send the full breakdown too, in case the backend wants it
+    }));
+  }, [actionEntries]);
+
+  const handleActionEntryChange = (index, field, value) => {
+    setActionEntries((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [field]: value };
+      return updated;
+    });
+    setSubmittingForm(false);
+  };
+
+  const handleAddAction = () => {
+    setActionEntries((prev) => [
+      ...prev,
+      { action: "", timeSpentHours: 0, timeSpentMinutes: 0 },
+    ]);
+  };
+
+  const handleRemoveAction = (index) => {
+    setActionEntries((prev) => prev.filter((_, i) => i !== index));
+  };
   return (
     <div className="w-full">
       <div className="app-modal w-full max-w-5xl rounded-[28px] border p-6 overflow-y-auto max-h-[90vh]">
@@ -319,22 +361,15 @@ const AddTimesheet = (props) => {
             </label>
 
             <label className="block">
-              <span className={labelCls}>Action <span className="text-rose-400">*</span></span>
-              <select
-                name="action"
-                value={formData.action}
+              <span className={labelCls}>Timesheet Date <span className="text-rose-400">*</span></span>
+              <input
+                type="date"
+                name="executionDate"
+                value={formData.executionDate}
                 onChange={handleChange}
-                className={selectCls}
-              >
-                <option value="">Select action</option>
-                <option value="Development">Development</option>
-                <option value="R&D">R&amp;D</option>
-                <option value="Training">Training</option>
-                <option value="Tech Discussion">Tech Discussion</option>
-                <option value="Meeting">Meeting</option>
-                <option value="Others">Others</option>
-              </select>
-              {formErrors.action && <span className={errorCls}>{formErrors.action}</span>}
+                className={inputCls + ""}
+              />
+              {formErrors.executionDate && <span className={errorCls}>{formErrors.executionDate}</span>}
             </label>
 
             <label className="block md:col-span-2">
@@ -363,35 +398,76 @@ const AddTimesheet = (props) => {
               {formErrors.comments && <span className={errorCls}>{formErrors.comments}</span>}
             </label>
 
-            <div className="block">
-              <span className={labelCls}>Time Spent <span className="text-rose-400">*</span></span>
-              <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-                <select name="timeSpentHours" value={formData.timeSpentHours} onChange={handleChange} className={selectCls}>
-                  {Array.from({ length: 24 }, (_, i) => (
-                    <option key={i} value={i}>
-                      {i < 10 ? `0${i}` : i}
-                    </option>
-                  ))}
-                </select>
-                <span className="text-slate-400">:</span>
-                <select name="timeSpentMinutes" value={formData.timeSpentMinutes} onChange={handleChange} className={selectCls}>
-                  {generateMinutesOptions()}
-                </select>
-              </div>
-              {formErrors.timeSpentMills && <span className={errorCls}>{formErrors.timeSpentMills}</span>}
-            </div>
+            <div className="md:col-span-2 space-y-4">
+              {actionEntries.map((entry, index) => (
+                <div key={index} className="grid gap-4 md:grid-cols-2 items-start">
+                  <label className="block">
+                    <span className={labelCls}>
+                      Action {index === 0 && <span className="text-rose-400">*</span>}
+                    </span>
+                    <select
+                      name={`action-${index}`}
+                      value={entry.action}
+                      onChange={(e) => handleActionEntryChange(index, "action", e.target.value)}
+                      className={selectCls}
+                    >
+                      <option value="">Select action</option>
+                      <option value="Development">Development</option>
+                      <option value="R&D">R&amp;D</option>
+                      <option value="Training">Training</option>
+                      <option value="Tech Discussion">Tech Discussion</option>
+                      <option value="Meeting">Meeting</option>
+                      <option value="Others">Others</option>
+                    </select>
+                    {index === 0 && formErrors.action && <span className={errorCls}>{formErrors.action}</span>}
+                  </label>
 
-            <label className="block">
-              <span className={labelCls}>Timesheet Date <span className="text-rose-400">*</span></span>
-              <input
-                type="date"
-                name="executionDate"
-                value={formData.executionDate}
-                onChange={handleChange}
-                className={inputCls + ""}
-              />
-              {formErrors.executionDate && <span className={errorCls}>{formErrors.executionDate}</span>}
-            </label>
+                  <div className="block">
+                    <span className={labelCls}>
+                      Time Spent {index === 0 && <span className="text-rose-400">*</span>}
+                    </span>
+                    <div className="grid grid-cols-[1fr_auto_1fr_auto] items-center gap-2">
+                      <select
+                        value={entry.timeSpentHours}
+                        onChange={(e) => handleActionEntryChange(index, "timeSpentHours", e.target.value)}
+                        className={selectCls}
+                      >
+                        {Array.from({ length: 24 }, (_, i) => (
+                          <option key={i} value={i}>{i < 10 ? `0${i}` : i}</option>
+                        ))}
+                      </select>
+                      <span className="text-slate-400">:</span>
+                      <select
+                        value={entry.timeSpentMinutes}
+                        onChange={(e) => handleActionEntryChange(index, "timeSpentMinutes", e.target.value)}
+                        className={selectCls}
+                      >
+                        {generateMinutesOptions()}
+                      </select>
+
+                      {index === actionEntries.length - 1 ? (
+                        <button
+                          type="button"
+                          onClick={handleAddAction}
+                          className="text-slate-400"
+                        >
+                          <PlusIcon className="text-sky-400 hover:text-sky-500 border border-sky-400 h-10 w-10 p-2 rounded-full transition" />
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveAction(index)}
+                          className="text-rose-400 hover:text-rose-500 border border-rose-400 h-10 w-10 p-2 rounded-full transition flex items-center justify-center"
+                        >
+                          <Trash2Icon size={18} />
+                        </button>
+                      )}
+                    </div>
+                    {index === 0 && formErrors.timeSpentMills && <span className={errorCls}>{formErrors.timeSpentMills}</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
 
             {(props?.profile?.role === 'ADMIN' || props?.profile?.role === 'TL') && (
               <div className="block">
