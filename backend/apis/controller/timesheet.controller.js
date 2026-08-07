@@ -1,7 +1,7 @@
 import { approvTimesheetHours, getAllTimesheetsByDate, getAllTimesheetsByAssignedUser, getAllTimesheetsByTL, getTimesheetById, saveOrUpdateTimesheet, updateTimesheetHoursStatus, getAllTimesheets, getAllTimesheetsByWeek } from '../middleware/timesheet.middleware.js'
 import log from '../logger/index.js';
 import { getUserById } from '../middleware/user.middleware.js';
-import { getCeilAndFloorDatesByDate } from '../utils/util.js';
+import { getCeilAndFloorDatesByDate, getNMonthsBackDate } from '../utils/util.js';
 import { getAllTasks, getAllTasksByAssignedUser, getAllTasksByTL } from '../middleware/task.middleware.js';
 import { getAllWorks } from '../middleware/work.middleware.js';
 
@@ -46,6 +46,12 @@ export async function findTimesheets(req, res) {
     }
 }
 
+function getStartAndEndOfMonth(n, date = new Date()) {
+    const start = new Date(date);
+    const end = getNMonthsBackDate(n, date);
+    return { from: start, to: end };
+}
+
 /**
  * Controller to get all Timesheets
  * @param {*} req 
@@ -54,7 +60,7 @@ export async function findTimesheets(req, res) {
 export async function getTimesheetPage(req, res) {
     try {
         if(req.body.id) {
-            const executionDate = getCeilAndFloorDatesByDate(req.body.executionDate);
+            const executionDate = req.body.loadNext && req.body.loadNext === true ? getStartAndEndOfMonth(1, req.body.executionDate) : getCeilAndFloorDatesByDate(req.body.executionDate);
             const filterUserId = req.body.filterUserId;
             const user = await getUserById(req.body.id);
             if(user && user.id) {

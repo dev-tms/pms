@@ -37,7 +37,7 @@ export async function getAllUsers(user) {
 export async function getUserById(id) {
     try {
         
-        console.log('MIDDLEWARE: finding user by id '+id);
+        // console.log('MIDDLEWARE: finding user by id '+id);
         return await findById(id);
     } catch (err) {
         return {errors: err};
