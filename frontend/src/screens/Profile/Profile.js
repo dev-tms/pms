@@ -146,7 +146,7 @@ const Profile = ({ profile, theme }) => {
   // ── render ─────────────────────────────────────────────────────────────────
 
   return (
-    <section className="px-3 py-4 md:px-4 md:py-6 lg:px-6 lg:py-8">
+    <section className="py-4 md:py-6 lg:py-8">
       <div className="relative overflow-hidden bg-transparent app-panel">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-40 app-panel" />
         <div className="pointer-events-none absolute -right-16 top-24 h-52 w-52 rounded-full bg-sky-400/10 blur-3xl" />
@@ -212,7 +212,7 @@ const Profile = ({ profile, theme }) => {
                 </div>
               ))}
               <div className="app-card rounded-2xl border p-4 text-sm shadow-[0_10px_30px_rgba(2,6,23,0.08)] sm:col-span-2">
-                <p className="text-sm uppercase tracking-[0.26em] text-slate-500">Birthday</p>
+                <p className="pp-muted text-sm uppercase tracking-[0.26em]">Birthday</p>
                 <div className="mt-3 flex items-center gap-3">
                   <CalendarDays size={16} className="text-sky-300" />
                   {formatBirthDate(userProfile?.birthDate)}

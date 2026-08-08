@@ -9,7 +9,7 @@ import Counter from '../Counter/Counter';
 import taskStatus from '../../utils/TaskStatus';
 import { ThoughtMateProgressLoaderAnimated } from '../TMLoader/ThoughtMateProgressLoaderAnimated';
 import { StatusBadge } from '../StatusBadge/StatusBadge';
-
+import BirthdayBanner from '../BirthdayBanner/BirthdayBanner';
 // ── key used to track if welcome has already been shown this session ──────────
 const WELCOME_SHOWN_KEY = 'tms_welcome_shown';
 const SHOW_LOADER = 'tms_show_loader';
@@ -175,6 +175,7 @@ const Dashboard = ({ profile, theme }) => {
 
     return (
         <section className='py-5 md:py-8 relative'>
+            <BirthdayBanner theme={theme} />
 
             {/* Confetti — only renders when showConfetti is true */}
             {showConfetti && (

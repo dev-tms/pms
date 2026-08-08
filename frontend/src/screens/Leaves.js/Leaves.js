@@ -179,7 +179,7 @@ function LeaveFormModal({ open, mode, values, onChange, onClose, onSubmit, emplo
 }
 
 const Leaves = ({ profile, theme }) => {
-  // console.log("theme from leaves", theme);
+  console.log("theme from leaves", theme);
   const [leaveRecords, setLeaveRecords] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [search, setSearch] = useState('');
@@ -206,7 +206,7 @@ const Leaves = ({ profile, theme }) => {
       header: 'Leave From',
       accessor: 'leaveFrom',
       render: (value) => (
-        <span className={`rounded-full bg-amber-500/10 px-3 py-1 text-sm font-medium  ${theme === 'light' ? 'bg-amber-500/10 text-amber-800' : 'bg-amber-500/10 text-amber-200'}`}>
+        <span className={`rounded-full bg-amber-500/10 px-3 py-1 text-sm font-medium  ${theme === 'light' ? 'bg-amber-500/10 text-amber-800' : ''}`}>
           {formatLeaveDate(value)}
         </span>
       ),
@@ -215,7 +215,7 @@ const Leaves = ({ profile, theme }) => {
       header: 'Leave To',
       accessor: 'leaveTo',
       render: (value) => (
-        <span className={`rounded-full bg-cyan-500/10 px-3 py-1 text-sm font-medium  ${theme === 'light' ? 'bg-cyan-500/10 text-cyan-800' : 'bg-cyan-500/10 text-cyan-200'}`}>
+        <span className={`rounded-full bg-cyan-500/10 px-3 py-1 text-sm font-medium  ${theme === 'light' ? 'bg-cyan-500/10 text-cyan-800' : ''}`}>
           {formatLeaveDate(value)}
         </span>
       ),
